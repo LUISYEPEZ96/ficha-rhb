@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ficha RHB — Registro de socios</title>
+<meta name="theme-color" content="#1e3a6e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ficha RHB">
+<style>
+:root{
+  --navy:#1e3a6e; --navy-600:#16294f; --navy-100:#eef1f7; --navy-200:#d7dfee;
+  --bg:#ffffff; --page:#eceef2; --text:#101828; --muted:#667085; --divider:#dfe3ea;
+  --ok:#0f7b4f; --ok-bg:#e6f4ed; --warn:#8a5a00; --warn-bg:#fdf3e0; --danger:#b42318;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--page);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;min-height:100vh;background:var(--bg);display:flex;flex-direction:column;box-shadow:0 0 40px rgba(16,24,40,.08)}
+header{background:var(--navy);color:#fff;padding:14px 18px 12px;position:sticky;top:0;z-index:20}
+header .brand{font-size:11px;letter-spacing:.14em;font-weight:800;opacity:.75}
+header h1{margin:2px 0 0;font-size:19px;font-weight:800;letter-spacing:-.01em}
+nav{display:flex;background:var(--bg);border-bottom:2px solid var(--divider);position:sticky;top:60px;z-index:19}
+nav button{flex:1;border:none;background:transparent;padding:12px 4px 10px;cursor:pointer;font-family:var(--font);font-weight:700;font-size:13px;color:var(--muted);border-bottom:3px solid transparent}
+nav button.active{color:var(--navy);border-bottom-color:var(--navy)}
+main{flex:1;padding:0 0 40px}
+.pad{padding:16px 18px}
+h2{font-size:17px;margin:0 0 2px}
+.kicker{font-size:10px;letter-spacing:.12em;font-weight:800;color:var(--navy);text-transform:uppercase}
+.muted{color:var(--muted)}
+.row{display:flex;gap:10px}
+.row>*{flex:1;min-width:0}
+label{display:block;font-size:12px;font-weight:700;margin-bottom:5px;color:#344054}
+input,select,textarea,button{font-family:var(--font);font-size:15px}
+.input{width:100%;padding:11px 12px;border:1.5px solid var(--divider);border-radius:8px;background:#fff;color:var(--text);outline:none}
+.input:focus{border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-100)}
+textarea.input{min-height:82px;resize:vertical}
+.field{margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 16px;border-radius:8px;border:1.5px solid var(--navy);cursor:pointer;font-weight:700;font-size:14px;background:#fff;color:var(--navy)}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--navy);color:#fff}
+.btn-block{width:100%}
+.btn-ghost{border-color:transparent;background:transparent;padding-left:0}
+.btn-danger{border-color:var(--danger);color:var(--danger)}
+.btn-sm{padding:8px 12px;font-size:13px}
+.stack{display:flex;flex-direction:column;gap:10px}
+.card{border:1.5px solid var(--divider);border-radius:10px;padding:12px 14px;background:#fff;text-align:left;width:100%;cursor:pointer}
+.card:hover{border-color:var(--navy-200);background:var(--navy-100)}
+.card .c-kicker{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--navy);text-transform:uppercase}
+.card .c-title{display:block;font-weight:800;font-size:15px;margin:3px 0 2px}
+.card .c-body{margin:0;font-size:13px;color:var(--muted);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.card .c-meta{display:block;margin-top:6px;font-size:11.5px;color:var(--muted);font-weight:600}
+.tag{display:inline-block;padding:3px 8px;border-radius:999px;font-size:10.5px;font-weight:800;letter-spacing:.04em}
+.tag-ok{background:var(--ok-bg);color:var(--ok)}
+.tag-accent{background:var(--navy-100);color:var(--navy)}
+.hr{height:1px;background:var(--divider);margin:14px 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border:1.5px solid var(--divider);border-radius:999px;background:#fff;cursor:pointer;font-size:13.5px;font-weight:600}
+.chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.check{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--divider);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff}
+.chip.on .check{background:#fff;border-color:#fff;color:var(--navy)}
+.empty{padding:26px 4px;text-align:center;color:var(--muted);font-size:13.5px}
+.fab{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:30;box-shadow:0 8px 24px rgba(30,58,110,.35);padding:14px 26px;font-size:15px;border-radius:999px}
+.detail-row{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:7px 0;border-bottom:1px solid var(--divider)}
+.detail-row span:first-child{color:var(--muted)}
+.detail-row span:last-child{font-weight:600;text-align:right}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:80px;background:var(--text);color:#fff;padding:11px 18px;border-radius:999px;font-size:13.5px;font-weight:600;z-index:50;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+.count{font-size:12px;color:var(--muted);font-weight:600}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+.toolbar .btn{flex:1;min-width:150px}
+details.cfg{border:1.5px solid var(--divider);border-radius:10px;padding:10px 14px;margin-top:14px}
+details.cfg summary{cursor:pointer;font-weight:700;font-size:14px}
+@media(max-width:520px){ .row{flex-direction:column} nav{top:58px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">CENTRO DE REHABILITACIÓN FÍSICA</div>
+    <h1>Ficha RHB · Registro de socios</h1>
+  </header>
+  <nav>
+    <button id="tabAgenda" class="active" onclick="go('agenda')">Agenda</button>
+    <button id="tabHistorial" onclick="go('historial')">Historial</button>
+  </nav>
+  <main id="main"></main>
+</div>
+<button class="btn btn-primary fab" id="fab" onclick="nuevaFicha()">+ Nueva ficha</button>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ almacenamiento permanente ============ */
+var KEY='rhb_fichas_v1', CFGKEY='rhb_config_v1';
+var DEFAULT_CFG={
+  especialistas:['ANDREA','MILCA','GERMANIA','PAULA','INGRID'],
+  sedes:['Sede Anexo','Sede Centro'],
+  aparatos:['Ultrasonido','Magneto','Compresa','Láser','Percutor']
+};
+function load(k,def){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):def; }catch(e){ return def; } }
+function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){ alert('No se pudo guardar: '+e.message); } }
+var fichas=load(KEY,[]);
+var cfg=Object.assign({},DEFAULT_CFG,load(CFGKEY,{}));
+function persist(){ save(KEY,fichas); }
+function persistCfg(){ save(CFGKEY,cfg); }
+
+/* ============ utilidades ============ */
+var MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+var DIAS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+function hoyISO(){ var d=new Date(); return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()); }
+function p2(n){ return (n<10?'0':'')+n; }
+function fechaLarga(iso){ if(!iso) return ''; var a=iso.split('-'); var d=new Date(+a[0],+a[1]-1,+a[2]); return DIAS[d.getDay()]+' '+(+a[2])+' de '+MESES[+a[1]-1]+' '+a[0]; }
+function fechaCorta(iso){ if(!iso) return ''; var a=iso.split('-'); return (+a[2])+'/'+(+a[1])+'/'+a[0]; }
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function uid(){ return 'f'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove('show');},2200); }
+
+/* ============ estado de vista ============ */
+var view='agenda', diaSel=hoyISO(), busqueda='', draft=null, detalleId=null;
+
+function go(v){
+  view=v;
+  document.getElementById('tabAgenda').classList.toggle('active', v==='agenda'||v==='ficha');
+  document.getElementById('tabHistorial').classList.toggle('active', v==='historial'||v==='detalle');
+  render();
+}
+
+function nuevaFicha(){
+  draft={ id:null, fecha:(view==='agenda'?diaSel:hoyISO()), hora:horaActual(), nombre:'', cedula:'', socio:'', especialista:'', sede:'', concepto:'', aparatos:[] };
+  view='ficha'; render();
+}
+function horaActual(){ var d=new Date(); return p2(d.getHours())+':'+p2(d.getMinutes()); }
+function editar(id){ var f=fichas.find(function(x){return x.id===id;}); if(!f) return; draft=JSON.parse(JSON.stringify(f)); view='ficha'; render(); }
+
+function guardar(){
+  if(!draft.nombre.trim()){ alert('Escribe el nombre del socio.'); return; }
+  if(draft.id){
+    var i=fichas.findIndex(function(x){return x.id===draft.id;});
+    if(i>=0){ draft.actualizado=new Date().toISOString(); fichas[i]=draft; }
+  }else{
+    draft.id=uid(); draft.creado=new Date().toISOString(); fichas.push(draft);
+  }
+  persist(); diaSel=draft.fecha; draft=null; view='agenda'; render(); toast('Ficha guardada');
+}
+
+function borrar(id){
+  if(!confirm('¿Eliminar esta ficha? No se puede deshacer.')) return;
+  fichas=fichas.filter(function(x){return x.id!==id;});
+  persist(); view='historial'; render(); toast('Ficha eliminada');
+}
+
+/* ============ render ============ */
+function render(){
+  var m=document.getElementById('main');
+  document.getElementById('fab').style.display=(view==='agenda'||view==='historial')?'inline-flex':'none';
+  if(view==='agenda') m.innerHTML=vistaAgenda();
+  else if(view==='ficha') m.innerHTML=vistaFicha();
+  else if(view==='historial') m.innerHTML=vistaHistorial();
+  else m.innerHTML=vistaDetalle();
+  window.scrollTo(0,0);
+}
+
+function vistaAgenda(){
+  var delDia=fichas.filter(function(f){return f.fecha===diaSel;})
+                   .sort(function(a,b){return (a.hora||'').localeCompare(b.hora||'');});
+  var h='<div class="pad">'
+   + '<div class="kicker">Agenda</div><h2>'+esc(fechaLarga(diaSel))+'</h2>'
+   + '<div class="field" style="margin-top:12px"><label>Ver otro día</label>'
+   + '<input class="input" type="date" value="'+esc(diaSel)+'" onchange="diaSel=this.value;render()"></div>'
+   + '<div class="count" style="margin-bottom:10px">'+delDia.length+' ficha'+(delDia.length===1?'':'s')+' registrada'+(delDia.length===1?'':'s')+' este día · '+fichas.length+' en total</div>'
+   + '<div class="stack">';
+  if(!delDia.length) h+='<div class="empty">Aún no hay fichas para este día.<br>Toca <b>+ Nueva ficha</b> para registrar un socio.</div>';
+  delDia.forEach(function(f){
+    h+='<button class="card" onclick="detalleId=\''+f.id+'\';view=\'detalle\';render()">'
+      +'<span class="c-kicker">'+esc(f.hora||'')+' · '+esc(f.sede||'sin sede')+'</span>'
+      +'<span class="c-title">'+esc(f.nombre)+'</span>'
+      +'<p class="c-body">'+esc(f.concepto||'Sin concepto registrado')+'</p>'
+      +'<span class="c-meta">'+esc(f.especialista||'—')+' · '+(f.aparatos||[]).length+' aparato'+((f.aparatos||[]).length===1?'':'s')+'</span>'
+      +'</button>';
+  });
+  return h+'</div></div>';
+}
+
+function vistaFicha(){
+  var d=draft;
+  var h='<div class="pad">'
+   + '<button class="btn btn-ghost" onclick="draft=null;go(\'agenda\')">← Volver</button>'
+   + '<div class="kicker" style="margin-top:4px">'+(d.id?'Editar ficha':'Nueva ficha')+'</div>'
+   + '<h2>Ficha de rehabilitación</h2><div class="hr"></div>'
+   + '<div class="row"><div class="field"><label>Fecha</label><input class="input" type="date" value="'+esc(d.fecha)+'" oninput="draft.fecha=this.value"></div>'
+   + '<div class="field"><label>Hora</label><input class="input" type="time" value="'+esc(d.hora)+'" oninput="draft.hora=this.value"></div></div>'
+   + '<div class="field"><label>Nombre completo del socio</label><input class="input" value="'+esc(d.nombre)+'" oninput="draft.nombre=this.value" placeholder="Nombre y apellidos"></div>'
+   + '<div class="row"><div class="field"><label>Número de cédula</label><input class="input" value="'+esc(d.cedula)+'" oninput="draft.cedula=this.value" placeholder="0-0000-0000"></div>'
+   + '<div class="field"><label>Número de socio</label><input class="input" value="'+esc(d.socio)+'" oninput="draft.socio=this.value" placeholder="Socio N°"></div></div>'
+   + '<div class="row"><div class="field"><label>Especialista</label>'+selectHTML(cfg.especialistas,d.especialista,'especialista')+'</div>'
+   + '<div class="field"><label>Sede</label>'+selectHTML(cfg.sedes,d.sede,'sede')+'</div></div>'
+   + '<div class="field"><label>Concepto / razón de la rehabilitación</label><textarea class="input" oninput="draft.concepto=this.value" placeholder="Diagnóstico, motivo de la sesión…">'+esc(d.concepto)+'</textarea></div>'
+   + '<div class="field"><label>Aparatos utilizados <span class="count">('+d.aparatos.length+' seleccionado'+(d.aparatos.length===1?'':'s')+')</span></label><div class="chips">';
+  cfg.aparatos.forEach(function(a){
+    var on=d.aparatos.indexOf(a)>=0;
+    h+='<button type="button" class="chip'+(on?' on':'')+'" onclick="toggleAparato(\''+esc(a).replace(/'/g,"\\'")+'\')"><span class="check">'+(on?'✓':'')+'</span>'+esc(a)+'</button>';
+  });
+  h+='</div></div>'
+   + '<button class="btn btn-primary btn-block" style="margin-top:6px" onclick="guardar()">Guardar ficha</button>';
+  if(d.id) h+='<button class="btn btn-danger btn-block" style="margin-top:10px" onclick="borrar(\''+d.id+'\')">Eliminar ficha</button>';
+  return h+'<div style="height:30px"></div></div>';
+}
+
+function selectHTML(list,val,campo){
+  var h='<select class="input" onchange="draft.'+campo+'=this.value"><option value="">Seleccionar…</option>';
+  list.forEach(function(o){ h+='<option value="'+esc(o)+'"'+(o===val?' selected':'')+'>'+esc(o)+'</option>'; });
+  return h+'</select>';
+}
+function toggleAparato(a){
+  var i=draft.aparatos.indexOf(a);
+  if(i>=0) draft.aparatos.splice(i,1); else draft.aparatos.push(a);
+  render();
+}
+
+function vistaHistorial(){
+  var q=busqueda.trim().toLowerCase();
+  var list=fichas.slice().sort(function(a,b){ return (b.fecha+' '+(b.hora||'')).localeCompare(a.fecha+' '+(a.hora||'')); });
+  if(q) list=list.filter(function(f){
+    return (f.nombre||'').toLowerCase().indexOf(q)>=0 || (f.cedula||'').toLowerCase().indexOf(q)>=0
+        || (f.socio||'').toLowerCase().indexOf(q)>=0 || (f.especialista||'').toLowerCase().indexOf(q)>=0;
+  });
+  var h='<div class="pad"><div class="kicker">Registro</div><h2>Historial</h2>'
+   + '<div class="count" style="margin:4px 0 12px">'+fichas.length+' ficha'+(fichas.length===1?'':'s')+' guardada'+(fichas.length===1?'':'s')+' en este dispositivo</div>'
+   + '<div class="field"><input class="input" value="'+esc(busqueda)+'" oninput="busqueda=this.value;renderListaHist()" placeholder="Buscar por nombre, cédula, socio o especialista…"></div>'
+   + '<div class="toolbar">'
+   + '<button class="btn btn-primary" onclick="exportarExcel()">⬇ Descargar Excel (.xlsx)</button>'
+   + '<button class="btn" onclick="exportarCSV()">⬇ CSV</button>'
+   + '</div>'
+   + '<div class="toolbar" style="margin-top:8px">'
+   + '<button class="btn btn-sm" onclick="respaldar()">Guardar respaldo (.json)</button>'
+   + '<button class="btn btn-sm" onclick="document.getElementById(\'restoreInput\').click()">Restaurar respaldo</button>'
+   + '<input type="file" id="restoreInput" accept="application/json" style="display:none" onchange="restaurar(this)">'
+   + '</div>'
+   + configHTML()
+   + '<div class="stack" id="listaHist" style="margin-top:16px">'+itemsHist(list)+'</div>'
+   + '<div style="height:30px"></div></div>';
+  return h;
+}
+function itemsHist(list){
+  if(!list.length) return '<div class="empty">No se encontraron fichas.</div>';
+  return list.map(function(f){
+    return '<button class="card" onclick="detalleId=\''+f.id+'\';view=\'detalle\';render()">'
+      +'<span class="c-kicker">'+esc(fechaCorta(f.fecha))+' · '+esc(f.hora||'')+'</span>'
+      +'<span class="c-title">'+esc(f.nombre)+'</span>'
+      +'<p class="c-body">'+esc(f.concepto||'Sin concepto registrado')+'</p>'
+      +'<span class="c-meta">'+esc(f.especialista||'—')+' · '+esc(f.sede||'—')+' · '+(f.aparatos||[]).length+' aparato'+((f.aparatos||[]).length===1?'':'s')+'</span>'
+      +'</button>';
+  }).join('');
+}
+function renderListaHist(){
+  var q=busqueda.trim().toLowerCase();
+  var list=fichas.slice().sort(function(a,b){ return (b.fecha+' '+(b.hora||'')).localeCompare(a.fecha+' '+(a.hora||'')); });
+  if(q) list=list.filter(function(f){
+    return (f.nombre||'').toLowerCase().indexOf(q)>=0 || (f.cedula||'').toLowerCase().indexOf(q)>=0
+        || (f.socio||'').toLowerCase().indexOf(q)>=0 || (f.especialista||'').toLowerCase().indexOf(q)>=0;
+  });
+  document.getElementById('listaHist').innerHTML=itemsHist(list);
+}
+
+function configHTML(){
+  return '<details class="cfg"><summary>Configurar listas (especialistas, sedes, aparatos)</summary>'
+   + '<div style="margin-top:10px">'
+   + '<div class="field"><label>Especialistas (una por línea)</label><textarea class="input" id="cfgEsp">'+esc(cfg.especialistas.join('\n'))+'</textarea></div>'
+   + '<div class="field"><label>Sedes (una por línea)</label><textarea class="input" id="cfgSede">'+esc(cfg.sedes.join('\n'))+'</textarea></div>'
+   + '<div class="field"><label>Aparatos (uno por línea)</label><textarea class="input" id="cfgAp">'+esc(cfg.aparatos.join('\n'))+'</textarea></div>'
+   + '<button class="btn btn-sm" onclick="guardarCfg()">Guardar listas</button>'
+   + '</div></details>';
+}
+function guardarCfg(){
+  function lines(id){ return document.getElementById(id).value.split('\n').map(function(s){return s.trim();}).filter(Boolean); }
+  cfg.especialistas=lines('cfgEsp'); cfg.sedes=lines('cfgSede'); cfg.aparatos=lines('cfgAp');
+  persistCfg(); render(); toast('Listas actualizadas');
+}
+
+function vistaDetalle(){
+  var f=fichas.find(function(x){return x.id===detalleId;});
+  if(!f) return '<div class="pad"><div class="empty">Ficha no encontrada.</div></div>';
+  var h='<div class="pad">'
+   + '<button class="btn btn-ghost" onclick="go(\'historial\')">← Volver</button>'
+   + '<div class="kicker" style="margin-top:4px">'+esc(fechaLarga(f.fecha))+' · '+esc(f.hora||'')+'</div>'
+   + '<h2>'+esc(f.nombre)+'</h2><div class="hr"></div>'
+   + '<div class="detail-row"><span>Cédula</span><span>'+esc(f.cedula||'—')+'</span></div>'
+   + '<div class="detail-row"><span>N° de socio</span><span>'+esc(f.socio||'—')+'</span></div>'
+   + '<div class="detail-row"><span>Especialista</span><span>'+esc(f.especialista||'—')+'</span></div>'
+   + '<div class="detail-row"><span>Sede</span><span>'+esc(f.sede||'—')+'</span></div>'
+   + '<div style="margin-top:14px"><div class="muted" style="font-size:12px;font-weight:700;margin-bottom:4px">CONCEPTO</div><div style="font-size:14.5px">'+esc(f.concepto||'—')+'</div></div>'
+   + '<div style="margin-top:14px"><div class="muted" style="font-size:12px;font-weight:700;margin-bottom:8px">APARATOS ('+(f.aparatos||[]).length+')</div><div class="chips">'
+   + ((f.aparatos||[]).map(function(a){return '<span class="tag tag-accent" style="padding:6px 12px">'+esc(a)+'</span>';}).join('')||'<span class="muted" style="font-size:14px">Ninguno</span>')
+   + '</div></div>'
+   + '<button class="btn btn-block" style="margin-top:20px" onclick="editar(\''+f.id+'\')">Editar ficha</button>'
+   + '<div style="height:30px"></div></div>';
+  return h;
+}
+
+/* ============ exportación ============ */
+function filas(){
+  var rows=[['Fecha','Hora','Nombre completo','Cédula','N° de socio','Especialista','Sede','Concepto','Aparatos utilizados']];
+  fichas.slice().sort(function(a,b){ return (a.fecha+' '+(a.hora||'')).localeCompare(b.fecha+' '+(b.hora||'')); })
+    .forEach(function(f){
+      rows.push([fechaCorta(f.fecha), f.hora||'', f.nombre||'', f.cedula||'', f.socio||'', f.especialista||'', f.sede||'', f.concepto||'', (f.aparatos||[]).join('; ')]);
+    });
+  return rows;
+}
+function descargar(blob,nombre){
+  var url=URL.createObjectURL(blob), a=document.createElement('a');
+  a.href=url; a.download=nombre; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url);},1500);
+}
+function stamp(){ var d=new Date(); return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()); }
+
+function exportarCSV(){
+  if(!fichas.length){ alert('Todavía no hay fichas para exportar.'); return; }
+  var csv=filas().map(function(r){ return r.map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; }).join(','); }).join('\r\n');
+  descargar(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}),'fichas_rehabilitacion_'+stamp()+'.csv');
+  toast('CSV descargado');
+}
+
+function exportarExcel(){
+  if(!fichas.length){ alert('Todavía no hay fichas para exportar.'); return; }
+  var rows=filas();
+  descargar(new Blob([construirXLSX(rows)],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}),
+            'fichas_rehabilitacion_'+stamp()+'.xlsx');
+  toast('Excel descargado');
+}
+
+function respaldar(){
+  descargar(new Blob([JSON.stringify({fichas:fichas,cfg:cfg},null,2)],{type:'application/json'}),'respaldo_fichas_'+stamp()+'.json');
+  toast('Respaldo guardado');
+}
+function restaurar(input){
+  var file=input.files[0]; if(!file) return;
+  var r=new FileReader();
+  r.onload=function(){
+    try{
+      var data=JSON.parse(r.result);
+      if(!data.fichas) throw new Error('Archivo no válido');
+      if(!confirm('Se agregarán '+data.fichas.length+' fichas del respaldo. ¿Continuar?')) return;
+      var ids={}; fichas.forEach(function(f){ids[f.id]=1;});
+      data.fichas.forEach(function(f){ if(!ids[f.id]) fichas.push(f); });
+      if(data.cfg) cfg=Object.assign(cfg,data.cfg);
+      persist(); persistCfg(); render(); toast('Respaldo restaurado');
+    }catch(e){ alert('No se pudo restaurar: '+e.message); }
+  };
+  r.readAsText(file); input.value='';
+}
+
+/* ---- generador .xlsx nativo (sin internet, sin librerías) ---- */
+function xmlEsc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function colName(n){ var s=''; while(n>0){ var m=(n-1)%26; s=String.fromCharCode(65+m)+s; n=(n-m-1)/26; } return s; }
+function hojaXML(rows){
+  var out='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+   +'<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
+   +'<sheetPr><outlinePr summaryBelow="1" summaryRight="1"/></sheetPr>'
+   +'<cols><col min="1" max="1" width="12" customWidth="1"/><col min="2" max="2" width="8" customWidth="1"/>'
+   +'<col min="3" max="3" width="30" customWidth="1"/><col min="4" max="4" width="16" customWidth="1"/>'
+   +'<col min="5" max="5" width="14" customWidth="1"/><col min="6" max="6" width="16" customWidth="1"/>'
+   +'<col min="7" max="7" width="16" customWidth="1"/><col min="8" max="8" width="52" customWidth="1"/>'
+   +'<col min="9" max="9" width="34" customWidth="1"/></cols><sheetData>';
+  rows.forEach(function(row,ri){
+    out+='<row r="'+(ri+1)+'">';
+    row.forEach(function(val,ci){
+      var ref=colName(ci+1)+(ri+1);
+      var s=ri===0?' s="1"':'';
+      out+='<c r="'+ref+'"'+s+' t="inlineStr"><is><t xml:space="preserve">'+xmlEsc(val)+'</t></is></c>';
+    });
+    out+='</row>';
+  });
+  out+='</sheetData><autoFilter ref="A1:'+colName(rows[0].length)+rows.length+'"/></worksheet>';
+  return out;
+}
+function construirXLSX(rows){
+  var files={};
+  files['[Content_Types].xml']='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+   +'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+   +'<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'
+   +'<Default Extension="xml" ContentType="application/xml"/>'
+   +'<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>'
+   +'<Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'
+   +'<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'
+   +'</Types>';
+  files['_rels/.rels']='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+   +'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+   +'<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>'
+   +'</Relationships>';
+  files['xl/workbook.xml']='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+   +'<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'
+   +'<sheets><sheet name="Fichas" sheetId="1" r:id="rId1"/></sheets></workbook>';
+  files['xl/_rels/workbook.xml.rels']='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+   +'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+   +'<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>'
+   +'<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>'
+   +'</Relationships>';
+  files['xl/styles.xml']='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+   +'<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
+   +'<fonts count="2"><font><sz val="11"/><name val="Calibri"/></font>'
+   +'<font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font></fonts>'
+   +'<fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill>'
+   +'<fill><patternFill patternType="solid"><fgColor rgb="FF1E3A6E"/><bgColor indexed="64"/></patternFill></fill></fills>'
+   +'<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>'
+   +'<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'
+   +'<cellXfs count="2"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>'
+   +'<xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/></cellXfs>'
+   +'<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>'
+   +'<dxfs count="0"/>'
+   +'</styleSheet>';
+  files['xl/worksheets/sheet1.xml']=hojaXML(rows);
+  return zipStore(files);
+}
+var CRC_TABLE=(function(){ var t=new Uint32Array(256); for(var n=0;n<256;n++){ var c=n; for(var k=0;k<8;k++) c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1); t[n]=c>>>0; } return t; })();
+function crc32(bytes){ var c=0xFFFFFFFF; for(var i=0;i<bytes.length;i++) c=CRC_TABLE[(c^bytes[i])&0xFF]^(c>>>8); return (c^0xFFFFFFFF)>>>0; }
+function utf8(str){ return new TextEncoder().encode(str); }
+function zipStore(files){
+  var names=Object.keys(files), parts=[], central=[], offset=0;
+  function u16(n){ return [n&255,(n>>8)&255]; }
+  function u32(n){ return [n&255,(n>>8)&255,(n>>16)&255,(n>>24)&255]; }
+  names.forEach(function(name){
+    var nameB=utf8(name), data=utf8(files[name]), crc=crc32(data);
+    var local=[].concat([80,75,3,4],u16(20),u16(0x0800),u16(0),u16(0),u16(0),u32(crc),u32(data.length),u32(data.length),u16(nameB.length),u16(0));
+    parts.push(new Uint8Array(local), nameB, data);
+    central.push({nameB:nameB,crc:crc,size:data.length,offset:offset});
+    offset+=local.length+nameB.length+data.length;
+  });
+  var cdStart=offset, cdParts=[];
+  central.forEach(function(e){
+    var h=[].concat([80,75,1,2],u16(20),u16(20),u16(0x0800),u16(0),u16(0),u16(0),u32(e.crc),u32(e.size),u32(e.size),
+      u16(e.nameB.length),u16(0),u16(0),u16(0),u16(0),u32(0),u32(e.offset));
+    cdParts.push(new Uint8Array(h), e.nameB);
+    offset+=h.length+e.nameB.length;
+  });
+  var end=new Uint8Array([].concat([80,75,5,6],u16(0),u16(0),u16(central.length),u16(central.length),u32(offset-cdStart),u32(cdStart),u16(0)));
+  var all=parts.concat(cdParts,[end]);
+  var total=all.reduce(function(a,b){return a+b.length;},0);
+  var out=new Uint8Array(total), pos=0;
+  all.forEach(function(chunk){ out.set(chunk,pos); pos+=chunk.length; });
+  return out;
+}
+
+/* ============ arranque ============ */
+try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+render();
+</script>
+</body>
+</html>
