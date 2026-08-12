@@ -98,12 +98,13 @@ var KEY='rhb_fichas_v1', CFGKEY='rhb_config_v1';
 var DEFAULT_CFG={
   especialistas:['ANDREA','MILCA','GERMANIA','PAULA','INGRID'],
   sedes:['Sede Anexo','Sede Centro'],
-  aparatos:['Ultrasonido','Magneto','Compresa','Láser','Percutor']
+  aparatos:['Ultrasonido','Magneto','Compresa','Láser','Percutor','Electrodos']
 };
 function load(k,def){ try{ var v=localStorage.getItem(k); return v?JSON.parse(v):def; }catch(e){ return def; } }
 function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){ alert('No se pudo guardar: '+e.message); } }
 var fichas=load(KEY,[]);
 var cfg=Object.assign({},DEFAULT_CFG,load(CFGKEY,{}));
+try{ if(!localStorage.getItem('rhb_migra_electrodos')){ if(cfg.aparatos.indexOf('Electrodos')<0){ cfg.aparatos.push('Electrodos'); save(CFGKEY,cfg); } localStorage.setItem('rhb_migra_electrodos','1'); } }catch(e){}
 function persist(){ save(KEY,fichas); }
 function persistCfg(){ save(CFGKEY,cfg); }
 
