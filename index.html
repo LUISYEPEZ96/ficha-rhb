@@ -327,13 +327,13 @@ function toggleAparato(a){
   render();
 }
 
+function normTxt(s){ return String(s==null?'':s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
+function coincide(f,q){ return normTxt(f.nombre).indexOf(q)>=0 || normTxt(f.cedula).indexOf(q)>=0 || normTxt(f.socio).indexOf(q)>=0 || normTxt(f.especialista).indexOf(q)>=0; }
+
 function vistaHistorial(){
-  var q=busqueda.trim().toLowerCase();
+  var q=normTxt(busqueda.trim());
   var list=fichas.slice().sort(function(a,b){ return (b.fecha+' '+(b.hora||'')).localeCompare(a.fecha+' '+(a.hora||'')); });
-  if(q) list=list.filter(function(f){
-    return (f.nombre||'').toLowerCase().indexOf(q)>=0 || (f.cedula||'').toLowerCase().indexOf(q)>=0
-        || (f.socio||'').toLowerCase().indexOf(q)>=0 || (f.especialista||'').toLowerCase().indexOf(q)>=0;
-  });
+  if(q) list=list.filter(function(f){ return coincide(f,q); });
   var h='<div class="pad"><div class="kicker">Registro</div><h2>Historial</h2>'
    + '<div class="count" style="margin:4px 0 12px">'+fichas.length+' ficha'+(fichas.length===1?'':'s')+' guardada'+(fichas.length===1?'':'s')+' en este dispositivo</div>'
    + '<div class="field"><input class="input" value="'+esc(busqueda)+'" oninput="busqueda=this.value;renderListaHist()" placeholder="Buscar por nombre, cédula, socio o especialista…"></div>'
@@ -364,12 +364,9 @@ function itemsHist(list){
   }).join('');
 }
 function renderListaHist(){
-  var q=busqueda.trim().toLowerCase();
+  var q=normTxt(busqueda.trim());
   var list=fichas.slice().sort(function(a,b){ return (b.fecha+' '+(b.hora||'')).localeCompare(a.fecha+' '+(a.hora||'')); });
-  if(q) list=list.filter(function(f){
-    return (f.nombre||'').toLowerCase().indexOf(q)>=0 || (f.cedula||'').toLowerCase().indexOf(q)>=0
-        || (f.socio||'').toLowerCase().indexOf(q)>=0 || (f.especialista||'').toLowerCase().indexOf(q)>=0;
-  });
+  if(q) list=list.filter(function(f){ return coincide(f,q); });
   document.getElementById('listaHist').innerHTML=itemsHist(list);
 }
 
