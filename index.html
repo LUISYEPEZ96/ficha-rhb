@@ -77,26 +77,37 @@ details.cfg summary{cursor:pointer;font-weight:700;font-size:14px}
 </style>
 <style>
 /* ---- animación de bienvenida (solo visual, se retira sola) ---- */
-#splashRHB{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#1e3a6e 0%,#16294f 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;animation:splashOut .55s ease 2.25s forwards}
-#splashRHB .aro{position:relative;width:92px;height:92px;display:flex;align-items:center;justify-content:center}
-#splashRHB .aro:before,#splashRHB .aro:after{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid rgba(255,255,255,.55);animation:splashPulso 1.8s ease-out infinite}
-#splashRHB .aro:after{animation-delay:.6s}
-#splashRHB .mono{width:62px;height:62px;border-radius:50%;background:#fff;color:#1e3a6e;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:19px;box-shadow:0 8px 24px rgba(0,0,0,.25);animation:splashPop .6s cubic-bezier(.2,.8,.2,1) both}
-#splashRHB .txt{text-align:center;animation:splashSube .6s ease .25s both}
-#splashRHB .l1{color:rgba(255,255,255,.72);font-size:10px;font-weight:800;letter-spacing:.16em}
-#splashRHB .l2{color:#fff;font-size:21px;font-weight:800;margin-top:4px}
-#splashRHB .barra{width:132px;height:3px;border-radius:99px;background:rgba(255,255,255,.22);overflow:hidden}
-#splashRHB .barra i{display:block;height:100%;width:0;background:#fff;border-radius:99px;animation:splashCarga 2s ease .2s forwards}
-@keyframes splashPulso{0%{transform:scale(.75);opacity:.9}100%{transform:scale(1.35);opacity:0}}
-@keyframes splashPop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
-@keyframes splashSube{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
-@keyframes splashCarga{0%{width:0}100%{width:100%}}
-@keyframes splashOut{to{opacity:0;visibility:hidden;pointer-events:none}}
-@media(prefers-reduced-motion:reduce){#splashRHB{animation-delay:.3s}#splashRHB .aro:before,#splashRHB .aro:after,#splashRHB .mono,#splashRHB .txt,#splashRHB .barra i{animation-duration:.01ms}}
+#splashRHB{position:fixed;inset:0;z-index:9999;overflow:hidden;background:#16294f;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;animation:splashOut .6s ease 2.5s forwards}
+#splashRHB .aurora{position:absolute;inset:-30%;background:radial-gradient(38% 32% at 28% 30%, rgba(56,110,200,.55), transparent 60%),radial-gradient(34% 30% at 74% 68%, rgba(120,170,255,.35), transparent 62%),radial-gradient(50% 40% at 50% 50%, rgba(30,58,110,.9), transparent 70%);animation:auroraGira 7s ease-in-out infinite alternate;filter:blur(6px)}
+#splashRHB .malla{position:absolute;inset:0;opacity:.35;background-image:radial-gradient(rgba(255,255,255,.28) 1px, transparent 1px);background-size:26px 26px;animation:mallaDeriva 6s linear infinite;-webkit-mask-image:radial-gradient(circle at 50% 50%, #000 30%, transparent 72%);mask-image:radial-gradient(circle at 50% 50%, #000 30%, transparent 72%)}
+#splashRHB .linea{position:absolute;left:0;right:0;top:50%;transform:translateY(-52px);height:120px;opacity:.9;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 37%,transparent 45%,transparent 55%,#000 63%,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 37%,transparent 45%,transparent 55%,#000 63%,#000 88%,transparent 100%)}
+#splashRHB .linea svg{width:100%;height:100%}
+#splashRHB .linea path{stroke-dasharray:1400;stroke-dashoffset:1400;animation:barrido 2.6s cubic-bezier(.5,0,.5,1) .2s infinite}
+#splashRHB .nucleo{position:relative;width:190px;height:190px;display:flex;align-items:center;justify-content:center}
+#splashRHB .nucleo svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#splashRHB .gira1{transform-origin:100px 100px;animation:giraH 9s linear infinite}
+#splashRHB .gira2{transform-origin:100px 100px;animation:giraH 4.5s linear infinite reverse}
+#splashRHB .gira3{transform-origin:100px 100px;animation:giraH 6s linear infinite}
+#splashRHB .mono{position:relative;width:74px;height:74px;border-radius:50%;background:rgba(255,255,255,.97);color:#1e3a6e;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:21px;box-shadow:0 0 0 6px rgba(255,255,255,.10),0 0 34px rgba(138,182,255,.75);animation:monoEntra .8s cubic-bezier(.2,.9,.2,1) both, latido 2.2s ease-in-out .8s infinite}
+#splashRHB .txt{position:relative;text-align:center}
+#splashRHB .l1{color:rgba(255,255,255,.75);font-size:10px;font-weight:800;letter-spacing:.22em;animation:sube .7s ease .35s both}
+#splashRHB .l2{color:#fff;font-size:23px;font-weight:800;margin-top:5px;animation:sube .7s ease .5s both;text-shadow:0 0 22px rgba(138,182,255,.6)}
+#splashRHB .barra{position:relative;width:160px;height:3px;border-radius:99px;background:rgba(255,255,255,.18);overflow:hidden}
+#splashRHB .barra i{position:absolute;inset:0;width:0;border-radius:99px;background:linear-gradient(90deg,#8ab6ff,#fff);box-shadow:0 0 14px rgba(138,182,255,.9);animation:carga 2.3s cubic-bezier(.4,0,.2,1) .25s forwards}
+@keyframes auroraGira{0%{transform:rotate(0) scale(1)}100%{transform:rotate(22deg) scale(1.16)}}
+@keyframes mallaDeriva{to{background-position:26px 26px}}
+@keyframes giraH{to{transform:rotate(360deg)}}
+@keyframes barrido{0%{stroke-dashoffset:1400}55%{stroke-dashoffset:0}100%{stroke-dashoffset:-1400}}
+@keyframes monoEntra{0%{transform:scale(.4);opacity:0;filter:blur(6px)}100%{transform:scale(1);opacity:1;filter:blur(0)}}
+@keyframes latido{0%,100%{box-shadow:0 0 0 6px rgba(255,255,255,.10),0 0 30px rgba(138,182,255,.6)}50%{box-shadow:0 0 0 11px rgba(255,255,255,.05),0 0 48px rgba(138,182,255,.95)}}
+@keyframes sube{0%{opacity:0;transform:translateY(12px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes carga{to{width:100%}}
+@keyframes splashOut{to{opacity:0;visibility:hidden;pointer-events:none;transform:scale(1.06)}}
+@media(prefers-reduced-motion:reduce){#splashRHB{animation-delay:.4s}}
 </style>
 </head>
 <body>
-<div id="splashRHB"><div class="aro"><div class="mono">RHB</div></div><div class="txt"><div class="l1">CENTRO DE REHABILITACIÓN FÍSICA</div><div class="l2">Ficha RHB</div></div><div class="barra"><i></i></div></div>
+<div id="splashRHB"><div class="aurora"></div><div class="malla"></div><div class="linea"><svg viewBox="0 0 1000 120" preserveAspectRatio="none"><path d="M0 60 H250 l16 -34 l14 66 l13 -50 l11 18 H420 l14 -26 l12 50 l11 -38 l10 14 H1000" fill="none" stroke="#8ab6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".85" style="filter:drop-shadow(0 0 8px rgba(138,182,255,.9))"/></svg></div><div class="nucleo"><svg viewBox="0 0 200 200"><circle class="gira1" cx="100" cy="100" r="88" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1.5" stroke-dasharray="3 9" stroke-linecap="round"/><circle class="gira2" cx="100" cy="100" r="74" fill="none" stroke="#8ab6ff" stroke-width="2.5" stroke-dasharray="70 380" stroke-linecap="round"/><circle class="gira3" cx="100" cy="100" r="62" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-dasharray="26 300" stroke-linecap="round"/></svg><div class="mono">RHB</div></div><div class="txt"><div class="l1">CENTRO DE REHABILITACIÓN FÍSICA</div><div class="l2">Ficha RHB</div></div><div class="barra"><i></i></div></div>
 <div class="wrap">
   <header>
     <div class="brand">CENTRO DE REHABILITACIÓN FÍSICA</div>
@@ -575,6 +586,6 @@ if(clave){ sincronizar(true); }
 window.addEventListener('online', function(){ sincronizar(true); });
 setInterval(function(){ if(clave && !sincronizando) sincronizar(true); }, 120000);
 </script>
-<script>setTimeout(function(){var s=document.getElementById('splashRHB');if(s&&s.parentNode)s.parentNode.removeChild(s);},3000);</script>
+<script>setTimeout(function(){var s=document.getElementById('splashRHB');if(s&&s.parentNode)s.parentNode.removeChild(s);},3300);</script>
 </body>
 </html>
