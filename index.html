@@ -75,8 +75,28 @@ details.cfg{border:1.5px solid var(--divider);border-radius:10px;padding:10px 14
 details.cfg summary{cursor:pointer;font-weight:700;font-size:14px}
 @media(max-width:520px){ .row{flex-direction:column} nav{top:58px} }
 </style>
+<style>
+/* ---- animación de bienvenida (solo visual, se retira sola) ---- */
+#splashRHB{position:fixed;inset:0;z-index:9999;background:linear-gradient(160deg,#1e3a6e 0%,#16294f 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;animation:splashOut .55s ease 2.25s forwards}
+#splashRHB .aro{position:relative;width:92px;height:92px;display:flex;align-items:center;justify-content:center}
+#splashRHB .aro:before,#splashRHB .aro:after{content:'';position:absolute;inset:0;border-radius:50%;border:2px solid rgba(255,255,255,.55);animation:splashPulso 1.8s ease-out infinite}
+#splashRHB .aro:after{animation-delay:.6s}
+#splashRHB .mono{width:62px;height:62px;border-radius:50%;background:#fff;color:#1e3a6e;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:19px;box-shadow:0 8px 24px rgba(0,0,0,.25);animation:splashPop .6s cubic-bezier(.2,.8,.2,1) both}
+#splashRHB .txt{text-align:center;animation:splashSube .6s ease .25s both}
+#splashRHB .l1{color:rgba(255,255,255,.72);font-size:10px;font-weight:800;letter-spacing:.16em}
+#splashRHB .l2{color:#fff;font-size:21px;font-weight:800;margin-top:4px}
+#splashRHB .barra{width:132px;height:3px;border-radius:99px;background:rgba(255,255,255,.22);overflow:hidden}
+#splashRHB .barra i{display:block;height:100%;width:0;background:#fff;border-radius:99px;animation:splashCarga 2s ease .2s forwards}
+@keyframes splashPulso{0%{transform:scale(.75);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+@keyframes splashPop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes splashSube{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes splashCarga{0%{width:0}100%{width:100%}}
+@keyframes splashOut{to{opacity:0;visibility:hidden;pointer-events:none}}
+@media(prefers-reduced-motion:reduce){#splashRHB{animation-delay:.3s}#splashRHB .aro:before,#splashRHB .aro:after,#splashRHB .mono,#splashRHB .txt,#splashRHB .barra i{animation-duration:.01ms}}
+</style>
 </head>
 <body>
+<div id="splashRHB"><div class="aro"><div class="mono">RHB</div></div><div class="txt"><div class="l1">CENTRO DE REHABILITACIÓN FÍSICA</div><div class="l2">Ficha RHB</div></div><div class="barra"><i></i></div></div>
 <div class="wrap">
   <header>
     <div class="brand">CENTRO DE REHABILITACIÓN FÍSICA</div>
@@ -555,5 +575,6 @@ if(clave){ sincronizar(true); }
 window.addEventListener('online', function(){ sincronizar(true); });
 setInterval(function(){ if(clave && !sincronizando) sincronizar(true); }, 120000);
 </script>
+<script>setTimeout(function(){var s=document.getElementById('splashRHB');if(s&&s.parentNode)s.parentNode.removeChild(s);},3000);</script>
 </body>
 </html>
