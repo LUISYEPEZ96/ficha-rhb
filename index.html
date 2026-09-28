@@ -65,22 +65,34 @@ textarea.input{min-height:82px;resize:vertical}
 /* Botón Nueva ficha: centrado sin transform (el transform de .btn:active lo desplazaba y el toque se perdía) */
 .fab{position:fixed;left:0;right:0;margin:0 auto;width:max-content;bottom:calc(20px + env(safe-area-inset-bottom));z-index:30;
   display:inline-flex;align-items:center;gap:12px;padding:10px 26px 10px 10px;min-height:60px;
-  border:none;border-radius:999px;background:linear-gradient(180deg,#27488a 0%,var(--navy) 100%);color:#fff;
-  font-size:17px;font-weight:700;letter-spacing:.01em;
-  box-shadow:0 10px 28px rgba(30,58,110,.32),0 2px 6px rgba(30,58,110,.18);
+  border:none;border-radius:999px;color:#fff;font-size:17px;font-weight:700;letter-spacing:.02em;text-shadow:0 1px 2px rgba(0,60,70,.35);
+  background:linear-gradient(120deg,#0a9e93 0%,#14c3b4 30%,#22d3ee 55%,#0fb5a6 80%,#0a9e93 100%);background-size:250% 100%;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;
   overflow:hidden;isolation:isolate;
-  transition:transform .16s cubic-bezier(.2,.8,.2,1),box-shadow .16s ease;
-  animation:fabIn .45s cubic-bezier(.2,.9,.25,1.15) backwards}
+  transition:transform .16s cubic-bezier(.2,.8,.2,1);
+  animation:fabIn .5s cubic-bezier(.2,.9,.25,1.15) backwards,fabFlow 5s linear infinite,fabGlow 2.6s ease-in-out infinite}
 main{padding-bottom:110px}
-.fab .fab-ico{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.16);display:inline-flex;align-items:center;justify-content:center;flex:none;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
-.fab .fab-ico svg{width:20px;height:20px}
-.fab:active,.fab.press{transform:scale(.95);box-shadow:0 5px 14px rgba(30,58,110,.28)}
+/* destello que cruza el botón */
+.fab::before{content:"";position:absolute;top:0;bottom:0;left:-60%;width:45%;z-index:-1;pointer-events:none;
+  background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.45) 50%,transparent 100%);transform:skewX(-20deg);
+  animation:fabShine 3.2s ease-in-out infinite}
+/* borde luminoso fino */
+.fab::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35),inset 0 1px 0 rgba(255,255,255,.5)}
+.fab .fab-ico{position:relative;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.2);display:inline-flex;align-items:center;justify-content:center;flex:none;
+  box-shadow:0 0 12px rgba(165,255,245,.6);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+/* anillo orbital que gira alrededor del + */
+.fab .fab-ico::before{content:"";position:absolute;inset:-4px;border-radius:50%;border:1.5px dashed rgba(255,255,255,.7);border-top-color:transparent;animation:fabOrbit 3s linear infinite}
+.fab .fab-ico svg{width:20px;height:20px;filter:drop-shadow(0 0 4px rgba(255,255,255,.8))}
+.fab:active,.fab.press{transform:scale(.95)}
 .fab.press .fab-ico{transform:rotate(90deg)}
-.fab .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:fabRipple .5s ease-out forwards;pointer-events:none;z-index:-1}
+.fab .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);animation:fabRipple .5s ease-out forwards;pointer-events:none;z-index:-1}
 @keyframes fabIn{from{opacity:0;transform:translateY(24px) scale(.9)}to{opacity:1;transform:none}}
 @keyframes fabRipple{to{transform:scale(2.6);opacity:0}}
-@media (prefers-reduced-motion:reduce){.fab,.fab .fab-ico{animation:none;transition:none}.fab .ripple{display:none}}
+@keyframes fabFlow{to{background-position:250% 0}}
+@keyframes fabGlow{0%,100%{box-shadow:0 8px 22px rgba(10,158,147,.35),0 0 0 0 rgba(34,211,238,.45)}50%{box-shadow:0 10px 30px rgba(10,158,147,.5),0 0 0 9px rgba(34,211,238,0)}}
+@keyframes fabShine{0%,55%{left:-60%}85%,100%{left:130%}}
+@keyframes fabOrbit{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.fab,.fab::before,.fab .fab-ico,.fab .fab-ico::before{animation:none;transition:none}.fab .ripple{display:none}}
 .detail-row{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:7px 0;border-bottom:1px solid var(--divider)}
 .detail-row span:first-child{color:var(--muted)}
 .detail-row span:last-child{font-weight:600;text-align:right}
