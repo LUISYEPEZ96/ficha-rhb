@@ -62,7 +62,25 @@ textarea.input{min-height:82px;resize:vertical}
 .check{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--divider);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff}
 .chip.on .check{background:#fff;border-color:#fff;color:var(--navy)}
 .empty{padding:26px 4px;text-align:center;color:var(--muted);font-size:13.5px}
-.fab{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:30;box-shadow:0 8px 24px rgba(30,58,110,.35);padding:14px 26px;font-size:15px;border-radius:999px}
+/* Botón Nueva ficha: centrado sin transform (el transform de .btn:active lo desplazaba y el toque se perdía) */
+.fab{position:fixed;left:0;right:0;margin:0 auto;width:max-content;bottom:calc(20px + env(safe-area-inset-bottom));z-index:30;
+  display:inline-flex;align-items:center;gap:12px;padding:10px 26px 10px 10px;min-height:60px;
+  border:none;border-radius:999px;background:linear-gradient(180deg,#27488a 0%,var(--navy) 100%);color:#fff;
+  font-size:17px;font-weight:700;letter-spacing:.01em;
+  box-shadow:0 10px 28px rgba(30,58,110,.32),0 2px 6px rgba(30,58,110,.18);
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;
+  overflow:hidden;isolation:isolate;
+  transition:transform .16s cubic-bezier(.2,.8,.2,1),box-shadow .16s ease;
+  animation:fabIn .45s cubic-bezier(.2,.9,.25,1.15) backwards}
+main{padding-bottom:110px}
+.fab .fab-ico{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.16);display:inline-flex;align-items:center;justify-content:center;flex:none;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.fab .fab-ico svg{width:20px;height:20px}
+.fab:active,.fab.press{transform:scale(.95);box-shadow:0 5px 14px rgba(30,58,110,.28)}
+.fab.press .fab-ico{transform:rotate(90deg)}
+.fab .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:fabRipple .5s ease-out forwards;pointer-events:none;z-index:-1}
+@keyframes fabIn{from{opacity:0;transform:translateY(24px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes fabRipple{to{transform:scale(2.6);opacity:0}}
+@media (prefers-reduced-motion:reduce){.fab,.fab .fab-ico{animation:none;transition:none}.fab .ripple{display:none}}
 .detail-row{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:7px 0;border-bottom:1px solid var(--divider)}
 .detail-row span:first-child{color:var(--muted)}
 .detail-row span:last-child{font-weight:600;text-align:right}
@@ -120,7 +138,33 @@ details.cfg summary{cursor:pointer;font-weight:700;font-size:14px}
   <div id="barraSync" style="padding:6px 18px;font-size:11.5px;font-weight:700;background:#f7f8fa;border-bottom:1px solid var(--divider)"></div>
   <main id="main"></main>
 </div>
-<button class="btn btn-primary fab" id="fab" onclick="nuevaFicha()">+ Nueva ficha</button>
+<button type="button" class="fab" id="fab" aria-label="Nueva ficha"><span class="fab-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><span>Nueva ficha</span></button>
+<script>
+/* Toque del botón Nueva ficha: responde al primer toque y evita dobles aperturas */
+(function(){
+  var fab=document.getElementById('fab'), ultimo=0, inicio=null;
+  function abrir(){
+    var t=Date.now(); if(t-ultimo<600) return; ultimo=t;
+    fab.classList.add('press'); setTimeout(function(){fab.classList.remove('press');},180);
+    if(navigator.vibrate){ try{navigator.vibrate(10);}catch(e){} }
+    nuevaFicha();
+  }
+  function onda(x,y){
+    var r=fab.getBoundingClientRect(), d=Math.max(r.width,r.height), s=document.createElement('span');
+    s.className='ripple'; s.style.width=s.style.height=d+'px';
+    s.style.left=((x==null?r.width/2:x-r.left)-d/2)+'px'; s.style.top=((y==null?r.height/2:y-r.top)-d/2)+'px';
+    fab.appendChild(s); setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); },550);
+  }
+  fab.addEventListener('pointerdown',function(e){ inicio={x:e.clientX,y:e.clientY}; onda(e.clientX,e.clientY); fab.classList.add('press'); });
+  fab.addEventListener('pointerup',function(e){
+    fab.classList.remove('press');
+    if(inicio && Math.abs(e.clientX-inicio.x)<30 && Math.abs(e.clientY-inicio.y)<30){ e.preventDefault(); abrir(); }
+    inicio=null;
+  });
+  fab.addEventListener('pointercancel',function(){ inicio=null; fab.classList.remove('press'); });
+  fab.addEventListener('click',function(e){ e.preventDefault(); abrir(); }); /* respaldo: teclado o navegadores antiguos */
+})();
+</script>
 <div class="toast" id="toast"></div>
 
 <script>
