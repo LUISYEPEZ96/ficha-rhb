@@ -21,12 +21,24 @@
 html[data-paleta="morado"]{--g1:#4c1d95; --g2:#7c3aed; --g3:#db2777; --acc:#7c3aed; --acc-txt:#6d28d9; --acc-100:#ede9fe}
 html[data-paleta="verde"]{--g1:#064e3b; --g2:#059669; --g3:#84cc16; --acc:#059669; --acc-txt:#047857; --acc-100:#d1fae5}
 html[data-paleta="naranja"]{--g1:#9a3412; --g2:#ea580c; --g3:#f59e0b; --acc:#ea580c; --acc-txt:#c2410c; --acc-100:#ffedd5}
+html[data-paleta="rosado"]{--g1:#9d174d; --g2:#db2777; --g3:#f472b6; --acc:#db2777; --acc-txt:#be185d; --acc-100:#fce7f3}
+html[data-paleta="negro"]{--g1:#000000; --g2:#18181b; --g3:#52525b; --acc:#18181b; --acc-txt:#18181b; --acc-100:#e4e4e7}
+html[data-paleta="turquesa"]{--g1:#115e59; --g2:#0d9488; --g3:#22d3ee; --acc:#0d9488; --acc-txt:#0f766e; --acc-100:#ccfbf1}
+html[data-paleta="amarillo"]{--g1:#a16207; --g2:#ca8a04; --g3:#facc15; --acc:#ca8a04; --acc-txt:#a16207; --acc-100:#fef9c3}
+html[data-paleta="rojo"]{--g1:#7f1d1d; --g2:#dc2626; --g3:#f87171; --acc:#dc2626; --acc-txt:#b91c1c; --acc-100:#fee2e2}
 html[data-tema="oscuro"]{color-scheme:dark;
   --bg:#0b1020; --card:#141a2e; --campo:#0f1526; --text:#e2e8f0; --muted:#94a3b8; --label:#cbd5e1; --div:#253049; --soft:#1c2439;
   --acc-txt:#a5b4fc; --acc-100:rgba(129,140,248,.16); --sombra:0 3px 12px rgba(0,0,0,.25)}
 html[data-tema="oscuro"][data-paleta="morado"]{--acc-txt:#c4b5fd; --acc-100:rgba(167,139,250,.16)}
 html[data-tema="oscuro"][data-paleta="verde"]{--acc-txt:#6ee7b7; --acc-100:rgba(52,211,153,.14)}
 html[data-tema="oscuro"][data-paleta="naranja"]{--acc-txt:#fdba74; --acc-100:rgba(251,146,60,.15)}
+html[data-tema="oscuro"][data-paleta="rosado"]{--acc-txt:#f9a8d4; --acc-100:rgba(244,114,182,.16)}
+html[data-tema="oscuro"][data-paleta="negro"]{--acc:#a1a1aa; --acc-txt:#e4e4e7; --acc-100:rgba(255,255,255,.10)}
+html[data-tema="oscuro"][data-paleta="negro"] .switch.on{background:#71717a}
+html[data-tema="oscuro"][data-paleta="amarillo"]{--acc-txt:#fde047; --acc-100:rgba(250,204,21,.15)}
+html[data-tema="oscuro"][data-paleta="rojo"]{--acc-txt:#fca5a5; --acc-100:rgba(248,113,113,.15)}
+html[data-tema="oscuro"][data-paleta="turquesa"]{--acc-txt:#5eead4; --acc-100:rgba(45,212,191,.15)}
+html[data-tema="oscuro"][data-paleta="negro"] header{background:linear-gradient(135deg,#000,#27272a 60%,#3f3f46)}
 
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -150,7 +162,8 @@ textarea.input{min-height:86px;resize:vertical}
 .search{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:14px;padding:0 14px;box-shadow:var(--sombra);border:1.5px solid transparent}
 .search:focus-within{border-color:var(--acc)}
 .search svg{width:18px;height:18px;color:var(--muted);flex:none}
-.search input{flex:1;border:none;background:transparent;padding:13px 0;color:var(--text);outline:none;min-width:0}
+.search input::-webkit-search-cancel-button{display:none}
+.search input{-webkit-appearance:none;appearance:none;flex:1;border:none;background:transparent;padding:13px 0;color:var(--text);outline:none;min-width:0}
 .filtros{display:flex;gap:7px;overflow-x:auto;padding:12px 2px 4px;scrollbar-width:none}
 .filtros::-webkit-scrollbar{display:none}
 .fl{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;padding:8px 13px;border-radius:99px;background:var(--card);color:var(--label);border:1.5px solid var(--div);cursor:pointer}
@@ -201,7 +214,7 @@ textarea.input{min-height:86px;resize:vertical}
 .switch::after{content:"";position:absolute;top:3px;left:3px;width:25px;height:25px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.2);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
 .switch.on{background:linear-gradient(135deg,var(--g2),var(--g3))}
 .switch.on::after{transform:translateX(21px)}
-.paletas{display:flex;gap:14px;margin-top:12px;flex-wrap:wrap}
+.paletas{display:grid;grid-template-columns:repeat(5,1fr);gap:14px 4px;margin-top:12px;max-width:380px}
 .pal{display:flex;flex-direction:column;align-items:center;gap:6px;border:none;background:none;cursor:pointer;font-size:11.5px;font-weight:800;color:var(--label);padding:0}
 .pal i{width:44px;height:44px;border-radius:50%;display:block;transition:transform .2s}
 .pal.on i{box-shadow:0 0 0 3px var(--bg),0 0 0 5.5px var(--acc);transform:scale(1.05)}
@@ -344,7 +357,7 @@ html[data-tema="oscuro"] .toast{background:#27324b}
 <div class="toast" id="toast"><span class="okc">✓</span><span id="toastTxt"></span></div>
 <script>
 /* Modo claro / oscuro y paleta de colores: se guardan en cada teléfono, no tocan las fichas */
-var PALETAS={azul:'#1e3a6e',morado:'#4c1d95',verde:'#064e3b',naranja:'#9a3412'};
+var PALETAS={azul:'#1e3a6e',morado:'#4c1d95',verde:'#064e3b',naranja:'#9a3412',rosado:'#9d174d',negro:'#000000',turquesa:'#115e59',amarillo:'#a16207',rojo:'#7f1d1d'};
 function paletaActual(){ return document.documentElement.getAttribute('data-paleta')||'azul'; }
 function pintarTema(){
   var root=document.documentElement, btn=document.getElementById('temaBtn'), meta=document.querySelector('meta[name="theme-color"]');
@@ -454,7 +467,8 @@ function sincronizar(silencioso){
     sincronizando=false;
     marcarEstado('Al día · '+fichas.length+' ficha'+(fichas.length===1?'':'s'),'ok');
     if(!silencioso) render();
-    else if(view==='inicio'||view==='agenda'||view==='historial') render();
+    else if(view==='historial') renderListaHist();
+    else if(view==='inicio'||view==='agenda') render();
   }).catch(function(err){
     sincronizando=false;
     var msg=String(err.message||err);
@@ -565,11 +579,11 @@ function tarjeta(f,i,conFecha){
     +'<span class="hora">'+(conFecha?esc(fechaCorta(f.fecha))+'<br>':'')+esc(f.hora||'')+'</span>'
     +'</button>';
 }
-function tarjetaSwipe(f,i){
+function tarjetaSwipe(f,i,conFecha){
   return '<div class="sw"><div class="sw-acts">'
     +'<button class="ed" onclick="editar(\''+f.id+'\')">'+ico('edit')+'Editar</button>'
     +'<button class="du" onclick="duplicar(\''+f.id+'\')">'+ico('dup')+'Duplicar</button>'
-    +'</div>'+tarjeta(f,i,false)+'</div>';
+    +'</div>'+tarjeta(f,i,!!conFecha)+'</div>';
 }
 function abrirDetalle(id,el){
   if(el){
@@ -831,9 +845,14 @@ function toggleAparato(btn){
 }
 
 function normTxt(s){ return String(s==null?'':s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
-function coincide(f,q){ return normTxt(f.nombre).indexOf(q)>=0 || normTxt(f.cedula).indexOf(q)>=0 || normTxt(f.socio).indexOf(q)>=0 || normTxt(f.especialista).indexOf(q)>=0; }
+/* búsqueda: como antes (nombre, cédula, N° de socio o especialista, sin importar tildes ni mayúsculas),
+   y además acepta varias palabras en cualquier orden: "maria rodri", "rodriguez maria" */
+function coincide(f,q){
+  var texto=[f.nombre,f.cedula,f.socio,f.especialista].map(normTxt).join(' ');
+  return q.split(/\s+/).filter(Boolean).every(function(p){ return texto.indexOf(p)>=0; });
+}
 
-var filtroEsp='', filtroSede='';
+var filtroEsp='', filtroSede='', histLimite=60, _tBusca=null;
 function listaFiltrada(){
   var q=normTxt(busqueda.trim());
   var list=fichas.slice().sort(function(a,b){ return (b.fecha+' '+(b.hora||'')).localeCompare(a.fecha+' '+(a.hora||'')); });
@@ -857,34 +876,58 @@ function filtrar(tipo,v){
   else if(tipo==='esp') filtroEsp=(filtroEsp===v?'':v);
   else filtroSede=(filtroSede===v?'':v);
   document.getElementById('filtros').innerHTML=filtrosHTML();
-  renderListaHist();
+  histLimite=60; renderListaHist();
+}
+function buscar(v){
+  busqueda=v; histLimite=60;
+  var x=document.getElementById('limpiarBusq'); if(x) x.style.display=v?'':'none';
+  clearTimeout(_tBusca); _tBusca=setTimeout(renderListaHist,120);
+}
+function limpiarBusqueda(){
+  var i=document.getElementById('inputBusq'); if(i){ i.value=''; i.focus(); }
+  buscar(''); clearTimeout(_tBusca); renderListaHist();
 }
 function vistaHistorial(){
   var h='<div class="pad">'
-   + '<div class="search">'+ico('srch')+'<input value="'+esc(busqueda)+'" oninput="busqueda=this.value;renderListaHist()" placeholder="Buscar socio, cédula, N° o especialista…"></div>'
+   + '<div class="search">'+ico('srch')
+   + '<input id="inputBusq" type="search" enterkeyhint="search" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" value="'+esc(busqueda)+'" oninput="buscar(this.value)" onkeydown="if(event.key===\'Enter\')this.blur()" placeholder="Buscar socio por nombre, cédula o N°…">'
+   + '<button type="button" id="limpiarBusq" aria-label="Borrar búsqueda" onclick="limpiarBusqueda()" style="border:none;background:var(--soft);color:var(--muted);width:26px;height:26px;border-radius:50%;font-size:15px;font-weight:800;cursor:pointer;flex:none;'+(busqueda?'':'display:none')+'">×</button></div>'
    + '<div class="filtros" id="filtros">'+filtrosHTML()+'</div>'
-   + '<div class="herr">'
+   + '<div id="listaHist" style="margin-top:4px">'+itemsHist(listaFiltrada())+'</div>'
+   + '<div class="sec" style="margin-top:26px"><h3>Descargas y respaldo</h3></div>'
+   + '<div class="herr" style="margin-top:0">'
    + '<button class="btn btn-primary" onclick="exportarExcel()">'+ico('down')+'Excel (.xlsx)</button>'
    + '<button class="btn" onclick="exportarCSV()">'+ico('down')+'CSV</button>'
    + '<button class="btn" onclick="sincronizar()">'+ico('sync')+'Sincronizar ahora</button>'
    + '<button class="btn" onclick="respaldar()">'+ico('down')+'Guardar respaldo (.json)</button>'
    + '</div>'
-   + '<div style="text-align:center;margin-top:10px"><button class="link" onclick="document.getElementById(\'restoreInput\').click()">Restaurar respaldo…</button>'
+   + '<div style="text-align:center;margin-top:12px"><button class="link" onclick="document.getElementById(\'restoreInput\').click()">Restaurar respaldo…</button>'
    + '<input type="file" id="restoreInput" accept="application/json" style="display:none" onchange="restaurar(this)"></div>'
-   + '<p class="count" style="margin:12px 4px 0;text-align:center">Desliza una ficha hacia la izquierda para editarla o duplicarla</p>'
-   + '<div id="listaHist" style="margin-top:6px">'+itemsHist(listaFiltrada())+'</div>'
    + '<div style="height:30px"></div></div>';
   return h;
 }
 function itemsHist(list){
-  if(!list.length) return '<div class="empty"><span class="ico">🔍</span>No se encontraron fichas.</div>';
-  var h='', dia=null, k=0, porDia={};
-  list.forEach(function(f){ porDia[f.fecha]=(porDia[f.fecha]||0)+1; });
-  list.forEach(function(f){
-    if(f.fecha!==dia){ if(dia!==null) h+='</div>'; dia=f.fecha; h+='<div class="dh">'+esc(tituloDia(dia))+' · '+plural(porDia[dia],'ficha')+'</div><div class="stack">'; }
-    h+=tarjetaSwipe(f,k++);
-  });
-  return h+'</div>';
+  var q=busqueda.trim(), filtro=!!(filtroEsp||filtroSede);
+  var cab='<div class="count" style="margin:6px 4px 10px">'
+    + (q||filtro ? plural(list.length,'ficha encontrada','fichas encontradas') : plural(fichas.length,'ficha')+' en total · desliza una ficha a la izquierda para editar o duplicar')
+    + '</div>';
+  if(!list.length) return cab+'<div class="empty"><span class="ico">🔍</span>No se encontraron fichas'+(q?' para “'+esc(q)+'”':'')+'.'
+    + (filtro?'<br><button class="link" style="margin-top:8px" onclick="filtrar(\'\',\'\')">Quitar filtros</button>':'')+'</div>';
+  var ver=list.slice(0,histLimite), h=cab;
+  if(q){
+    /* con búsqueda: lista directa de las fichas del socio, cada una con su fecha */
+    h+='<div class="stack">'+ver.map(function(f){ return tarjetaSwipe(f,null,true); }).join('')+'</div>';
+  } else {
+    var dia=null, porDia={};
+    list.forEach(function(f){ porDia[f.fecha]=(porDia[f.fecha]||0)+1; });
+    ver.forEach(function(f){
+      if(f.fecha!==dia){ if(dia!==null) h+='</div>'; dia=f.fecha; h+='<div class="dh">'+esc(tituloDia(dia))+' · '+plural(porDia[dia],'ficha')+'</div><div class="stack">'; }
+      h+=tarjetaSwipe(f,null,false);
+    });
+    h+='</div>';
+  }
+  if(list.length>ver.length) h+='<button class="btn btn-block" style="margin-top:12px" onclick="histLimite+=100;renderListaHist()">Mostrar más ('+(list.length-ver.length)+' restantes)</button>';
+  return h;
 }
 function renderListaHist(){
   var el=document.getElementById('listaHist'); if(el) el.innerHTML=itemsHist(listaFiltrada());
@@ -892,7 +935,7 @@ function renderListaHist(){
 
 function vistaAjustes(){
   var osc=document.documentElement.getAttribute('data-tema')==='oscuro', pal=paletaActual();
-  var PAL=[['azul','Azul','#1e3a6e','#0ea5a4'],['morado','Morado','#4c1d95','#db2777'],['verde','Verde','#064e3b','#84cc16'],['naranja','Naranja','#9a3412','#f59e0b']];
+  var PAL=[['azul','Azul','#1e3a6e','#0ea5a4'],['morado','Morado','#4c1d95','#db2777'],['verde','Verde','#064e3b','#84cc16'],['naranja','Naranja','#9a3412','#f59e0b'],['rosado','Rosado','#9d174d','#f472b6'],['negro','Negro','#000000','#52525b'],['turquesa','Turquesa','#115e59','#22d3ee'],['amarillo','Amarillo','#a16207','#facc15'],['rojo','Rojo','#7f1d1d','#f87171']];
   var h='<div class="pad">'
    + '<div class="sec" style="margin-top:4px"><h3>Apariencia</h3></div><div class="box">'
    + '<div class="opt"><div><b>Modo oscuro</b><small>Más cómodo de noche</small></div><button class="switch'+(osc?' on':'')+'" onclick="cambiarTema()" aria-label="Modo oscuro"></button></div>'
