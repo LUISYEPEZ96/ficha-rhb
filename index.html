@@ -5,144 +5,246 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ficha RHB — Registro de socios</title>
 <meta name="theme-color" content="#1e3a6e">
-<script>try{if(localStorage.getItem('rhb_tema_v1')==='oscuro')document.documentElement.setAttribute('data-tema','oscuro');}catch(e){}</script>
+<script>try{if(localStorage.getItem('rhb_tema_v1')==='oscuro')document.documentElement.setAttribute('data-tema','oscuro');var _p=localStorage.getItem('rhb_paleta_v1');if(_p)document.documentElement.setAttribute('data-paleta',_p);}catch(e){}</script>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Ficha RHB">
 <style>
+/* ===== Colores (paleta azul por defecto) ===== */
 :root{
-  --navy:#1e3a6e; --navy-600:#16294f; --navy-100:#eef1f7; --navy-200:#d7dfee;
-  --bg:#ffffff; --page:#eceef2; --text:#101828; --muted:#667085; --divider:#dfe3ea;
-  --ok:#0f7b4f; --ok-bg:#e6f4ed; --warn:#8a5a00; --warn-bg:#fdf3e0; --danger:#b42318;
-  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --g1:#1e3a6e; --g2:#3b3fb8; --g3:#0ea5a4; --acc:#4f46e5; --acc-txt:#4338ca; --acc-100:#e0e7ff;
+  --bg:#f4f6fb; --card:#ffffff; --campo:#ffffff; --text:#0f172a; --muted:#64748b; --label:#475569; --div:#e5e9f2; --soft:#eef2f7;
+  --ok:#16a34a; --warn:#d97706; --danger:#dc2626;
+  --sombra:0 3px 12px rgba(15,23,42,.06);
+  --font:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
+html[data-paleta="morado"]{--g1:#4c1d95; --g2:#7c3aed; --g3:#db2777; --acc:#7c3aed; --acc-txt:#6d28d9; --acc-100:#ede9fe}
+html[data-paleta="verde"]{--g1:#064e3b; --g2:#059669; --g3:#84cc16; --acc:#059669; --acc-txt:#047857; --acc-100:#d1fae5}
+html[data-paleta="naranja"]{--g1:#9a3412; --g2:#ea580c; --g3:#f59e0b; --acc:#ea580c; --acc-txt:#c2410c; --acc-100:#ffedd5}
+html[data-tema="oscuro"]{color-scheme:dark;
+  --bg:#0b1020; --card:#141a2e; --campo:#0f1526; --text:#e2e8f0; --muted:#94a3b8; --label:#cbd5e1; --div:#253049; --soft:#1c2439;
+  --acc-txt:#a5b4fc; --acc-100:rgba(129,140,248,.16); --sombra:0 3px 12px rgba(0,0,0,.25)}
+html[data-tema="oscuro"][data-paleta="morado"]{--acc-txt:#c4b5fd; --acc-100:rgba(167,139,250,.16)}
+html[data-tema="oscuro"][data-paleta="verde"]{--acc-txt:#6ee7b7; --acc-100:rgba(52,211,153,.14)}
+html[data-tema="oscuro"][data-paleta="naranja"]{--acc-txt:#fdba74; --acc-100:rgba(251,146,60,.15)}
+
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-body{background:var(--page);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
-.wrap{max-width:720px;margin:0 auto;min-height:100vh;background:var(--bg);display:flex;flex-direction:column;box-shadow:0 0 40px rgba(16,24,40,.08)}
-header{background:var(--navy);color:#fff;padding:14px 18px 12px;position:sticky;top:0;z-index:20}
-header .brand{font-size:11px;letter-spacing:.14em;font-weight:800;opacity:.75}
-header h1{margin:2px 0 0;font-size:19px;font-weight:800;letter-spacing:-.01em}
-nav{display:flex;background:var(--bg);border-bottom:2px solid var(--divider);position:sticky;top:60px;z-index:19}
-nav button{flex:1;border:none;background:transparent;padding:12px 4px 10px;cursor:pointer;font-family:var(--font);font-weight:700;font-size:13px;color:var(--muted);border-bottom:3px solid transparent}
-nav button.active{color:var(--navy);border-bottom-color:var(--navy)}
-main{flex:1;padding:0 0 40px}
-.pad{padding:16px 18px}
-h2{font-size:17px;margin:0 0 2px}
-.kicker{font-size:10px;letter-spacing:.12em;font-weight:800;color:var(--navy);text-transform:uppercase}
-.muted{color:var(--muted)}
-.row{display:flex;gap:10px}
-.row>*{flex:1;min-width:0}
-label{display:block;font-size:12px;font-weight:700;margin-bottom:5px;color:#344054}
-input,select,textarea,button{font-family:var(--font);font-size:15px}
-.input{width:100%;padding:11px 12px;border:1.5px solid var(--divider);border-radius:8px;background:#fff;color:var(--text);outline:none}
-.input:focus{border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-100)}
-textarea.input{min-height:82px;resize:vertical}
-.field{margin-bottom:14px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 16px;border-radius:8px;border:1.5px solid var(--navy);cursor:pointer;font-weight:700;font-size:14px;background:#fff;color:var(--navy)}
-.btn:active{transform:translateY(1px)}
-.btn-primary{background:var(--navy);color:#fff}
-.btn-block{width:100%}
-.btn-ghost{border-color:transparent;background:transparent;padding-left:0}
-.btn-danger{border-color:var(--danger);color:var(--danger)}
-.btn-sm{padding:8px 12px;font-size:13px}
-.stack{display:flex;flex-direction:column;gap:10px}
-.card{border:1.5px solid var(--divider);border-radius:10px;padding:12px 14px;background:#fff;text-align:left;width:100%;cursor:pointer}
-.card:hover{border-color:var(--navy-200);background:var(--navy-100)}
-.card .c-kicker{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--navy);text-transform:uppercase}
-.card .c-title{display:block;font-weight:800;font-size:15px;margin:3px 0 2px}
-.card .c-body{margin:0;font-size:13px;color:var(--muted);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.card .c-meta{display:block;margin-top:6px;font-size:11.5px;color:var(--muted);font-weight:600}
-.tag{display:inline-block;padding:3px 8px;border-radius:999px;font-size:10.5px;font-weight:800;letter-spacing:.04em}
-.tag-ok{background:var(--ok-bg);color:var(--ok)}
-.tag-accent{background:var(--navy-100);color:var(--navy)}
-.hr{height:1px;background:var(--divider);margin:14px 0}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border:1.5px solid var(--divider);border-radius:999px;background:#fff;cursor:pointer;font-size:13.5px;font-weight:600}
-.chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
-.check{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--divider);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:#fff}
-.chip.on .check{background:#fff;border-color:#fff;color:var(--navy)}
-.empty{padding:26px 4px;text-align:center;color:var(--muted);font-size:13.5px}
-/* Botón Nueva ficha: centrado sin transform (el transform de .btn:active lo desplazaba y el toque se perdía) */
-.fab{position:fixed;left:0;right:0;margin:0 auto;width:max-content;bottom:calc(20px + env(safe-area-inset-bottom));z-index:30;
-  display:inline-flex;align-items:center;gap:12px;padding:10px 26px 10px 10px;min-height:60px;
-  border:none;border-radius:999px;color:#fff;font-size:17px;font-weight:700;letter-spacing:.02em;text-shadow:0 1px 2px rgba(0,60,70,.35);
-  background:linear-gradient(120deg,#0a9e93 0%,#14c3b4 30%,#22d3ee 55%,#0fb5a6 80%,#0a9e93 100%);background-size:250% 100%;
-  touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;
-  overflow:hidden;isolation:isolate;
-  transition:transform .16s cubic-bezier(.2,.8,.2,1);
-  animation:fabIn .5s cubic-bezier(.2,.9,.25,1.15) backwards,fabFlow 5s linear infinite,fabGlow 2.6s ease-in-out infinite}
-main{padding-bottom:110px}
-/* destello que cruza el botón */
-.fab::before{content:"";position:absolute;top:0;bottom:0;left:-60%;width:45%;z-index:-1;pointer-events:none;
-  background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.45) 50%,transparent 100%);transform:skewX(-20deg);
-  animation:fabShine 3.2s ease-in-out infinite}
-/* borde luminoso fino */
-.fab::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.35),inset 0 1px 0 rgba(255,255,255,.5)}
-.fab .fab-ico{position:relative;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.2);display:inline-flex;align-items:center;justify-content:center;flex:none;
-  box-shadow:0 0 12px rgba(165,255,245,.6);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
-/* anillo orbital que gira alrededor del + */
-.fab .fab-ico::before{content:"";position:absolute;inset:-4px;border-radius:50%;border:1.5px dashed rgba(255,255,255,.7);border-top-color:transparent;animation:fabOrbit 3s linear infinite}
-.fab .fab-ico svg{width:20px;height:20px;filter:drop-shadow(0 0 4px rgba(255,255,255,.8))}
-.fab:active,.fab.press{transform:scale(.95)}
-.fab.press .fab-ico{transform:rotate(90deg)}
-.fab .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);animation:fabRipple .5s ease-out forwards;pointer-events:none;z-index:-1}
-@keyframes fabIn{from{opacity:0;transform:translateY(24px) scale(.9)}to{opacity:1;transform:none}}
-@keyframes fabRipple{to{transform:scale(2.6);opacity:0}}
-@keyframes fabFlow{to{background-position:250% 0}}
-@keyframes fabGlow{0%,100%{box-shadow:0 8px 22px rgba(10,158,147,.35),0 0 0 0 rgba(34,211,238,.45)}50%{box-shadow:0 10px 30px rgba(10,158,147,.5),0 0 0 9px rgba(34,211,238,0)}}
-@keyframes fabShine{0%,55%{left:-60%}85%,100%{left:130%}}
-@keyframes fabOrbit{to{transform:rotate(360deg)}}
-@media (prefers-reduced-motion:reduce){.fab,.fab::before,.fab .fab-ico,.fab .fab-ico::before{animation:none;transition:none}.fab .ripple{display:none}}
-.detail-row{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:7px 0;border-bottom:1px solid var(--divider)}
-.detail-row span:first-child{color:var(--muted)}
-.detail-row span:last-child{font-weight:600;text-align:right}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:80px;background:var(--text);color:#fff;padding:11px 18px;border-radius:999px;font-size:13.5px;font-weight:600;z-index:50;opacity:0;transition:opacity .2s;pointer-events:none}
-.toast.show{opacity:1}
-/* ===== Selector de tema (claro / oscuro) ===== */
-header{padding-right:58px}
-.tema-btn{position:absolute;top:10px;right:12px;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background .2s,transform .15s}
+body{background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
+button{font-family:var(--font);-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.wrap{max-width:720px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+html.tema-anim, html.tema-anim *{transition:background-color .3s ease,border-color .3s ease,color .3s ease !important}
+
+/* ===== Encabezado ===== */
+header{position:sticky;top:0;z-index:20;color:#fff;overflow:hidden;
+  background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 55%,var(--g3) 100%);
+  padding:calc(12px + env(safe-area-inset-top)) 18px 14px;border-radius:0 0 22px 22px;box-shadow:0 8px 24px rgba(15,23,42,.15)}
+html[data-tema="oscuro"] header{background:linear-gradient(135deg,rgba(0,0,0,.35),rgba(0,0,0,.2)),linear-gradient(135deg,var(--g1) 0%,var(--g2) 55%,var(--g3) 100%)}
+header::after{content:"";position:absolute;right:-70px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none}
+header.grande{position:relative;z-index:1;padding-bottom:40px}
+.brand{font-size:10.5px;letter-spacing:.16em;font-weight:800;opacity:.78}
+header h1{margin:3px 0 0;font-size:20px;font-weight:800;letter-spacing:-.01em;padding-right:44px}
+header.grande h1{font-size:25px}
+.h-sub{font-size:13px;opacity:.88;margin-top:2px}
+.sync{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:99px;font-size:11.5px;font-weight:700;margin-top:9px;max-width:100%}
+.sync .dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;flex:none}
+.sync .dot.ok{background:#4ade80;box-shadow:0 0 0 3px rgba(74,222,128,.3)}
+.sync .dot.pend{background:#fbbf24;box-shadow:0 0 0 3px rgba(251,191,36,.3)}
+.sync .dot.mal{background:#f87171;box-shadow:0 0 0 3px rgba(248,113,113,.3)}
+.sync .dot.gira{background:transparent;border:2px solid #fff;border-top-color:transparent;width:10px;height:10px;animation:gira .8s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+.tema-btn{position:absolute;top:calc(12px + env(safe-area-inset-top));right:14px;z-index:2;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.14);color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:transform .15s}
 .tema-btn:active{transform:scale(.9)}
-.tema-btn svg{width:18px;height:18px;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.tema-btn svg{width:18px;height:18px}
 .tema-btn .i-sol{display:none}
 html[data-tema="oscuro"] .tema-btn .i-luna{display:none}
 html[data-tema="oscuro"] .tema-btn .i-sol{display:block}
-html.tema-anim, html.tema-anim *{transition:background-color .3s ease,border-color .3s ease,color .3s ease !important}
-/* ===== Modo oscuro ===== */
-html[data-tema="oscuro"]{color-scheme:dark;
-  --navy:#2f5fb3; --navy-600:#16294f; --navy-100:#1b2a45; --navy-200:#2d3f63; --navy-txt:#86aaf0;
-  --bg:#141b27; --page:#0a0f18; --text:#e6eaf1; --muted:#9aa4b5; --divider:#2a3446;
-  --ok:#4cc38a; --ok-bg:#12301f; --warn:#f0b54a; --warn-bg:#33270f; --danger:#f97066;
-  --campo:#0f1520; --label:#c5ccd8}
-html[data-tema="oscuro"] .wrap{box-shadow:none}
-html[data-tema="oscuro"] header{background:#13213b}
-html[data-tema="oscuro"] nav button.active{color:var(--navy-txt);border-bottom-color:var(--navy-txt)}
-html[data-tema="oscuro"] .kicker,html[data-tema="oscuro"] .card .c-kicker,html[data-tema="oscuro"] .tag-accent{color:var(--navy-txt)}
-html[data-tema="oscuro"] label{color:var(--label)}
-html[data-tema="oscuro"] .input{background:var(--campo);color:var(--text)}
-html[data-tema="oscuro"] .input:focus{border-color:var(--navy-txt)}
-html[data-tema="oscuro"] .btn{background:var(--campo);color:var(--navy-txt);border-color:var(--navy-txt)}
-html[data-tema="oscuro"] .btn-primary{background:var(--navy);border-color:var(--navy);color:#fff}
-html[data-tema="oscuro"] .btn-ghost{background:transparent;border-color:transparent}
-html[data-tema="oscuro"] .btn-danger{border-color:var(--danger);color:var(--danger)}
-html[data-tema="oscuro"] .card{background:var(--bg);color:var(--text)}
-html[data-tema="oscuro"] .card .c-title{color:#6fb0ff}
-html[data-tema="oscuro"] .chip{background:var(--campo);color:var(--text)}
-html[data-tema="oscuro"] .chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
-html[data-tema="oscuro"] #barraSync{background:var(--campo) !important}
-html[data-tema="oscuro"] .toast{background:#2a3446;color:#fff}
 
-.count{font-size:12px;color:var(--muted);font-weight:600}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap}
-.toolbar .btn{flex:1;min-width:150px}
-details.cfg{border:1.5px solid var(--divider);border-radius:10px;padding:10px 14px;margin-top:14px}
-details.cfg summary{cursor:pointer;font-weight:700;font-size:14px}
-@media(max-width:520px){ .row{flex-direction:column} nav{top:58px} }
+/* ===== Contenido ===== */
+main{flex:1;padding:0 0 120px}
+main.entra{animation:entra .32s cubic-bezier(.2,.8,.2,1)}
+@keyframes entra{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.pad{padding:16px}
+.sec{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 10px}
+.sec h3{font-size:15.5px;font-weight:800;margin:0}
+.sec a,.link{font-size:12.5px;font-weight:800;color:var(--acc-txt);cursor:pointer;background:none;border:none;padding:0}
+.muted{color:var(--muted)}
+.count{font-size:12px;color:var(--muted);font-weight:700}
+.row{display:flex;gap:10px}
+.row>*{flex:1;min-width:0}
+label,.lbl{display:block;font-size:11.5px;font-weight:800;letter-spacing:.03em;margin-bottom:6px;color:var(--label);text-transform:uppercase}
+input,select,textarea{font-family:var(--font);font-size:15px}
+.input{width:100%;padding:12px 13px;border:1.5px solid var(--div);border-radius:12px;background:var(--campo);color:var(--text);outline:none;transition:border-color .15s,box-shadow .15s}
+.input:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-100)}
+textarea.input{min-height:86px;resize:vertical}
+.field{margin-bottom:16px}
+.box{background:var(--card);border-radius:18px;padding:14px;box-shadow:var(--sombra)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 16px;border-radius:12px;border:1.5px solid var(--div);cursor:pointer;font-weight:800;font-size:14px;background:var(--card);color:var(--acc-txt);transition:transform .12s}
+.btn:active{transform:scale(.97)}
+.btn svg{width:17px;height:17px;flex:none}
+.btn-primary{border:none;color:#fff;background:linear-gradient(135deg,var(--g2),var(--g3));box-shadow:0 8px 18px rgba(79,70,229,.25)}
+.btn-block{width:100%}
+.btn-danger{color:var(--danger);border-color:rgba(220,38,38,.35)}
+.btn-sm{padding:9px 12px;font-size:13px;border-radius:10px}
+.btn-save{padding:15px;font-size:16px;border-radius:15px}
+.back{display:inline-flex;align-items:center;gap:4px;border:none;background:none;color:var(--acc-txt);font-weight:800;font-size:14px;padding:4px 0;cursor:pointer}
+.stack{display:flex;flex-direction:column;gap:10px}
+.empty{padding:34px 16px;text-align:center;color:var(--muted);font-size:14px;background:var(--card);border-radius:18px;border:1.5px dashed var(--div)}
+.empty .ico{font-size:34px;display:block;margin-bottom:6px}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;padding:3px 9px;border-radius:99px;white-space:nowrap}
+
+/* ===== Estadísticas ===== */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:10px;margin:-28px 16px 0;position:relative;z-index:5}
+.stat{background:var(--card);border-radius:18px;padding:12px;box-shadow:0 8px 20px rgba(15,23,42,.08)}
+.stat .ic{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;margin-bottom:7px}
+.stat .ic svg{width:16px;height:16px}
+.stat .n{font-size:26px;font-weight:800;line-height:1.05}
+.stat .l{font-size:11px;color:var(--muted);font-weight:700;margin-top:2px}
+.bars{display:flex;align-items:flex-end;gap:8px;height:92px;margin-top:10px}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:4px}
+.bar b{font-size:10.5px;color:var(--muted);font-weight:800}
+.bar i{display:block;width:100%;border-radius:7px 7px 4px 4px;background:var(--acc-100);min-height:5px;transform-origin:bottom;animation:crece .6s cubic-bezier(.2,.8,.2,1) both}
+.bar.hoy i{background:linear-gradient(180deg,var(--g2),var(--g3))}
+.bar.hoy b{color:var(--acc-txt)}
+.bar span{font-size:10.5px;font-weight:800;color:var(--muted)}
+.bar.hoy span{color:var(--acc-txt)}
+@keyframes crece{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.hb{display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;margin-top:10px}
+.hb .nm{width:92px;display:flex;align-items:center;gap:6px;overflow:hidden;white-space:nowrap}
+.hb .tr{flex:1;height:10px;border-radius:9px;background:var(--soft);overflow:hidden}
+.hb .tr i{display:block;height:100%;border-radius:9px;transform-origin:left;animation:creceX .7s cubic-bezier(.2,.8,.2,1) both}
+.hb .v{width:22px;text-align:right;font-weight:800}
+@keyframes creceX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.esp-hoy{display:flex;gap:12px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:none}
+.esp-hoy::-webkit-scrollbar{display:none}
+.eh{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10.5px;font-weight:800;color:var(--muted);flex:none;position:relative}
+.eh .num{position:absolute;top:-4px;right:-6px;min-width:20px;height:20px;border-radius:99px;background:var(--card);color:var(--text);font-size:11px;display:grid;place-items:center;box-shadow:0 2px 6px rgba(0,0,0,.15);padding:0 5px}
+
+/* ===== Tarjetas de ficha ===== */
+.av{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:14.5px;flex:none;letter-spacing:.02em}
+.fc{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:var(--card);color:var(--text);border:none;border-radius:16px;padding:13px 13px 13px 16px;box-shadow:var(--sombra);position:relative;overflow:hidden;cursor:pointer;touch-action:pan-y;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.fc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--c,#94a3b8)}
+.fc:active{filter:brightness(.97)}
+.fc .tx{flex:1;min-width:0}
+.fc .t{display:block;font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fc .m{display:block;font-size:12.5px;color:var(--muted);margin-top:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.fc .pills{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;align-items:center}
+.fc .hora{font-size:12.5px;font-weight:800;color:var(--muted);flex:none}
+.mini{display:inline-flex;gap:4px}
+.mini i{width:22px;height:22px;border-radius:7px;display:grid;place-items:center}
+.mini i svg{width:13px;height:13px}
+.aparece{animation:entra .35s cubic-bezier(.2,.8,.2,1) backwards}
+/* deslizar para editar / duplicar */
+.sw{position:relative;border-radius:16px;overflow:hidden}
+.sw-acts{position:absolute;right:0;top:0;bottom:0;width:150px;display:flex}
+.sw-acts button{flex:1;border:none;color:#fff;font-weight:800;font-size:11.5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer}
+.sw-acts svg{width:19px;height:19px}
+.sw-acts .ed{background:var(--g2)}
+.sw-acts .du{background:var(--g3)}
+.sw.open .fc{transform:translateX(-150px)}
+.dh{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.1em;margin:16px 4px 8px;text-transform:uppercase}
+.dh:first-child{margin-top:4px}
+
+/* ===== Buscador y filtros ===== */
+.search{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:14px;padding:0 14px;box-shadow:var(--sombra);border:1.5px solid transparent}
+.search:focus-within{border-color:var(--acc)}
+.search svg{width:18px;height:18px;color:var(--muted);flex:none}
+.search input{flex:1;border:none;background:transparent;padding:13px 0;color:var(--text);outline:none;min-width:0}
+.filtros{display:flex;gap:7px;overflow-x:auto;padding:12px 2px 4px;scrollbar-width:none}
+.filtros::-webkit-scrollbar{display:none}
+.fl{flex:none;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;padding:8px 13px;border-radius:99px;background:var(--card);color:var(--label);border:1.5px solid var(--div);cursor:pointer}
+.fl .d{width:8px;height:8px;border-radius:50%}
+.fl.on{background:var(--fc,var(--acc));border-color:var(--fc,var(--acc));color:#fff}
+.fl.on .d{background:#fff !important}
+.herr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.herr .btn{font-size:12.5px;padding:10px 8px}
+
+/* ===== Formulario de ficha ===== */
+.prog{display:flex;gap:6px;margin:12px 0 16px}
+.prog i{flex:1;height:6px;border-radius:9px;background:var(--div);transition:background .3s}
+.prog i.on{background:linear-gradient(90deg,var(--g2),var(--g3))}
+.esp{display:flex;gap:12px;overflow-x:auto;padding:6px 4px 6px;scrollbar-width:none}
+.esp::-webkit-scrollbar{display:none}
+.ep{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:10.5px;font-weight:800;color:var(--label);border:none;background:none;padding:0;cursor:pointer;flex:none;transition:opacity .2s}
+.ep .av{width:50px;height:50px;border-radius:50%;font-size:15px;transition:transform .2s,box-shadow .2s}
+.esp.elegido .ep{opacity:.4}
+.esp.elegido .ep.on{opacity:1}
+.ep.on .av{transform:scale(1.06);box-shadow:0 0 0 3px var(--bg),0 0 0 5.5px var(--c)}
+.seg{display:flex;background:var(--soft);border-radius:13px;padding:4px;gap:4px}
+.seg button{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px 6px;border:none;border-radius:10px;background:transparent;font-size:13.5px;font-weight:800;color:var(--muted);cursor:pointer;transition:all .2s}
+.seg button svg{width:16px;height:16px}
+.seg button.on{background:var(--card);color:var(--c);box-shadow:0 2px 8px rgba(15,23,42,.12)}
+.apg{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.ap{position:relative;background:var(--card);border:1.5px solid var(--div);border-radius:15px;padding:11px 6px 10px;text-align:center;font-size:12px;font-weight:800;color:var(--label);cursor:pointer;transition:all .2s}
+.ap .i{width:40px;height:40px;border-radius:13px;margin:0 auto 6px;display:grid;place-items:center;background:var(--soft);color:var(--c);transition:all .2s}
+.ap .i svg{width:22px;height:22px}
+.ap .ck{position:absolute;top:6px;right:6px;width:18px;height:18px;border-radius:50%;background:var(--c);color:#fff;font-size:11px;display:grid;place-items:center;transform:scale(0);transition:transform .2s cubic-bezier(.2,.9,.3,1.4)}
+.ap.on{border-color:var(--c);color:var(--c);background:var(--cbg)}
+.ap.on .i{background:var(--c);color:#fff;transform:scale(1.05)}
+.ap.on .ck{transform:scale(1)}
+
+/* ===== Detalle ===== */
+.det-top{display:flex;gap:14px;align-items:center}
+.det-top .av{width:58px;height:58px;border-radius:18px;font-size:19px}
+.det-top h2{margin:0;font-size:20px;font-weight:800}
+.drow{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:11px 0;border-bottom:1px solid var(--div)}
+.drow:last-child{border-bottom:none}
+.drow span:first-child{color:var(--muted);font-weight:600}
+.drow span:last-child{font-weight:700;text-align:right}
+
+/* ===== Ajustes ===== */
+.opt{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0}
+.opt b{font-size:14.5px}
+.opt small{display:block;color:var(--muted);font-size:12px;font-weight:600;margin-top:2px}
+.switch{width:52px;height:31px;border-radius:99px;background:var(--div);border:none;position:relative;cursor:pointer;flex:none;transition:background .25s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:25px;height:25px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.2);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.switch.on{background:linear-gradient(135deg,var(--g2),var(--g3))}
+.switch.on::after{transform:translateX(21px)}
+.paletas{display:flex;gap:14px;margin-top:12px;flex-wrap:wrap}
+.pal{display:flex;flex-direction:column;align-items:center;gap:6px;border:none;background:none;cursor:pointer;font-size:11.5px;font-weight:800;color:var(--label);padding:0}
+.pal i{width:44px;height:44px;border-radius:50%;display:block;transition:transform .2s}
+.pal.on i{box-shadow:0 0 0 3px var(--bg),0 0 0 5.5px var(--acc);transform:scale(1.05)}
+details.cfg summary{cursor:pointer;font-weight:800;font-size:14.5px;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.cfg summary::-webkit-details-marker{display:none}
+details.cfg summary::after{content:"›";font-size:22px;color:var(--muted);transition:transform .2s}
+details.cfg[open] summary::after{transform:rotate(90deg)}
+
+/* ===== Barra inferior y botón Nueva ficha ===== */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;max-width:720px;margin:0 auto;display:flex;align-items:flex-start;justify-content:space-around;
+  background:var(--card);border-top:1px solid var(--div);padding:8px 6px calc(8px + env(safe-area-inset-bottom));border-radius:22px 22px 0 0;box-shadow:0 -6px 24px rgba(15,23,42,.08)}
+.tb{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;border:none;background:none;font-size:10.5px;font-weight:800;color:var(--muted);padding:6px 0;cursor:pointer;transition:color .2s}
+.tb svg{width:23px;height:23px;transition:transform .2s}
+.tb.active{color:var(--acc-txt)}
+.tb.active svg{transform:translateY(-2px) scale(1.08)}
+.tb-esp{flex:1}
+.fab{position:fixed;left:0;right:0;margin:0 auto;bottom:calc(30px + env(safe-area-inset-bottom));z-index:31;width:64px;height:64px;border-radius:22px;border:none;color:#fff;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;padding:0;overflow:hidden;isolation:isolate;
+  background:linear-gradient(135deg,var(--g2),var(--g3));user-select:none;-webkit-user-select:none;
+  transition:transform .16s cubic-bezier(.2,.8,.2,1);animation:fabIn .5s cubic-bezier(.2,.9,.25,1.15) backwards,fabGlow 2.6s ease-in-out infinite}
+.fab .fab-txt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.fab::before{content:"";position:absolute;top:0;bottom:0;left:-80%;width:50%;z-index:-1;pointer-events:none;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:fabShine 3.4s ease-in-out infinite}
+.fab .fab-ico{display:inline-flex;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.fab .fab-ico svg{width:28px;height:28px}
+.fab:active,.fab.press{transform:scale(.92)}
+.fab.press .fab-ico{transform:rotate(90deg)}
+.fab .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);animation:fabRipple .5s ease-out forwards;pointer-events:none;z-index:-1}
+@keyframes fabIn{from{opacity:0;transform:translateY(24px) scale(.8)}to{opacity:1;transform:none}}
+@keyframes fabRipple{to{transform:scale(2.6);opacity:0}}
+@keyframes fabGlow{0%,100%{box-shadow:0 10px 22px rgba(15,23,42,.25),0 0 0 0 rgba(99,102,241,.35)}50%{box-shadow:0 12px 26px rgba(15,23,42,.3),0 0 0 9px rgba(99,102,241,0)}}
+@keyframes fabShine{0%,55%{left:-80%}85%,100%{left:140%}}
+
+.toast{position:fixed;left:16px;right:16px;max-width:460px;margin:0 auto;bottom:calc(104px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:10px;background:#0f172a;color:#fff;padding:12px 14px;border-radius:15px;font-size:14px;font-weight:700;z-index:50;opacity:0;transform:translateY(14px);transition:opacity .25s,transform .25s cubic-bezier(.2,.8,.2,1);pointer-events:none;box-shadow:0 12px 28px rgba(0,0,0,.28)}
+.toast.show{opacity:1;transform:none}
+.toast .okc{width:26px;height:26px;border-radius:50%;background:#22c55e;display:grid;place-items:center;flex:none;font-size:14px}
+html[data-tema="oscuro"] .toast{background:#27324b}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
+@media (max-width:520px){ .row.parte{flex-direction:column;gap:0} }
 </style>
 <style>
 /* ---- animación de bienvenida (solo visual, se retira sola) ---- */
 #splashRHB{position:fixed;inset:0;z-index:9999;overflow:hidden;background:#16294f;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;animation:splashOut .6s ease 2.5s forwards}
-#splashRHB .aurora{position:absolute;inset:-30%;background:radial-gradient(38% 32% at 28% 30%, rgba(56,110,200,.55), transparent 60%),radial-gradient(34% 30% at 74% 68%, rgba(120,170,255,.35), transparent 62%),radial-gradient(50% 40% at 50% 50%, rgba(30,58,110,.9), transparent 70%);animation:auroraGira 7s ease-in-out infinite alternate;filter:blur(6px)}
+#splashRHB .aurora{position:absolute;inset:-30%;background:radial-gradient(38% 32% at 28% 30%, rgba(99,102,241,.55), transparent 60%),radial-gradient(34% 30% at 74% 68%, rgba(14,165,164,.45), transparent 62%),radial-gradient(50% 40% at 50% 50%, rgba(30,58,110,.9), transparent 70%);animation:auroraGira 7s ease-in-out infinite alternate;filter:blur(6px)}
 #splashRHB .malla{position:absolute;inset:0;opacity:.35;background-image:radial-gradient(rgba(255,255,255,.28) 1px, transparent 1px);background-size:26px 26px;animation:mallaDeriva 6s linear infinite;-webkit-mask-image:radial-gradient(circle at 50% 50%, #000 30%, transparent 72%);mask-image:radial-gradient(circle at 50% 50%, #000 30%, transparent 72%)}
 #splashRHB .linea{position:absolute;left:0;right:0;top:50%;transform:translateY(-52px);height:120px;opacity:.9;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 37%,transparent 45%,transparent 55%,#000 63%,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 37%,transparent 45%,transparent 55%,#000 63%,#000 88%,transparent 100%)}
 #splashRHB .linea svg{width:100%;height:100%}
@@ -157,7 +259,7 @@ details.cfg summary{cursor:pointer;font-weight:700;font-size:14px}
 #splashRHB .l1{color:rgba(255,255,255,.75);font-size:10px;font-weight:800;letter-spacing:.22em;animation:sube .7s ease .35s both}
 #splashRHB .l2{color:#fff;font-size:23px;font-weight:800;margin-top:5px;animation:sube .7s ease .5s both;text-shadow:0 0 22px rgba(138,182,255,.6)}
 #splashRHB .barra{position:relative;width:160px;height:3px;border-radius:99px;background:rgba(255,255,255,.18);overflow:hidden}
-#splashRHB .barra i{position:absolute;inset:0;width:0;border-radius:99px;background:linear-gradient(90deg,#8ab6ff,#fff);box-shadow:0 0 14px rgba(138,182,255,.9);animation:carga 2.3s cubic-bezier(.4,0,.2,1) .25s forwards}
+#splashRHB .barra i{position:absolute;inset:0;width:0;border-radius:99px;background:linear-gradient(90deg,#818cf8,#2dd4bf);box-shadow:0 0 14px rgba(138,182,255,.9);animation:carga 2.3s cubic-bezier(.4,0,.2,1) .25s forwards}
 @keyframes auroraGira{0%{transform:rotate(0) scale(1)}100%{transform:rotate(22deg) scale(1.16)}}
 @keyframes mallaDeriva{to{background-position:26px 26px}}
 @keyframes giraH{to{transform:rotate(360deg)}}
@@ -172,20 +274,47 @@ details.cfg summary{cursor:pointer;font-weight:700;font-size:14px}
 </head>
 <body>
 <div id="splashRHB"><div class="aurora"></div><div class="malla"></div><div class="linea"><svg viewBox="0 0 1000 120" preserveAspectRatio="none"><path d="M0 60 H250 l16 -34 l14 66 l13 -50 l11 18 H420 l14 -26 l12 50 l11 -38 l10 14 H1000" fill="none" stroke="#8ab6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".85" style="filter:drop-shadow(0 0 8px rgba(138,182,255,.9))"/></svg></div><div class="nucleo"><svg viewBox="0 0 200 200"><circle class="gira1" cx="100" cy="100" r="88" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1.5" stroke-dasharray="3 9" stroke-linecap="round"/><circle class="gira2" cx="100" cy="100" r="74" fill="none" stroke="#8ab6ff" stroke-width="2.5" stroke-dasharray="70 380" stroke-linecap="round"/><circle class="gira3" cx="100" cy="100" r="62" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-dasharray="26 300" stroke-linecap="round"/></svg><div class="mono">RHB</div></div><div class="txt"><div class="l1">CENTRO DE REHABILITACIÓN FÍSICA</div><div class="l2">Ficha RHB</div></div><div class="barra"><i></i></div></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-us" viewBox="0 0 24 24"><path d="M3 12c2-4.5 4-4.5 6 0s4 4.5 6 0 4-4.5 6-1" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+<symbol id="i-mag" viewBox="0 0 24 24"><path d="M6 4v8a6 6 0 0 0 12 0V4h-4v8a2 2 0 0 1-4 0V4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M6 7.5h4M14 7.5h4" stroke="currentColor" stroke-width="2"/></symbol>
+<symbol id="i-comp" viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="11" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 3c-1 1.5 1 2.5 0 4M15 3c-1 1.5 1 2.5 0 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="i-las" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" fill="currentColor"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.8 2.8M16.2 16.2 19 19M19 5l-2.8 2.8M7.8 16.2 5 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="i-per" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 14v4M8 21h8M5 8h2M17 8h2M5 11h2M17 11h2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="i-ele" viewBox="0 0 24 24"><path d="M13 2 5 13h6l-1 9 8-11h-6z" fill="currentColor"/></symbol>
+<symbol id="i-gen" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 11 12 4l8.5 7v9a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z" fill="currentColor"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="i-hist" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+<symbol id="i-cfg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="i-srch" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+<symbol id="i-dup" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 5.5V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+<symbol id="i-sede" viewBox="0 0 24 24"><path d="M4 21V8l8-5 8 5v13h-5v-6H9v6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-sync" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-14 5.3M4 12a8 8 0 0 1 14-5.3M18 3v4h-4M6 21v-4h4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M12 20V9m0 0-4.5 4.5M12 9l4.5 4.5M5 4h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+</defs></svg>
+
 <div class="wrap">
-  <header>
+  <header id="hdr">
     <div class="brand">CENTRO DE REHABILITACIÓN FÍSICA</div>
-    <h1>Ficha RHB · Registro de socios</h1>
+    <h1 id="hdrTitulo">Ficha RHB</h1>
+    <div class="h-sub" id="hdrSub"></div>
+    <div class="sync"><span class="dot" id="syncDot"></span><span id="barraSync">Conectando…</span></div>
     <button type="button" class="tema-btn" id="temaBtn" aria-label="Cambiar a modo oscuro" title="Modo claro / oscuro"><svg class="i-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="i-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M2 12h2.2M19.8 12H22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg></button>
   </header>
-  <nav>
-    <button id="tabAgenda" class="active" onclick="go('agenda')">Agenda</button>
-    <button id="tabHistorial" onclick="go('historial')">Historial</button>
-  </nav>
-  <div id="barraSync" style="padding:6px 18px;font-size:11.5px;font-weight:700;background:#f7f8fa;border-bottom:1px solid var(--divider)"></div>
   <main id="main"></main>
 </div>
-<button type="button" class="fab" id="fab" aria-label="Nueva ficha"><span class="fab-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><span>Nueva ficha</span></button>
+<nav class="tabbar" id="tabbar">
+  <button class="tb active" id="tabInicio" onclick="go('inicio')"><svg><use href="#i-home"/></svg>Inicio</button>
+  <button class="tb" id="tabAgenda" onclick="go('agenda')"><svg><use href="#i-cal"/></svg>Agenda</button>
+  <span class="tb-esp"></span>
+  <button class="tb" id="tabHistorial" onclick="go('historial')"><svg><use href="#i-hist"/></svg>Historial</button>
+  <button class="tb" id="tabAjustes" onclick="go('ajustes')"><svg><use href="#i-cfg"/></svg>Ajustes</button>
+</nav>
+<button type="button" class="fab" id="fab" aria-label="Nueva ficha"><span class="fab-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><span class="fab-txt">Nueva ficha</span></button>
 <script>
 /* Toque del botón Nueva ficha: responde al primer toque y evita dobles aperturas */
 (function(){
@@ -212,25 +341,37 @@ details.cfg summary{cursor:pointer;font-weight:700;font-size:14px}
   fab.addEventListener('click',function(e){ e.preventDefault(); abrir(); }); /* respaldo: teclado o navegadores antiguos */
 })();
 </script>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast"><span class="okc">✓</span><span id="toastTxt"></span></div>
 <script>
-/* Modo claro / oscuro: se guarda en cada teléfono, no toca las fichas */
-(function(){
-  var btn=document.getElementById('temaBtn'), root=document.documentElement, meta=document.querySelector('meta[name="theme-color"]');
-  function pintar(){ var osc=root.getAttribute('data-tema')==='oscuro';
-    btn.setAttribute('aria-label', osc?'Cambiar a modo claro':'Cambiar a modo oscuro');
-    if(meta) meta.setAttribute('content', osc?'#13213b':'#1e3a6e'); }
-  var ultimo=0;
-  function cambiar(){ var t=Date.now(); if(t-ultimo<400) return; ultimo=t;
-    var osc=root.getAttribute('data-tema')!=='oscuro';
-    root.classList.add('tema-anim');
-    if(osc) root.setAttribute('data-tema','oscuro'); else root.removeAttribute('data-tema');
-    try{ localStorage.setItem('rhb_tema_v1', osc?'oscuro':'claro'); }catch(e){}
-    pintar(); setTimeout(function(){ root.classList.remove('tema-anim'); },350);
-  }
-  btn.addEventListener('click',cambiar);
-  pintar();
-})();
+/* Modo claro / oscuro y paleta de colores: se guardan en cada teléfono, no tocan las fichas */
+var PALETAS={azul:'#1e3a6e',morado:'#4c1d95',verde:'#064e3b',naranja:'#9a3412'};
+function paletaActual(){ return document.documentElement.getAttribute('data-paleta')||'azul'; }
+function pintarTema(){
+  var root=document.documentElement, btn=document.getElementById('temaBtn'), meta=document.querySelector('meta[name="theme-color"]');
+  var osc=root.getAttribute('data-tema')==='oscuro';
+  btn.setAttribute('aria-label', osc?'Cambiar a modo claro':'Cambiar a modo oscuro');
+  if(meta) meta.setAttribute('content', PALETAS[paletaActual()]||'#1e3a6e');
+}
+var _ultTema=0;
+function cambiarTema(){
+  var t=Date.now(); if(t-_ultTema<400) return; _ultTema=t;
+  var root=document.documentElement, osc=root.getAttribute('data-tema')!=='oscuro';
+  root.classList.add('tema-anim');
+  if(osc) root.setAttribute('data-tema','oscuro'); else root.removeAttribute('data-tema');
+  try{ localStorage.setItem('rhb_tema_v1', osc?'oscuro':'claro'); }catch(e){}
+  pintarTema(); setTimeout(function(){ root.classList.remove('tema-anim'); },350);
+  if(typeof view!=='undefined' && view==='ajustes') render();
+}
+function cambiarPaleta(p){
+  var root=document.documentElement;
+  root.classList.add('tema-anim');
+  if(p==='azul') root.removeAttribute('data-paleta'); else root.setAttribute('data-paleta',p);
+  try{ localStorage.setItem('rhb_paleta_v1', p); }catch(e){}
+  pintarTema(); setTimeout(function(){ root.classList.remove('tema-anim'); },350);
+  render();
+}
+document.getElementById('temaBtn').addEventListener('click',cambiarTema);
+pintarTema();
 </script>
 
 <script>
@@ -313,7 +454,7 @@ function sincronizar(silencioso){
     sincronizando=false;
     marcarEstado('Al día · '+fichas.length+' ficha'+(fichas.length===1?'':'s'),'ok');
     if(!silencioso) render();
-    else if(view==='agenda'||view==='historial') render();
+    else if(view==='inicio'||view==='agenda'||view==='historial') render();
   }).catch(function(err){
     sincronizando=false;
     var msg=String(err.message||err);
@@ -323,11 +464,10 @@ function sincronizar(silencioso){
 }
 
 function pintarEstado(){
-  var el=document.getElementById('barraSync');
+  var el=document.getElementById('barraSync'), dot=document.getElementById('syncDot');
   if(!el) return;
-  var color = estadoSync.tipo==='ok' ? 'var(--ok)' : (estadoSync.tipo==='mal' ? 'var(--danger)' : 'var(--muted)');
-  el.style.color=color;
-  el.textContent=estadoSync.texto;
+  el.textContent=estadoSync.texto||(clave?'Conectando…':'Sin conectar');
+  if(dot) dot.className='dot '+(estadoSync.tipo||(sincronizando?'gira':''));
 }
 
 /* ============ utilidades ============ */
@@ -339,15 +479,17 @@ function fechaLarga(iso){ if(!iso) return ''; var a=iso.split('-'); var d=new Da
 function fechaCorta(iso){ if(!iso) return ''; var a=iso.split('-'); return (+a[2])+'/'+(+a[1])+'/'+a[0]; }
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function uid(){ return 'f'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
-function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove('show');},2200); }
+function toast(msg){ var t=document.getElementById('toast'); document.getElementById('toastTxt').textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove('show');},2200); }
 
 /* ============ estado de vista ============ */
-var view='agenda', diaSel=hoyISO(), busqueda='', draft=null, detalleId=null;
+var view='inicio', diaSel=hoyISO(), busqueda='', draft=null, detalleId=null;
 
 function go(v){
   view=v;
+  document.getElementById('tabInicio').classList.toggle('active', v==='inicio');
   document.getElementById('tabAgenda').classList.toggle('active', v==='agenda'||v==='ficha');
   document.getElementById('tabHistorial').classList.toggle('active', v==='historial'||v==='detalle');
+  document.getElementById('tabAjustes').classList.toggle('active', v==='ajustes');
   render();
 }
 
@@ -379,14 +521,122 @@ function borrar(id){
   sincronizar(true);
 }
 
+
+/* ============ colores, íconos y ayudas visuales (solo diseño) ============ */
+var ESP_COL=['#7c3aed','#e11d74','#0284c7','#16a34a','#f59e0b','#0d9488','#ea580c','#4f46e5','#be123c','#65a30d'];
+var SEDE_COL=['#0d9488','#ea580c','#2563eb','#db2777','#7c3aed','#65a30d'];
+var APAR_INFO={ultrasonido:['us','#0284c7'],magneto:['mag','#7c3aed'],compresa:['comp','#ea580c'],laser:['las','#dc2626'],percutor:['per','#0d9488'],electrodos:['ele','#d97706']};
+var APAR_EXTRA=['#4f46e5','#db2777','#16a34a','#0891b2','#9333ea','#ca8a04'];
+function hashTxt(s){ var h=0; s=String(s||''); for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0; return h; }
+function colorEsp(n){ if(!n) return '#94a3b8'; var i=cfg.especialistas.indexOf(n); if(i<0) i=hashTxt(n); return ESP_COL[i%ESP_COL.length]; }
+function colorSede(n){ if(!n) return '#94a3b8'; var i=cfg.sedes.indexOf(n); if(i<0) i=hashTxt(n); return SEDE_COL[i%SEDE_COL.length]; }
+function infoAparato(a){
+  var k=normTxt(a).trim(); if(APAR_INFO[k]) return {ico:APAR_INFO[k][0],c:APAR_INFO[k][1]};
+  for(var key in APAR_INFO){ if(k.indexOf(key)>=0) return {ico:APAR_INFO[key][0],c:APAR_INFO[key][1]}; }
+  return {ico:'gen',c:APAR_EXTRA[hashTxt(k)%APAR_EXTRA.length]};
+}
+function ico(n,extra){ return '<svg'+(extra||'')+'><use href="#i-'+n+'"/></svg>'; }
+function iniciales(nombre){
+  var p=String(nombre||'').trim().split(/\s+/).filter(Boolean);
+  if(!p.length) return '?';
+  return ((p[0][0]||'')+(p.length>1?p[1][0]:(p[0][1]||''))).toUpperCase();
+}
+function iniEsp(n){ return String(n||'?').trim().slice(0,2).toUpperCase(); }
+function sedeCorta(s){ return String(s||'').replace(/^sede\s+/i,'') || 'Sin sede'; }
+function pillSede(s){ if(!s) return ''; var c=colorSede(s); return '<span class="pill" style="background:'+c+'1f;color:'+c+'">'+esc(sedeCorta(s))+'</span>'; }
+function miniAparatos(lista){
+  lista=lista||[]; if(!lista.length) return '';
+  return '<span class="mini">'+lista.slice(0,5).map(function(a){ var i=infoAparato(a); return '<i title="'+esc(a)+'" style="background:'+i.c+'1f;color:'+i.c+'">'+ico(i.ico)+'</i>'; }).join('')+'</span>';
+}
+function plural(n,s,p){ return n+' '+(n===1?s:(p||s+'s')); }
+function saludo(){ var h=new Date().getHours(); return h<12?'Buenos días ☀️':(h<19?'Buenas tardes 🌤️':'Buenas noches 🌙'); }
+function sumarDias(iso,n){ var a=iso.split('-'); var d=new Date(+a[0],+a[1]-1,+a[2]+n); return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()); }
+function tituloDia(iso){ var h=hoyISO(); if(iso===h) return 'Hoy'; if(iso===sumarDias(h,-1)) return 'Ayer'; return fechaLarga(iso); }
+
+/* tarjeta de ficha (misma en agenda, inicio e historial) */
+function tarjeta(f,i,conFecha){
+  var c=colorEsp(f.especialista), n=(f.aparatos||[]).length;
+  return '<button class="fc'+(i!=null&&i<12?' aparece':'')+'" style="--c:'+c+(i!=null&&i<12?';animation-delay:'+(i*35)+'ms':'')+'" onclick="abrirDetalle(\''+f.id+'\',this)">'
+    +'<span class="av" style="background:'+c+'">'+esc(iniciales(f.nombre))+'</span>'
+    +'<span class="tx"><span class="t">'+esc(f.nombre)+'</span>'
+    +'<span class="m">'+esc(f.concepto||'Sin concepto registrado')+'</span>'
+    +'<span class="pills"><span class="pill" style="background:'+c+'1f;color:'+c+'">'+esc(f.especialista||'Sin especialista')+'</span>'+pillSede(f.sede)
+    +(n?miniAparatos(f.aparatos):'')+'</span></span>'
+    +'<span class="hora">'+(conFecha?esc(fechaCorta(f.fecha))+'<br>':'')+esc(f.hora||'')+'</span>'
+    +'</button>';
+}
+function tarjetaSwipe(f,i){
+  return '<div class="sw"><div class="sw-acts">'
+    +'<button class="ed" onclick="editar(\''+f.id+'\')">'+ico('edit')+'Editar</button>'
+    +'<button class="du" onclick="duplicar(\''+f.id+'\')">'+ico('dup')+'Duplicar</button>'
+    +'</div>'+tarjeta(f,i,false)+'</div>';
+}
+function abrirDetalle(id,el){
+  if(el){
+    if(el._skip && Date.now()-el._skip<350) return;
+    var sw=el.parentNode;
+    if(sw && sw.classList && sw.classList.contains('open')){ sw.classList.remove('open'); return; }
+  }
+  detalleId=id; view='detalle'; render();
+}
+function duplicar(id){
+  var f=fichas.find(function(x){return x.id===id;}); if(!f) return;
+  draft={ id:null, fecha:hoyISO(), hora:horaActual(), nombre:f.nombre||'', cedula:f.cedula||'', socio:f.socio||'',
+          especialista:f.especialista||'', sede:f.sede||'', concepto:f.concepto||'', aparatos:(f.aparatos||[]).slice() };
+  view='ficha'; render(); toast('Ficha duplicada · revisa y guarda');
+}
+
+/* deslizar la tarjeta hacia la izquierda para ver Editar / Duplicar */
+(function(){
+  var s=null;
+  function cerrarOtras(salvo){ Array.prototype.forEach.call(document.querySelectorAll('.sw.open'),function(w){ if(w!==salvo) w.classList.remove('open'); }); }
+  document.addEventListener('pointerdown',function(e){
+    var c=e.target.closest && e.target.closest('.sw .fc');
+    cerrarOtras(c?c.parentNode:(e.target.closest&&e.target.closest('.sw')));
+    if(!c) return;
+    s={el:c,x:e.clientX,y:e.clientY,base:c.parentNode.classList.contains('open')?-150:0,mov:false,dx:0};
+  });
+  document.addEventListener('pointermove',function(e){
+    if(!s) return;
+    var dx=e.clientX-s.x, dy=e.clientY-s.y;
+    if(!s.mov){ if(Math.abs(dy)>12 && Math.abs(dy)>Math.abs(dx)){ s=null; return; } if(Math.abs(dx)>10) s.mov=true; else return; }
+    s.dx=dx; var t=Math.max(-160,Math.min(0,s.base+dx));
+    s.el.style.transition='none'; s.el.style.transform='translateX('+t+'px)';
+  });
+  function fin(){
+    if(!s) return;
+    if(s.mov){
+      var abierto=(s.base+s.dx)<-70;
+      s.el.style.transition=''; s.el.style.transform='';
+      s.el.parentNode.classList.toggle('open',abierto);
+      s.el._skip=Date.now();
+      if(abierto && navigator.vibrate){ try{navigator.vibrate(8);}catch(e){} }
+    }
+    s=null;
+  }
+  document.addEventListener('pointerup',fin);
+  document.addEventListener('pointercancel',fin);
+})();
+
+/* números que suben al entrar al Inicio */
+function animarNumeros(){
+  Array.prototype.forEach.call(document.querySelectorAll('[data-num]'),function(el){
+    var fin=+el.getAttribute('data-num'), t0=null, dur=650;
+    if(!fin){ el.textContent='0'; return; }
+    function paso(t){ if(!t0) t0=t; var k=Math.min(1,(t-t0)/dur); el.textContent=Math.round(fin*(1-Math.pow(1-k,3))); if(k<1) requestAnimationFrame(paso); }
+    requestAnimationFrame(paso);
+  });
+}
+
 /* ============ render ============ */
 function vistaClave(){
-  return '<div class="pad" style="padding-top:40px">'
-   + '<div class="kicker">Acceso</div><h2>Ingresa la clave del centro</h2>'
-   + '<p class="muted" style="font-size:13.5px;margin:6px 0 18px">Te la da Luis. Solo se pide una vez en este teléfono.</p>'
+  return '<div class="pad" style="padding-top:26px"><div class="box" style="padding:22px">'
+   + '<div class="av" style="width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,var(--g2),var(--g3));margin-bottom:14px;font-size:22px">🔒</div>'
+   + '<h2 style="margin:0 0 4px;font-size:20px">Ingresa la clave del centro</h2>'
+   + '<p class="muted" style="font-size:13.5px;margin:0 0 18px">Te la da Luis. Solo se pide una vez en este teléfono.</p>'
    + '<div class="field"><input class="input" id="inputClave" type="password" placeholder="Clave" onkeydown="if(event.key===\'Enter\')entrarClave()"></div>'
-   + '<button class="btn btn-primary btn-block" onclick="entrarClave()">Entrar</button>'
-   + '<div id="errClave" style="color:var(--danger);font-size:13px;margin-top:10px"></div></div>';
+   + '<button class="btn btn-primary btn-block btn-save" onclick="entrarClave()">Entrar</button>'
+   + '<div id="errClave" style="color:var(--danger);font-size:13px;margin-top:10px;font-weight:700"></div></div></div>';
 }
 function entrarClave(){
   var v=document.getElementById('inputClave').value.trim();
@@ -394,131 +644,275 @@ function entrarClave(){
   document.getElementById('errClave').textContent='Comprobando…';
   clave=v;
   jsonp(SYNC_URL+'?clave='+encodeURIComponent(v)).then(function(r){
-    if(r && r.ok){ save(CLAVEKEY,v); fichas=r.fichas; persist(); view='agenda'; render(); toast('Conectado'); }
+    if(r && r.ok){ save(CLAVEKEY,v); fichas=r.fichas; persist(); marcarEstado('Al día · '+plural(fichas.length,'ficha'),'ok'); view='inicio'; render(); toast('Conectado'); }
     else { clave=''; document.getElementById('errClave').textContent='Clave incorrecta.'; }
   }).catch(function(){ clave=''; document.getElementById('errClave').textContent='No hay conexión. Intenta de nuevo.'; });
 }
 
+var vistaPrevia=null;
+function pintarHeader(){
+  var hdr=document.getElementById('hdr'), t=document.getElementById('hdrTitulo'), s=document.getElementById('hdrSub');
+  var grande=(view==='inicio' && !!clave);
+  hdr.classList.toggle('grande',grande);
+  if(!clave){ t.textContent='Ficha RHB'; s.textContent='Registro de socios'; return; }
+  var titulos={agenda:'Agenda',historial:'Historial',ajustes:'Ajustes',detalle:'Detalle de ficha'};
+  if(grande){ t.textContent=saludo(); s.textContent=fechaLarga(hoyISO()); }
+  else if(view==='ficha'){ t.textContent=draft&&draft.id?'Editar ficha':'Nueva ficha'; s.textContent='Ficha de rehabilitación'; }
+  else { t.textContent=titulos[view]||'Ficha RHB'; s.textContent=view==='agenda'?fechaLarga(diaSel):''; }
+  s.style.display=s.textContent?'':'none';
+}
 function render(){
   var m=document.getElementById('main');
-  if(!clave){ document.getElementById('fab').style.display='none'; m.innerHTML=vistaClave(); pintarEstado(); return; }
-  document.getElementById('fab').style.display=(view==='agenda'||view==='historial')?'inline-flex':'none';
-  pintarEstado();
-  if(view==='agenda') m.innerHTML=vistaAgenda();
+  var cambio=(view!==vistaPrevia); vistaPrevia=view;
+  if(!clave){
+    document.getElementById('fab').style.display='none'; document.getElementById('tabbar').style.display='none';
+    pintarHeader(); m.innerHTML=vistaClave(); pintarEstado(); return;
+  }
+  document.getElementById('tabbar').style.display='';
+  document.getElementById('fab').style.display=(view==='ficha')?'none':'inline-flex';
+  pintarHeader(); pintarEstado();
+  if(view==='inicio') m.innerHTML=vistaInicio();
+  else if(view==='agenda') m.innerHTML=vistaAgenda();
   else if(view==='ficha') m.innerHTML=vistaFicha();
   else if(view==='historial') m.innerHTML=vistaHistorial();
+  else if(view==='ajustes') m.innerHTML=vistaAjustes();
   else m.innerHTML=vistaDetalle();
-  window.scrollTo(0,0);
+  if(cambio){
+    m.classList.remove('entra'); void m.offsetWidth; m.classList.add('entra');
+    window.scrollTo(0,0);
+    if(view==='inicio') animarNumeros();
+  } else {
+    Array.prototype.forEach.call(m.querySelectorAll('[data-num]'),function(el){ el.textContent=el.getAttribute('data-num'); });
+  }
+}
+
+function vistaInicio(){
+  var hoy=hoyISO();
+  var deHoy=fichas.filter(function(f){return f.fecha===hoy;});
+  var h='<div class="stats">'
+   + '<div class="stat"><div class="ic" style="background:var(--acc-100);color:var(--acc-txt)">'+ico('cal')+'</div><div class="n" style="color:var(--acc-txt)" data-num="'+deHoy.length+'">'+deHoy.length+'</div><div class="l">Fichas hoy</div></div>';
+  cfg.sedes.forEach(function(sd){
+    var c=colorSede(sd), n=deHoy.filter(function(f){return f.sede===sd;}).length;
+    h+='<div class="stat"><div class="ic" style="background:'+c+'1f;color:'+c+'">'+ico('sede')+'</div><div class="n" style="color:'+c+'" data-num="'+n+'">'+n+'</div><div class="l">'+esc(sd)+'</div></div>';
+  });
+  h+='</div><div class="pad" style="padding-top:6px">';
+
+  /* semana actual (lunes a domingo) */
+  var d=new Date(), dow=(d.getDay()+6)%7, lunes=sumarDias(hoy,-dow), dias=[], max=1, total=0;
+  var nombres=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+  for(var i=0;i<7;i++){ var iso=sumarDias(lunes,i), n=fichas.filter(function(f){return f.fecha===iso;}).length; dias.push({iso:iso,n:n,nom:nombres[i]}); if(n>max) max=n; total+=n; }
+  h+='<div class="sec"><h3>Esta semana</h3><span class="pill" style="background:var(--acc-100);color:var(--acc-txt)">'+plural(total,'ficha')+'</span></div>'
+   + '<div class="box"><div class="bars">';
+  dias.forEach(function(x,k){
+    var alto=x.n?Math.max(8,Math.round(x.n/max*100)):5, fut=x.iso>hoy;
+    h+='<button class="bar'+(x.iso===hoy?' hoy':'')+'" style="border:none;background:none;padding:0;cursor:pointer" onclick="diaSel=\''+x.iso+'\';go(\'agenda\')">'
+      +'<b>'+(fut?'':x.n)+'</b><i style="height:'+alto+'%;animation-delay:'+(k*50)+'ms'+(fut?';opacity:.35':'')+'"></i><span>'+x.nom+'</span></button>';
+  });
+  h+='</div></div>';
+
+  /* por especialista hoy */
+  if(deHoy.length){
+    h+='<div class="sec"><h3>Especialistas hoy</h3></div><div class="esp-hoy">';
+    var usados=cfg.especialistas.slice();
+    deHoy.forEach(function(f){ if(f.especialista && usados.indexOf(f.especialista)<0) usados.push(f.especialista); });
+    usados.forEach(function(e){
+      var n=deHoy.filter(function(f){return f.especialista===e;}).length, c=colorEsp(e);
+      h+='<div class="eh" style="'+(n?'':'opacity:.4')+'"><span class="av" style="background:'+c+';border-radius:50%;width:48px;height:48px">'+esc(iniEsp(e))+'</span><span class="num">'+n+'</span>'+esc(e)+'</div>';
+    });
+    h+='</div>';
+
+    /* aparatos más usados hoy */
+    var cuenta={};
+    deHoy.forEach(function(f){ (f.aparatos||[]).forEach(function(a){ cuenta[a]=(cuenta[a]||0)+1; }); });
+    var top=Object.keys(cuenta).sort(function(a,b){return cuenta[b]-cuenta[a];}).slice(0,6);
+    if(top.length){
+      var mx=cuenta[top[0]];
+      h+='<div class="sec"><h3>Aparatos más usados hoy</h3></div><div class="box" style="padding-top:4px">';
+      top.forEach(function(a,k){ var inf=infoAparato(a);
+        h+='<div class="hb"><span class="nm"><span style="color:'+inf.c+';display:inline-flex">'+ico(inf.ico,' width="15" height="15"')+'</span>'+esc(a)+'</span>'
+          +'<span class="tr"><i style="width:'+Math.round(cuenta[a]/mx*100)+'%;background:'+inf.c+';animation-delay:'+(k*60)+'ms"></i></span><span class="v">'+cuenta[a]+'</span></div>';
+      });
+      h+='</div>';
+    }
+  }
+
+  /* últimas fichas */
+  var ult=deHoy.slice().sort(function(a,b){return (b.hora||'').localeCompare(a.hora||'');}).slice(0,4);
+  h+='<div class="sec"><h3>Últimas fichas de hoy</h3><button class="link" onclick="diaSel=hoyISO();go(\'agenda\')">Ver agenda →</button></div><div class="stack">';
+  if(!ult.length) h+='<div class="empty"><span class="ico">📋</span>Aún no hay fichas hoy.<br>Toca <b>+</b> para registrar un socio.</div>';
+  ult.forEach(function(f,i){ h+=tarjeta(f,i); });
+  return h+'</div></div>';
 }
 
 function vistaAgenda(){
   var delDia=fichas.filter(function(f){return f.fecha===diaSel;})
                    .sort(function(a,b){return (a.hora||'').localeCompare(b.hora||'');});
   var h='<div class="pad">'
-   + '<div class="kicker">Agenda</div><h2>'+esc(fechaLarga(diaSel))+'</h2>'
-   + '<div class="field" style="margin-top:12px"><label>Ver otro día</label>'
-   + '<input class="input" type="date" value="'+esc(diaSel)+'" onchange="diaSel=this.value;render()"></div>'
-   + '<div class="count" style="margin-bottom:10px">'+delDia.length+' ficha'+(delDia.length===1?'':'s')+' registrada'+(delDia.length===1?'':'s')+' este día · '+fichas.length+' en total</div>'
-   + '<div class="stack">';
-  if(!delDia.length) h+='<div class="empty">Aún no hay fichas para este día.<br>Toca <b>+ Nueva ficha</b> para registrar un socio.</div>';
-  delDia.forEach(function(f){
-    h+='<button class="card" onclick="detalleId=\''+f.id+'\';view=\'detalle\';render()">'
-      +'<span class="c-kicker">'+esc(f.hora||'')+' · '+esc(f.sede||'sin sede')+'</span>'
-      +'<span class="c-title">'+esc(f.nombre)+'</span>'
-      +'<p class="c-body">'+esc(f.concepto||'Sin concepto registrado')+'</p>'
-      +'<span class="c-meta">'+esc(f.especialista||'—')+' · '+(f.aparatos||[]).length+' aparato'+((f.aparatos||[]).length===1?'':'s')+'</span>'
-      +'</button>';
-  });
+   + '<div class="box" style="display:flex;align-items:center;gap:8px;padding:8px">'
+   + '<button class="btn btn-sm" style="border:none;background:var(--soft);font-size:17px;padding:8px 13px" onclick="diaSel=sumarDias(diaSel,-1);render()" aria-label="Día anterior">‹</button>'
+   + '<input class="input" type="date" style="flex:1;text-align:center;font-weight:800;border:none;background:transparent" value="'+esc(diaSel)+'" onchange="if(this.value){diaSel=this.value;render()}">'
+   + '<button class="btn btn-sm" style="border:none;background:var(--soft);font-size:17px;padding:8px 13px" onclick="diaSel=sumarDias(diaSel,1);render()" aria-label="Día siguiente">›</button>'
+   + '</div>'
+   + (diaSel!==hoyISO()?'<div style="text-align:center;margin-top:8px"><button class="link" onclick="diaSel=hoyISO();render()">Volver a hoy</button></div>':'')
+   + '<div class="sec"><h3>'+esc(tituloDia(diaSel))+'</h3><span class="count">'+plural(delDia.length,'ficha')+' · '+fichas.length+' en total</span></div>';
+  if(delDia.length){
+    h+='<div class="filtros" style="padding-top:0">';
+    cfg.sedes.forEach(function(sd){ var n=delDia.filter(function(f){return f.sede===sd;}).length; if(n){ var c=colorSede(sd); h+='<span class="pill" style="background:'+c+'1f;color:'+c+';font-size:12px;padding:5px 11px">'+esc(sedeCorta(sd))+' · '+n+'</span>'; } });
+    h+='</div>';
+  }
+  h+='<div class="stack" style="margin-top:6px">';
+  if(!delDia.length) h+='<div class="empty"><span class="ico">🗓️</span>Aún no hay fichas para este día.<br>Toca <b>+</b> para registrar un socio.</div>';
+  delDia.forEach(function(f,i){ h+=tarjeta(f,i); });
   return h+'</div></div>';
 }
 
+function progFicha(){
+  var d=draft; if(!d) return;
+  var pasos=[!!String(d.nombre||'').trim(), !!(d.especialista&&d.sede), (d.aparatos||[]).length>0];
+  var el=document.getElementById('progFicha'); if(!el) return;
+  Array.prototype.forEach.call(el.children,function(c,i){ c.classList.toggle('on',pasos[i]); });
+}
 function vistaFicha(){
   var d=draft;
   var h='<div class="pad">'
-   + '<button class="btn btn-ghost" onclick="draft=null;go(\'agenda\')">← Volver</button>'
-   + '<div class="kicker" style="margin-top:4px">'+(d.id?'Editar ficha':'Nueva ficha')+'</div>'
-   + '<h2>Ficha de rehabilitación</h2><div class="hr"></div>'
+   + '<button class="back" onclick="draft=null;go(\'agenda\')">‹ Volver</button>'
+   + '<div class="prog" id="progFicha"><i></i><i></i><i></i></div>'
+   + '<div class="field"><label>Nombre completo del socio</label><input class="input" value="'+esc(d.nombre)+'" oninput="draft.nombre=this.value;progFicha()" placeholder="Nombre y apellidos"></div>'
    + '<div class="row"><div class="field"><label>Fecha</label><input class="input" type="date" value="'+esc(d.fecha)+'" oninput="draft.fecha=this.value"></div>'
    + '<div class="field"><label>Hora</label><input class="input" type="time" value="'+esc(d.hora)+'" oninput="draft.hora=this.value"></div></div>'
-   + '<div class="field"><label>Nombre completo del socio</label><input class="input" value="'+esc(d.nombre)+'" oninput="draft.nombre=this.value" placeholder="Nombre y apellidos"></div>'
    + '<div class="row"><div class="field"><label>Número de cédula</label><input class="input" value="'+esc(d.cedula)+'" oninput="draft.cedula=this.value" placeholder="0-0000-0000"></div>'
-   + '<div class="field"><label>Número de socio</label><input class="input" value="'+esc(d.socio)+'" oninput="draft.socio=this.value" placeholder="Socio N°"></div></div>'
-   + '<div class="row"><div class="field"><label>Especialista</label>'+selectHTML(cfg.especialistas,d.especialista,'especialista')+'</div>'
-   + '<div class="field"><label>Sede</label>'+selectHTML(cfg.sedes,d.sede,'sede')+'</div></div>'
-   + '<div class="field"><label>Concepto / razón de la rehabilitación</label><textarea class="input" oninput="draft.concepto=this.value" placeholder="Diagnóstico, motivo de la sesión…">'+esc(d.concepto)+'</textarea></div>'
-   + '<div class="field"><label>Aparatos utilizados <span class="count">('+d.aparatos.length+' seleccionado'+(d.aparatos.length===1?'':'s')+')</span></label><div class="chips">';
-  cfg.aparatos.forEach(function(a){
-    var on=d.aparatos.indexOf(a)>=0;
-    h+='<button type="button" class="chip'+(on?' on':'')+'" onclick="toggleAparato(\''+esc(a).replace(/'/g,"\\'")+'\')"><span class="check">'+(on?'✓':'')+'</span>'+esc(a)+'</button>';
+   + '<div class="field"><label>Número de socio</label><input class="input" value="'+esc(d.socio)+'" oninput="draft.socio=this.value" placeholder="Socio N°"></div></div>';
+
+  var lista=cfg.especialistas.slice(); if(d.especialista && lista.indexOf(d.especialista)<0) lista.push(d.especialista);
+  h+='<div class="field"><label>Especialista</label><div class="esp'+(d.especialista?' elegido':'')+'" id="espSel">';
+  lista.forEach(function(e){ var c=colorEsp(e);
+    h+='<button type="button" class="ep'+(e===d.especialista?' on':'')+'" style="--c:'+c+'" data-v="'+esc(e)+'" onclick="elegirEsp(this)"><span class="av" style="background:'+c+'">'+esc(iniEsp(e))+'</span>'+esc(e)+'</button>';
+  });
+  h+='</div></div>';
+
+  var sedes=cfg.sedes.slice(); if(d.sede && sedes.indexOf(d.sede)<0) sedes.push(d.sede);
+  h+='<div class="field"><label>Sede</label><div class="seg" id="sedeSel">';
+  sedes.forEach(function(sd){ var c=colorSede(sd);
+    h+='<button type="button" class="'+(sd===d.sede?'on':'')+'" style="--c:'+c+'" data-v="'+esc(sd)+'" onclick="elegirSede(this)">'+ico('sede')+esc(sedeCorta(sd))+'</button>';
   });
   h+='</div></div>'
-   + '<button class="btn btn-primary btn-block" style="margin-top:6px" onclick="guardar()">Guardar ficha</button>';
-  if(d.id) h+='<button class="btn btn-danger btn-block" style="margin-top:10px" onclick="borrar(\''+d.id+'\')">Eliminar ficha</button>';
+   + '<div class="field"><label>Concepto / razón de la rehabilitación</label><textarea class="input" oninput="draft.concepto=this.value" placeholder="Diagnóstico, motivo de la sesión…">'+esc(d.concepto)+'</textarea></div>';
+
+  var aps=cfg.aparatos.slice(); (d.aparatos||[]).forEach(function(a){ if(aps.indexOf(a)<0) aps.push(a); });
+  h+='<div class="field"><label>Aparatos utilizados · <span id="apCount">'+d.aparatos.length+'</span></label><div class="apg">';
+  aps.forEach(function(a){ var inf=infoAparato(a), on=d.aparatos.indexOf(a)>=0;
+    h+='<button type="button" class="ap'+(on?' on':'')+'" style="--c:'+inf.c+';--cbg:'+inf.c+'14" data-v="'+esc(a)+'" onclick="toggleAparato(this)">'
+      +'<span class="ck">✓</span><span class="i">'+ico(inf.ico)+'</span>'+esc(a)+'</button>';
+  });
+  h+='</div></div>'
+   + '<button class="btn btn-primary btn-block btn-save" style="margin-top:4px" onclick="guardar()">✓ Guardar ficha</button>';
+  if(d.id) h+='<button class="btn btn-danger btn-block" style="margin-top:10px" onclick="borrar(\''+d.id+'\')">'+ico('trash')+'Eliminar ficha</button>';
+  setTimeout(progFicha,0);
   return h+'<div style="height:30px"></div></div>';
 }
-
-function selectHTML(list,val,campo){
-  var h='<select class="input" onchange="draft.'+campo+'=this.value"><option value="">Seleccionar…</option>';
-  list.forEach(function(o){ h+='<option value="'+esc(o)+'"'+(o===val?' selected':'')+'>'+esc(o)+'</option>'; });
-  return h+'</select>';
+function elegirEsp(btn){
+  var v=btn.getAttribute('data-v'); draft.especialista=(draft.especialista===v?'':v);
+  var cont=document.getElementById('espSel');
+  Array.prototype.forEach.call(cont.children,function(b){ b.classList.toggle('on',b.getAttribute('data-v')===draft.especialista); });
+  cont.classList.toggle('elegido',!!draft.especialista); progFicha();
 }
-function toggleAparato(a){
-  var i=draft.aparatos.indexOf(a);
+function elegirSede(btn){
+  var v=btn.getAttribute('data-v'); draft.sede=(draft.sede===v?'':v);
+  Array.prototype.forEach.call(document.getElementById('sedeSel').children,function(b){ b.classList.toggle('on',b.getAttribute('data-v')===draft.sede); });
+  progFicha();
+}
+function toggleAparato(btn){
+  var a=btn.getAttribute('data-v'), i=draft.aparatos.indexOf(a);
   if(i>=0) draft.aparatos.splice(i,1); else draft.aparatos.push(a);
-  render();
+  btn.classList.toggle('on',i<0);
+  document.getElementById('apCount').textContent=draft.aparatos.length;
+  if(navigator.vibrate){ try{navigator.vibrate(6);}catch(e){} }
+  progFicha();
 }
 
 function normTxt(s){ return String(s==null?'':s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
 function coincide(f,q){ return normTxt(f.nombre).indexOf(q)>=0 || normTxt(f.cedula).indexOf(q)>=0 || normTxt(f.socio).indexOf(q)>=0 || normTxt(f.especialista).indexOf(q)>=0; }
 
-function vistaHistorial(){
+var filtroEsp='', filtroSede='';
+function listaFiltrada(){
   var q=normTxt(busqueda.trim());
   var list=fichas.slice().sort(function(a,b){ return (b.fecha+' '+(b.hora||'')).localeCompare(a.fecha+' '+(a.hora||'')); });
   if(q) list=list.filter(function(f){ return coincide(f,q); });
-  var h='<div class="pad"><div class="kicker">Registro</div><h2>Historial</h2>'
-   + '<div class="count" style="margin:4px 0 12px">'+fichas.length+' ficha'+(fichas.length===1?'':'s')+' guardada'+(fichas.length===1?'':'s')+' en este dispositivo</div>'
-   + '<div class="field"><input class="input" value="'+esc(busqueda)+'" oninput="busqueda=this.value;renderListaHist()" placeholder="Buscar por nombre, cédula, socio o especialista…"></div>'
-   + '<div class="toolbar">'
-   + '<button class="btn btn-primary" onclick="exportarExcel()">⬇ Descargar Excel (.xlsx)</button>'
-   + '<button class="btn" onclick="exportarCSV()">⬇ CSV</button>'
+  if(filtroEsp) list=list.filter(function(f){ return f.especialista===filtroEsp; });
+  if(filtroSede) list=list.filter(function(f){ return f.sede===filtroSede; });
+  return list;
+}
+function filtrosHTML(){
+  var h='<button class="fl'+(!filtroEsp&&!filtroSede?' on':'')+'" onclick="filtrar(\'\',\'\')">Todos</button>';
+  cfg.especialistas.forEach(function(e){ var c=colorEsp(e);
+    h+='<button class="fl'+(filtroEsp===e?' on':'')+'" style="--fc:'+c+';color:'+(filtroEsp===e?'#fff':c)+'" onclick="filtrar(\'esp\',\''+esc(e).replace(/'/g,"\\'")+'\')"><span class="d" style="background:'+c+'"></span>'+esc(e.charAt(0)+e.slice(1).toLowerCase())+'</button>';
+  });
+  cfg.sedes.forEach(function(sd){ var c=colorSede(sd);
+    h+='<button class="fl'+(filtroSede===sd?' on':'')+'" style="--fc:'+c+';color:'+(filtroSede===sd?'#fff':c)+'" onclick="filtrar(\'sede\',\''+esc(sd).replace(/'/g,"\\'")+'\')">'+ico('sede',' width="14" height="14"')+esc(sedeCorta(sd))+'</button>';
+  });
+  return h;
+}
+function filtrar(tipo,v){
+  if(!tipo){ filtroEsp=''; filtroSede=''; }
+  else if(tipo==='esp') filtroEsp=(filtroEsp===v?'':v);
+  else filtroSede=(filtroSede===v?'':v);
+  document.getElementById('filtros').innerHTML=filtrosHTML();
+  renderListaHist();
+}
+function vistaHistorial(){
+  var h='<div class="pad">'
+   + '<div class="search">'+ico('srch')+'<input value="'+esc(busqueda)+'" oninput="busqueda=this.value;renderListaHist()" placeholder="Buscar socio, cédula, N° o especialista…"></div>'
+   + '<div class="filtros" id="filtros">'+filtrosHTML()+'</div>'
+   + '<div class="herr">'
+   + '<button class="btn btn-primary" onclick="exportarExcel()">'+ico('down')+'Excel (.xlsx)</button>'
+   + '<button class="btn" onclick="exportarCSV()">'+ico('down')+'CSV</button>'
+   + '<button class="btn" onclick="sincronizar()">'+ico('sync')+'Sincronizar ahora</button>'
+   + '<button class="btn" onclick="respaldar()">'+ico('down')+'Guardar respaldo (.json)</button>'
    + '</div>'
-   + '<div class="toolbar" style="margin-top:8px">'
-   + '<button class="btn btn-sm" onclick="sincronizar()">↻ Sincronizar ahora</button>'
-   + '<button class="btn btn-sm" onclick="respaldar()">Guardar respaldo (.json)</button>'
-   + '<button class="btn btn-sm" onclick="document.getElementById(\'restoreInput\').click()">Restaurar respaldo</button>'
-   + '<input type="file" id="restoreInput" accept="application/json" style="display:none" onchange="restaurar(this)">'
-   + '</div>'
-   + configHTML()
-   + '<div class="stack" id="listaHist" style="margin-top:16px">'+itemsHist(list)+'</div>'
+   + '<div style="text-align:center;margin-top:10px"><button class="link" onclick="document.getElementById(\'restoreInput\').click()">Restaurar respaldo…</button>'
+   + '<input type="file" id="restoreInput" accept="application/json" style="display:none" onchange="restaurar(this)"></div>'
+   + '<p class="count" style="margin:12px 4px 0;text-align:center">Desliza una ficha hacia la izquierda para editarla o duplicarla</p>'
+   + '<div id="listaHist" style="margin-top:6px">'+itemsHist(listaFiltrada())+'</div>'
    + '<div style="height:30px"></div></div>';
   return h;
 }
 function itemsHist(list){
-  if(!list.length) return '<div class="empty">No se encontraron fichas.</div>';
-  return list.map(function(f){
-    return '<button class="card" onclick="detalleId=\''+f.id+'\';view=\'detalle\';render()">'
-      +'<span class="c-kicker">'+esc(fechaCorta(f.fecha))+' · '+esc(f.hora||'')+'</span>'
-      +'<span class="c-title">'+esc(f.nombre)+'</span>'
-      +'<p class="c-body">'+esc(f.concepto||'Sin concepto registrado')+'</p>'
-      +'<span class="c-meta">'+esc(f.especialista||'—')+' · '+esc(f.sede||'—')+' · '+(f.aparatos||[]).length+' aparato'+((f.aparatos||[]).length===1?'':'s')+'</span>'
-      +'</button>';
-  }).join('');
+  if(!list.length) return '<div class="empty"><span class="ico">🔍</span>No se encontraron fichas.</div>';
+  var h='', dia=null, k=0, porDia={};
+  list.forEach(function(f){ porDia[f.fecha]=(porDia[f.fecha]||0)+1; });
+  list.forEach(function(f){
+    if(f.fecha!==dia){ if(dia!==null) h+='</div>'; dia=f.fecha; h+='<div class="dh">'+esc(tituloDia(dia))+' · '+plural(porDia[dia],'ficha')+'</div><div class="stack">'; }
+    h+=tarjetaSwipe(f,k++);
+  });
+  return h+'</div>';
 }
 function renderListaHist(){
-  var q=normTxt(busqueda.trim());
-  var list=fichas.slice().sort(function(a,b){ return (b.fecha+' '+(b.hora||'')).localeCompare(a.fecha+' '+(a.hora||'')); });
-  if(q) list=list.filter(function(f){ return coincide(f,q); });
-  document.getElementById('listaHist').innerHTML=itemsHist(list);
+  var el=document.getElementById('listaHist'); if(el) el.innerHTML=itemsHist(listaFiltrada());
 }
 
-function configHTML(){
-  return '<details class="cfg"><summary>Configurar listas (especialistas, sedes, aparatos)</summary>'
-   + '<div style="margin-top:10px">'
+function vistaAjustes(){
+  var osc=document.documentElement.getAttribute('data-tema')==='oscuro', pal=paletaActual();
+  var PAL=[['azul','Azul','#1e3a6e','#0ea5a4'],['morado','Morado','#4c1d95','#db2777'],['verde','Verde','#064e3b','#84cc16'],['naranja','Naranja','#9a3412','#f59e0b']];
+  var h='<div class="pad">'
+   + '<div class="sec" style="margin-top:4px"><h3>Apariencia</h3></div><div class="box">'
+   + '<div class="opt"><div><b>Modo oscuro</b><small>Más cómodo de noche</small></div><button class="switch'+(osc?' on':'')+'" onclick="cambiarTema()" aria-label="Modo oscuro"></button></div>'
+   + '<div class="hr" style="height:1px;background:var(--div);margin:10px 0"></div>'
+   + '<b style="font-size:14.5px">Color de la app</b><div class="paletas">';
+  PAL.forEach(function(p){ h+='<button class="pal'+(pal===p[0]?' on':'')+'" onclick="cambiarPaleta(\''+p[0]+'\')"><i style="background:linear-gradient(135deg,'+p[2]+','+p[3]+')"></i>'+p[1]+'</button>'; });
+  h+='</div><p class="count" style="margin:12px 0 0">Se guarda solo en este teléfono. Las fichas no cambian.</p></div>'
+   + '<div class="sec"><h3>Sincronización</h3></div><div class="box">'
+   + '<div class="opt"><div><b>'+esc(estadoSync.texto||'—')+'</b><small>Se sincroniza sola cada 2 minutos</small></div><button class="btn btn-sm" onclick="sincronizar().then(function(){ if(view===\'ajustes\') render(); })">'+ico('sync')+'Ahora</button></div></div>'
+   + '<div class="sec"><h3>Listas</h3></div><div class="box">'
+   + '<details class="cfg"><summary>Especialistas, sedes y aparatos</summary>'
+   + '<div style="margin-top:14px">'
    + '<div class="field"><label>Especialistas (una por línea)</label><textarea class="input" id="cfgEsp">'+esc(cfg.especialistas.join('\n'))+'</textarea></div>'
    + '<div class="field"><label>Sedes (una por línea)</label><textarea class="input" id="cfgSede">'+esc(cfg.sedes.join('\n'))+'</textarea></div>'
    + '<div class="field"><label>Aparatos (uno por línea)</label><textarea class="input" id="cfgAp">'+esc(cfg.aparatos.join('\n'))+'</textarea></div>'
-   + '<button class="btn btn-sm" onclick="guardarCfg()">Guardar listas</button>'
-   + '</div></details>';
+   + '<button class="btn btn-primary btn-sm" onclick="guardarCfg()">Guardar listas</button>'
+   + '</div></details></div>'
+   + '<p class="count" style="text-align:center;margin-top:22px">Ficha RHB · Centro de Rehabilitación Física</p>'
+   + '</div>';
+  return h;
 }
 function guardarCfg(){
   function lines(id){ return document.getElementById(id).value.split('\n').map(function(s){return s.trim();}).filter(Boolean); }
@@ -529,22 +923,32 @@ function guardarCfg(){
 function vistaDetalle(){
   var f=fichas.find(function(x){return x.id===detalleId;});
   if(!f) return '<div class="pad"><div class="empty">Ficha no encontrada.</div></div>';
+  var c=colorEsp(f.especialista);
   var h='<div class="pad">'
-   + '<button class="btn btn-ghost" onclick="go(\'historial\')">← Volver</button>'
-   + '<div class="kicker" style="margin-top:4px">'+esc(fechaLarga(f.fecha))+' · '+esc(f.hora||'')+'</div>'
-   + '<h2>'+esc(f.nombre)+'</h2><div class="hr"></div>'
-   + '<div class="detail-row"><span>Cédula</span><span>'+esc(f.cedula||'—')+'</span></div>'
-   + '<div class="detail-row"><span>N° de socio</span><span>'+esc(f.socio||'—')+'</span></div>'
-   + '<div class="detail-row"><span>Especialista</span><span>'+esc(f.especialista||'—')+'</span></div>'
-   + '<div class="detail-row"><span>Sede</span><span>'+esc(f.sede||'—')+'</span></div>'
-   + '<div style="margin-top:14px"><div class="muted" style="font-size:12px;font-weight:700;margin-bottom:4px">CONCEPTO</div><div style="font-size:14.5px">'+esc(f.concepto||'—')+'</div></div>'
-   + '<div style="margin-top:14px"><div class="muted" style="font-size:12px;font-weight:700;margin-bottom:8px">APARATOS ('+(f.aparatos||[]).length+')</div><div class="chips">'
-   + ((f.aparatos||[]).map(function(a){return '<span class="tag tag-accent" style="padding:6px 12px">'+esc(a)+'</span>';}).join('')||'<span class="muted" style="font-size:14px">Ninguno</span>')
-   + '</div></div>'
-   + '<button class="btn btn-block" style="margin-top:20px" onclick="editar(\''+f.id+'\')">Editar ficha</button>'
+   + '<button class="back" onclick="go(\'historial\')">‹ Volver</button>'
+   + '<div class="box" style="margin-top:10px;border-top:5px solid '+c+'"><div class="det-top">'
+   + '<span class="av" style="background:'+c+'">'+esc(iniciales(f.nombre))+'</span>'
+   + '<div style="min-width:0"><h2>'+esc(f.nombre)+'</h2><div class="count" style="margin-top:3px">'+esc(fechaLarga(f.fecha))+' · '+esc(f.hora||'')+'</div></div></div>'
+   + '<div class="pills" style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap"><span class="pill" style="background:'+c+'1f;color:'+c+'">'+esc(f.especialista||'Sin especialista')+'</span>'+pillSede(f.sede)+'</div></div>'
+   + '<div class="box" style="margin-top:12px;padding-top:4px;padding-bottom:4px">'
+   + '<div class="drow"><span>Cédula</span><span>'+esc(f.cedula||'—')+'</span></div>'
+   + '<div class="drow"><span>N° de socio</span><span>'+esc(f.socio||'—')+'</span></div>'
+   + '<div class="drow"><span>Especialista</span><span>'+esc(f.especialista||'—')+'</span></div>'
+   + '<div class="drow"><span>Sede</span><span>'+esc(f.sede||'—')+'</span></div></div>'
+   + '<div class="sec"><h3>Concepto</h3></div><div class="box" style="font-size:14.5px;line-height:1.45">'+esc(f.concepto||'—')+'</div>'
+   + '<div class="sec"><h3>Aparatos ('+(f.aparatos||[]).length+')</h3></div>';
+  if((f.aparatos||[]).length){
+    h+='<div class="apg">';
+    f.aparatos.forEach(function(a){ var inf=infoAparato(a);
+      h+='<div class="ap on" style="--c:'+inf.c+';--cbg:'+inf.c+'14;cursor:default"><span class="i">'+ico(inf.ico)+'</span>'+esc(a)+'</div>'; });
+    h+='</div>';
+  } else h+='<div class="empty" style="padding:18px">Ninguno</div>';
+  h+='<div class="row" style="margin-top:20px"><button class="btn btn-primary" onclick="editar(\''+f.id+'\')">'+ico('edit')+'Editar ficha</button>'
+   + '<button class="btn" onclick="duplicar(\''+f.id+'\')">'+ico('dup')+'Duplicar</button></div>'
    + '<div style="height:30px"></div></div>';
   return h;
 }
+
 
 /* ============ exportación ============ */
 function filas(){
