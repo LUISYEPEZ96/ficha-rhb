@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ficha RHB — Registro de socios</title>
 <meta name="theme-color" content="#1e3a6e">
+<script>try{if(localStorage.getItem('rhb_tema_v1')==='oscuro')document.documentElement.setAttribute('data-tema','oscuro');}catch(e){}</script>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Ficha RHB">
@@ -98,6 +99,39 @@ main{padding-bottom:110px}
 .detail-row span:last-child{font-weight:600;text-align:right}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:80px;background:var(--text);color:#fff;padding:11px 18px;border-radius:999px;font-size:13.5px;font-weight:600;z-index:50;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.show{opacity:1}
+/* ===== Selector de tema (claro / oscuro) ===== */
+header{padding-right:58px}
+.tema-btn{position:absolute;top:10px;right:12px;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background .2s,transform .15s}
+.tema-btn:active{transform:scale(.9)}
+.tema-btn svg{width:18px;height:18px;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.tema-btn .i-sol{display:none}
+html[data-tema="oscuro"] .tema-btn .i-luna{display:none}
+html[data-tema="oscuro"] .tema-btn .i-sol{display:block}
+html.tema-anim, html.tema-anim *{transition:background-color .3s ease,border-color .3s ease,color .3s ease !important}
+/* ===== Modo oscuro ===== */
+html[data-tema="oscuro"]{color-scheme:dark;
+  --navy:#2f5fb3; --navy-600:#16294f; --navy-100:#1b2a45; --navy-200:#2d3f63; --navy-txt:#86aaf0;
+  --bg:#141b27; --page:#0a0f18; --text:#e6eaf1; --muted:#9aa4b5; --divider:#2a3446;
+  --ok:#4cc38a; --ok-bg:#12301f; --warn:#f0b54a; --warn-bg:#33270f; --danger:#f97066;
+  --campo:#0f1520; --label:#c5ccd8}
+html[data-tema="oscuro"] .wrap{box-shadow:none}
+html[data-tema="oscuro"] header{background:#13213b}
+html[data-tema="oscuro"] nav button.active{color:var(--navy-txt);border-bottom-color:var(--navy-txt)}
+html[data-tema="oscuro"] .kicker,html[data-tema="oscuro"] .card .c-kicker,html[data-tema="oscuro"] .tag-accent{color:var(--navy-txt)}
+html[data-tema="oscuro"] label{color:var(--label)}
+html[data-tema="oscuro"] .input{background:var(--campo);color:var(--text)}
+html[data-tema="oscuro"] .input:focus{border-color:var(--navy-txt)}
+html[data-tema="oscuro"] .btn{background:var(--campo);color:var(--navy-txt);border-color:var(--navy-txt)}
+html[data-tema="oscuro"] .btn-primary{background:var(--navy);border-color:var(--navy);color:#fff}
+html[data-tema="oscuro"] .btn-ghost{background:transparent;border-color:transparent}
+html[data-tema="oscuro"] .btn-danger{border-color:var(--danger);color:var(--danger)}
+html[data-tema="oscuro"] .card{background:var(--bg);color:var(--text)}
+html[data-tema="oscuro"] .card .c-title{color:#6fb0ff}
+html[data-tema="oscuro"] .chip{background:var(--campo);color:var(--text)}
+html[data-tema="oscuro"] .chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+html[data-tema="oscuro"] #barraSync{background:var(--campo) !important}
+html[data-tema="oscuro"] .toast{background:#2a3446;color:#fff}
+
 .count{font-size:12px;color:var(--muted);font-weight:600}
 .toolbar{display:flex;gap:8px;flex-wrap:wrap}
 .toolbar .btn{flex:1;min-width:150px}
@@ -142,6 +176,7 @@ details.cfg summary{cursor:pointer;font-weight:700;font-size:14px}
   <header>
     <div class="brand">CENTRO DE REHABILITACIÓN FÍSICA</div>
     <h1>Ficha RHB · Registro de socios</h1>
+    <button type="button" class="tema-btn" id="temaBtn" aria-label="Cambiar a modo oscuro" title="Modo claro / oscuro"><svg class="i-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="i-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M2 12h2.2M19.8 12H22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg></button>
   </header>
   <nav>
     <button id="tabAgenda" class="active" onclick="go('agenda')">Agenda</button>
@@ -178,6 +213,25 @@ details.cfg summary{cursor:pointer;font-weight:700;font-size:14px}
 })();
 </script>
 <div class="toast" id="toast"></div>
+<script>
+/* Modo claro / oscuro: se guarda en cada teléfono, no toca las fichas */
+(function(){
+  var btn=document.getElementById('temaBtn'), root=document.documentElement, meta=document.querySelector('meta[name="theme-color"]');
+  function pintar(){ var osc=root.getAttribute('data-tema')==='oscuro';
+    btn.setAttribute('aria-label', osc?'Cambiar a modo claro':'Cambiar a modo oscuro');
+    if(meta) meta.setAttribute('content', osc?'#13213b':'#1e3a6e'); }
+  var ultimo=0;
+  function cambiar(){ var t=Date.now(); if(t-ultimo<400) return; ultimo=t;
+    var osc=root.getAttribute('data-tema')!=='oscuro';
+    root.classList.add('tema-anim');
+    if(osc) root.setAttribute('data-tema','oscuro'); else root.removeAttribute('data-tema');
+    try{ localStorage.setItem('rhb_tema_v1', osc?'oscuro':'claro'); }catch(e){}
+    pintar(); setTimeout(function(){ root.classList.remove('tema-anim'); },350);
+  }
+  btn.addEventListener('click',cambiar);
+  pintar();
+})();
+</script>
 
 <script>
 /* ============ almacenamiento permanente ============ */
@@ -271,7 +325,7 @@ function sincronizar(silencioso){
 function pintarEstado(){
   var el=document.getElementById('barraSync');
   if(!el) return;
-  var color = estadoSync.tipo==='ok' ? '#0f7b4f' : (estadoSync.tipo==='mal' ? '#b42318' : '#667085');
+  var color = estadoSync.tipo==='ok' ? 'var(--ok)' : (estadoSync.tipo==='mal' ? 'var(--danger)' : 'var(--muted)');
   el.style.color=color;
   el.textContent=estadoSync.texto;
 }
