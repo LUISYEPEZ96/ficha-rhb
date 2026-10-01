@@ -1142,7 +1142,7 @@ function seccionEspecialistas(){
   Object.keys(datos).forEach(function(e){ if(nombres.indexOf(e)<0) nombres.push(e); });
   var filas=nombres.map(function(e){ return [e,datos[e]||0]; }).sort(function(a,b){ return b[1]-a[1] || a[0].localeCompare(b[0]); });
   var tot=filas.reduce(function(s,x){return s+x[1];},0), mx=Math.max.apply(null,filas.map(function(x){return x[1];}).concat([1]));
-  var h='<div class="sec"><h3>Fichas por especialista</h3><span class="pill" style="background:var(--acc-100);color:var(--acc-txt)">'+fmt(tot)+' fichas</span></div>'
+  var h='<div class="sec"><h3>Fichas registradas por especialista</h3><span class="pill" style="background:var(--acc-100);color:var(--acc-txt)">'+fmt(tot)+' fichas</span></div>'
    + '<div class="filtros" style="padding-top:0">'+claves.map(function(c){ var n=+c.slice(5); return '<button class="fl'+(c===espMes?' on':'')+'" onclick="espElegirMes(\''+c+'\')">'+MESES_NOM[n-1]+(c===hoyMes?' *':'')+'</button>'; }).join('')+'</div>'
    + '<div class="box">';
   filas.forEach(function(x,i){
@@ -1240,8 +1240,6 @@ function vistaEstadisticas(){
   /* semanas (o días en septiembre) */
   h+='</div>';
 
-  h+=seccionEspecialistas();
-
   /* 4. las dos sedes en el año */
   h+='<div class="sec"><h3>Las dos sedes en el año</h3></div><div class="sedes2">';
   [['Sede Anexo',COL_ANX,'a'],['Sede Centro',COL_CEN,'c']].forEach(function(s){
@@ -1261,6 +1259,7 @@ function vistaEstadisticas(){
   var aH=0,aM=0,cH=0,cM=0; ms.forEach(function(x){aH+=x.aH;aM+=x.aM;cH+=x.cH;cM+=x.cM;});
   h+='</tbody><tfoot><tr><td>Total</td><td>'+fmt(ta)+'<br><small>'+fmt(aH)+' · '+fmt(aM)+'</small></td><td>'+fmt(tc)+'<br><small>'+fmt(cH)+' · '+fmt(cM)+'</small></td><td>'+fmt(tot)+'</td><td>100%</td></tr></tfoot></table></div></details>'
    + '<p class="nota" style="text-align:center;margin-top:14px">Fuente: enero a agosto, Consolidado FOR DEP 31 (Anexo y Centro). Desde septiembre, fichas registradas en la app (se actualiza sola).</p>'
+   + seccionEspecialistas()
    + '<div style="height:30px"></div></div>';
   setTimeout(function(){ var mb=document.querySelector('.mbars'); if(mb && !mb.querySelector('.prom')){ var l=document.createElement('div'); l.className='prom'; var alto=mb.clientHeight; l.style.bottom=(prom/max*0.82*(alto-0))+'px'; mb.appendChild(l);} },0);
   return h;
