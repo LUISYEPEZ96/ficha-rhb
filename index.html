@@ -333,6 +333,14 @@ html[data-tema="oscuro"] .toast{background:#27324b}
 .semt td{padding:6px 4px;border-top:1px solid var(--div);text-align:right;font-variant-numeric:tabular-nums}
 .semt td:first-child{text-align:left;font-weight:700;color:var(--label)}
 .semt i{margin-right:5px}
+.esprow{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--div)}
+.esprow:first-child{border-top:none}
+.esprow .pos{width:18px;text-align:center;font-weight:800;color:var(--muted);font-size:13px;flex:none}
+.esprow:first-child .pos{color:#d97706}
+.espinfo{flex:1;min-width:0}
+.espinfo .wt{margin-bottom:6px}
+.espinfo .wt span{font-weight:800;color:var(--text)}
+.espinfo small{font-size:11px;color:var(--muted);font-weight:600}
 #temaBtn.activo{background:#fff;color:var(--g2)}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
 @media (max-width:520px){ .row.parte{flex-direction:column;gap:0} }
@@ -1117,7 +1125,35 @@ var COL_M='#7c3aed', COL_H='#0891b2', COL_ANX='#0d9488', COL_CEN='#ea580c';
 function fmt(n){ return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,'.'); }
 function pct(a,b){ return b?(a/b*100).toFixed(1).replace('.',','):'0'; }
 function datosMes(m){ var a=m.aM+m.aH+(m.aX||0), c=m.cM+m.cH+(m.cX||0); return {a:a,c:c,T:a+c,M:m.aM+m.cM,H:m.aH+m.cH,X:(m.aX||0)+(m.cX||0)}; }
-var vistaAntesEst='inicio';
+var vistaAntesEst='inicio', espMes=null;
+/* fichas registradas por cada especialista, por mes (desde agosto 2026, cuando empezó la app) */
+function fichasPorEspecialista(){
+  var hoyMes=hoyISO().slice(0,7), meses={};
+  for(var n=8;n<=12;n++){ var c='2026-'+p2(n); if(c>hoyMes) break; meses[c]={}; }
+  fichas.forEach(function(f){ var c=String(f.fecha||'').slice(0,7); if(!meses[c]) return; var e=String(f.especialista||'').trim()||'Sin especialista'; meses[c][e]=(meses[c][e]||0)+1; });
+  return meses;
+}
+function espElegirMes(c){ espMes=c; var y=window.scrollY; render(); window.scrollTo(0,y); }
+function seccionEspecialistas(){
+  var M=fichasPorEspecialista(), claves=Object.keys(M).sort(), hoyMes=hoyISO().slice(0,7);
+  if(!claves.length) return '';
+  if(!espMes||!M[espMes]){ espMes=claves[claves.length-1]; if(claves.length>1 && !Object.keys(M[espMes]).length) espMes=claves[claves.length-2]; }
+  var datos=M[espMes], nombres=cfg.especialistas.slice();
+  Object.keys(datos).forEach(function(e){ if(nombres.indexOf(e)<0) nombres.push(e); });
+  var filas=nombres.map(function(e){ return [e,datos[e]||0]; }).sort(function(a,b){ return b[1]-a[1] || a[0].localeCompare(b[0]); });
+  var tot=filas.reduce(function(s,x){return s+x[1];},0), mx=Math.max.apply(null,filas.map(function(x){return x[1];}).concat([1]));
+  var h='<div class="sec"><h3>Fichas por especialista</h3><span class="pill" style="background:var(--acc-100);color:var(--acc-txt)">'+fmt(tot)+' fichas</span></div>'
+   + '<div class="filtros" style="padding-top:0">'+claves.map(function(c){ var n=+c.slice(5); return '<button class="fl'+(c===espMes?' on':'')+'" onclick="espElegirMes(\''+c+'\')">'+MESES_NOM[n-1]+(c===hoyMes?' *':'')+'</button>'; }).join('')+'</div>'
+   + '<div class="box">';
+  filas.forEach(function(x,i){
+    var c=x[0]==='Sin especialista'?'#94a3b8':colorEsp(x[0]);
+    h+='<div class="esprow"><span class="pos">'+(i+1)+'</span><span class="av" style="background:'+c+';width:36px;height:36px;border-radius:50%;font-size:12.5px">'+esc(iniEsp(x[0]))+'</span>'
+      +'<div class="espinfo"><div class="wt"><span>'+esc(x[0])+'</span><b>'+fmt(x[1])+' <small>'+pct(x[1],tot)+'%</small></b></div>'
+      +'<div class="ht"><i style="width:'+(x[1]/mx*100)+'%;background:'+c+'"></i></div></div></div>';
+  });
+  h+='<p class="nota">Ordenadas de la que más fichas registró a la que menos.'+(espMes===hoyMes?' * Mes en curso: se actualiza con cada ficha.':'')+' La app empezó a usarse en agosto, por eso agosto está incompleto.</p></div>';
+  return h;
+}
 function abrirEstadisticas(){
   if(view==='estadisticas'){ go(vistaAntesEst||'inicio'); return; }
   vistaAntesEst=(view==='ficha'||view==='detalle')?'inicio':view; go('estadisticas');
@@ -1203,6 +1239,8 @@ function vistaEstadisticas(){
 
   /* semanas (o días en septiembre) */
   h+='</div>';
+
+  h+=seccionEspecialistas();
 
   /* 4. las dos sedes en el año */
   h+='<div class="sec"><h3>Las dos sedes en el año</h3></div><div class="sedes2">';
