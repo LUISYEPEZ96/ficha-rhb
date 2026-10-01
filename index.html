@@ -148,7 +148,7 @@ textarea.input{min-height:86px;resize:vertical}
 .mini i svg{width:13px;height:13px}
 .aparece{animation:entra .35s cubic-bezier(.2,.8,.2,1) backwards}
 /* deslizar para editar / duplicar */
-.sw{position:relative;border-radius:16px;overflow:hidden}
+.sw{position:relative;border-radius:16px;overflow:hidden;content-visibility:auto;contain-intrinsic-size:auto 100px}
 .sw-acts{position:absolute;right:0;top:0;bottom:0;width:150px;display:flex}
 .sw-acts button{flex:1;border:none;color:#fff;font-weight:800;font-size:11.5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer}
 .sw-acts svg{width:19px;height:19px}
@@ -234,9 +234,9 @@ details.cfg[open] summary::after{transform:rotate(90deg)}
 .fab{position:fixed;left:0;right:0;margin:0 auto;bottom:calc(30px + env(safe-area-inset-bottom));z-index:31;width:64px;height:64px;border-radius:22px;border:none;color:#fff;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;padding:0;overflow:hidden;isolation:isolate;
   background:linear-gradient(135deg,var(--g2),var(--g3));user-select:none;-webkit-user-select:none;
-  transition:transform .16s cubic-bezier(.2,.8,.2,1);animation:fabIn .5s cubic-bezier(.2,.9,.25,1.15) backwards,fabGlow 2.6s ease-in-out infinite}
+  transition:transform .16s cubic-bezier(.2,.8,.2,1);animation:fabIn .5s cubic-bezier(.2,.9,.25,1.15) backwards;box-shadow:0 10px 22px rgba(15,23,42,.25)}
 .fab .fab-txt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.fab::before{content:"";position:absolute;top:0;bottom:0;left:-80%;width:50%;z-index:-1;pointer-events:none;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:fabShine 3.4s ease-in-out infinite}
+.fab::before{content:none}
 .fab .fab-ico{display:inline-flex;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
 .fab .fab-ico svg{width:28px;height:28px}
 .fab:active,.fab.press{transform:scale(.92)}
@@ -251,6 +251,89 @@ details.cfg[open] summary::after{transform:rotate(90deg)}
 .toast.show{opacity:1;transform:none}
 .toast .okc{width:26px;height:26px;border-radius:50%;background:#22c55e;display:grid;place-items:center;flex:none;font-size:14px}
 html[data-tema="oscuro"] .toast{background:#27324b}
+/* ===== Estadísticas ===== */
+.hero-est{text-align:center;padding:10px 0 16px}
+.he-l{font-size:13px;font-weight:700;color:var(--muted)}
+.he-n{font-size:46px;font-weight:800;letter-spacing:-.02em;line-height:1.05;background:linear-gradient(135deg,var(--g2),var(--g3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.he-s{font-size:12.5px;font-weight:700;color:var(--muted);margin-top:2px}
+.claves ul{margin:8px 0 0;padding:0;list-style:none}
+.claves li{position:relative;padding:7px 0 7px 22px;font-size:14px;line-height:1.4;border-top:1px solid var(--div)}
+.claves li:first-child{border-top:none}
+.claves li::before{content:"";position:absolute;left:4px;top:13px;width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--g2),var(--g3))}
+.bt{font-size:12.5px;font-weight:800;margin-bottom:8px;color:var(--label)}
+.bb{display:flex;gap:2px;height:14px;border-radius:7px;overflow:hidden}
+.bb i{display:block}
+.bl{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;font-size:12.5px;font-weight:600;color:var(--label)}
+.bl span{display:inline-flex;align-items:center;gap:6px}
+.bl i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.bl b{color:var(--text)}
+.b100{margin-top:16px}
+.mbars{position:relative;display:flex;align-items:flex-end;gap:5px;height:180px;margin:6px 0 30px;border-bottom:1px solid var(--div)}
+.mb{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px;border:none;background:none;padding:0;cursor:pointer;min-width:0;position:relative}
+.mb b{font-size:10px;font-weight:800;color:var(--muted)}
+.mb .col{width:100%;max-width:30px;border-radius:5px 5px 0 0;background:var(--acc-100);transform-origin:bottom;animation:crece .6s cubic-bezier(.2,.8,.2,1) both;transition:background .2s}
+.mb.sel .col{background:linear-gradient(180deg,var(--g2),var(--g3))}
+.mb.parcial .col{background:repeating-linear-gradient(135deg,var(--acc-100) 0 5px,transparent 5px 9px);outline:1.5px dashed var(--div)}
+.mb.sel.parcial .col{background:repeating-linear-gradient(135deg,var(--g2) 0 5px,var(--acc-100) 5px 9px)}
+.mb em{font-style:normal;font-size:10.5px;font-weight:800;color:var(--muted);position:absolute;bottom:-21px}
+.mb.sel b,.mb.sel em{color:var(--text)}
+.prom{position:absolute;left:0;right:0;border-top:1.5px dashed var(--muted);opacity:.55;pointer-events:none}
+.nota{font-size:11.5px;color:var(--muted);font-weight:600;margin:10px 0 0;line-height:1.4}
+.navmes{display:flex;gap:6px}
+.navmes button{width:34px;height:34px;border-radius:10px;border:none;background:var(--card);box-shadow:var(--sombra);font-size:18px;font-weight:800;color:var(--acc-txt);cursor:pointer}
+.navmes button:disabled{opacity:.35}
+.mes-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.mini-tabla{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;margin-top:16px;font-size:13px;border-top:1px solid var(--div)}
+.mini-tabla div{padding:8px 4px;text-align:right;border-bottom:1px solid var(--div);font-variant-numeric:tabular-nums}
+.mini-tabla div:nth-child(4n+1){text-align:left;font-weight:700;display:flex;align-items:center;gap:6px}
+.mini-tabla div:nth-child(-n+4){font-size:10.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.mini-tabla i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.wrow{padding:6px 0}
+.wt{display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;color:var(--label);margin-bottom:5px}
+.wt b{color:var(--text)}
+.wb{display:flex;gap:2px;height:11px;border-radius:6px;overflow:hidden;min-width:8px;transform-origin:left;animation:creceX .6s cubic-bezier(.2,.8,.2,1) both}
+.sedes2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tabla{overflow-x:auto}
+.tabla table{width:100%;border-collapse:collapse;font-size:13px}
+.tabla th{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:800;text-align:right;padding:6px 5px;vertical-align:bottom}
+.tabla td{text-align:right;padding:8px 5px;border-top:1px solid var(--div);font-variant-numeric:tabular-nums;line-height:1.25}
+.tabla small{font-size:10.5px;color:var(--muted);font-weight:600;text-transform:none;letter-spacing:0}
+.tabla th:first-child,.tabla td:first-child{text-align:left;font-weight:700}
+.tabla tr.pico td{background:var(--acc-100)}
+.tabla tfoot td{font-weight:800;border-top:2px solid var(--text)}
+.dias{display:flex;align-items:flex-end;gap:2px;height:110px;margin-bottom:18px;border-bottom:1px solid var(--div)}
+.dia{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative;min-width:0}
+.dc{width:100%;display:flex;flex-direction:column;gap:1px;border-radius:3px 3px 0 0;overflow:hidden;transform-origin:bottom;animation:crece .6s cubic-bezier(.2,.8,.2,1) both}
+.dc i{display:block}
+.dia em{position:absolute;bottom:-17px;font-style:normal;font-size:10px;font-weight:800;color:var(--muted)}
+.leyenda{display:flex;gap:14px;font-size:12px;font-weight:700;color:var(--label);flex-wrap:wrap}
+.leyenda span,.sx span{display:inline-flex;align-items:center;gap:6px}
+.leyenda i,.sx i,.semt i,.hl i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.gbars{display:flex;align-items:stretch;gap:4px;margin:10px 0 26px;border-bottom:1px solid var(--div)}
+.gg{flex:1;min-width:0;border:none;background:none;padding:0;position:relative;cursor:pointer;display:flex;flex-direction:column;border-radius:6px}
+.gg .gc{flex:1;display:flex;align-items:flex-end;justify-content:center;gap:2px}
+.gcol{flex:1;max-width:16px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative}
+.gcol b{position:absolute;bottom:calc(100% + 2px);font-size:9.5px;font-weight:800;color:var(--text);white-space:nowrap}
+.gcol i{display:block;width:100%;border-radius:4px 4px 0 0;min-height:2px;transform-origin:bottom;animation:crece .6s cubic-bezier(.2,.8,.2,1) both}
+.gcol{justify-content:flex-end}
+.gcol b{position:absolute;margin:0}
+.gg em{position:absolute;bottom:-19px;left:0;right:0;text-align:center;font-style:normal;font-size:10px;font-weight:800;color:var(--muted)}
+.gg.sel{background:var(--acc-100)}
+.gg.sel em{color:var(--text)}
+.gg.parcial .gcol i{opacity:.55}
+.hrow{display:grid;grid-template-columns:78px 1fr 86px;align-items:center;gap:8px;padding:5px 0;font-size:13px}
+.hl{display:flex;align-items:center;gap:6px;font-weight:700}
+.ht{height:12px;background:var(--soft);border-radius:6px;overflow:hidden}
+.ht i{display:block;height:100%;border-radius:6px;transform-origin:left;animation:creceX .6s cubic-bezier(.2,.8,.2,1) both}
+.hv{text-align:right;color:var(--muted);font-size:12px;font-weight:600}
+.hv b{color:var(--text);font-size:13px}
+.sx{display:flex;flex-direction:column;gap:4px;margin-top:10px;font-size:12.5px;font-weight:600;color:var(--label)}
+.sx b{color:var(--text)}
+.semt{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:4px}
+.semt td{padding:6px 4px;border-top:1px solid var(--div);text-align:right;font-variant-numeric:tabular-nums}
+.semt td:first-child{text-align:left;font-weight:700;color:var(--label)}
+.semt i{margin-right:5px}
+#temaBtn.activo{background:#fff;color:var(--g2)}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
 @media (max-width:520px){ .row.parte{flex-direction:column;gap:0} }
 </style>
@@ -300,6 +383,7 @@ html[data-tema="oscuro"] .toast{background:#27324b}
 <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
 <symbol id="i-hist" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
 <symbol id="i-cfg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="i-stats" viewBox="0 0 24 24"><path d="M5 20V12M12 20V4M19 20v-7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
 <symbol id="i-srch" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
 <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
 <symbol id="i-dup" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 5.5V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h.5" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
@@ -316,7 +400,7 @@ html[data-tema="oscuro"] .toast{background:#27324b}
     <h1 id="hdrTitulo">Ficha RHB</h1>
     <div class="h-sub" id="hdrSub"></div>
     <div class="sync"><span class="dot" id="syncDot"></span><span id="barraSync">Conectando…</span></div>
-    <button type="button" class="tema-btn" id="temaBtn" aria-label="Cambiar a modo oscuro" title="Modo claro / oscuro"><svg class="i-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="i-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M2 12h2.2M19.8 12H22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg></button>
+    <button type="button" class="tema-btn" id="temaBtn" aria-label="Estadísticas" title="Estadísticas"><svg viewBox="0 0 24 24"><use href="#i-stats"/></svg></button>
   </header>
   <main id="main"></main>
 </div>
@@ -362,7 +446,6 @@ function paletaActual(){ return document.documentElement.getAttribute('data-pale
 function pintarTema(){
   var root=document.documentElement, btn=document.getElementById('temaBtn'), meta=document.querySelector('meta[name="theme-color"]');
   var osc=root.getAttribute('data-tema')==='oscuro';
-  btn.setAttribute('aria-label', osc?'Cambiar a modo claro':'Cambiar a modo oscuro');
   if(meta) meta.setAttribute('content', PALETAS[paletaActual()]||'#1e3a6e');
 }
 var _ultTema=0;
@@ -383,7 +466,7 @@ function cambiarPaleta(p){
   pintarTema(); setTimeout(function(){ root.classList.remove('tema-anim'); },350);
   render();
 }
-document.getElementById('temaBtn').addEventListener('click',cambiarTema);
+document.getElementById('temaBtn').addEventListener('click',function(){ abrirEstadisticas(); });
 pintarTema();
 </script>
 
@@ -468,7 +551,7 @@ function sincronizar(silencioso){
     marcarEstado('Al día · '+fichas.length+' ficha'+(fichas.length===1?'':'s'),'ok');
     if(!silencioso) render();
     else if(view==='historial') renderListaHist();
-    else if(view==='inicio'||view==='agenda') render();
+    else if(view==='inicio'||view==='agenda'||view==='estadisticas'){ var _y=window.scrollY; render(); window.scrollTo(0,_y); }
   }).catch(function(err){
     sincronizando=false;
     var msg=String(err.message||err);
@@ -504,6 +587,7 @@ function go(v){
   document.getElementById('tabAgenda').classList.toggle('active', v==='agenda'||v==='ficha');
   document.getElementById('tabHistorial').classList.toggle('active', v==='historial'||v==='detalle');
   document.getElementById('tabAjustes').classList.toggle('active', v==='ajustes');
+  document.getElementById('temaBtn').classList.toggle('activo', v==='estadisticas');
   render();
 }
 
@@ -568,22 +652,22 @@ function sumarDias(iso,n){ var a=iso.split('-'); var d=new Date(+a[0],+a[1]-1,+a
 function tituloDia(iso){ var h=hoyISO(); if(iso===h) return 'Hoy'; if(iso===sumarDias(h,-1)) return 'Ayer'; return fechaLarga(iso); }
 
 /* tarjeta de ficha (misma en agenda, inicio e historial) */
-function tarjeta(f,i,conFecha){
+function tarjeta(f,i,conFecha,liviana){
   var c=colorEsp(f.especialista), n=(f.aparatos||[]).length;
   return '<button class="fc'+(i!=null&&i<12?' aparece':'')+'" style="--c:'+c+(i!=null&&i<12?';animation-delay:'+(i*35)+'ms':'')+'" onclick="abrirDetalle(\''+f.id+'\',this)">'
     +'<span class="av" style="background:'+c+'">'+esc(iniciales(f.nombre))+'</span>'
     +'<span class="tx"><span class="t">'+esc(f.nombre)+'</span>'
     +'<span class="m">'+esc(f.concepto||'Sin concepto registrado')+'</span>'
     +'<span class="pills"><span class="pill" style="background:'+c+'1f;color:'+c+'">'+esc(f.especialista||'Sin especialista')+'</span>'+pillSede(f.sede)
-    +(n?miniAparatos(f.aparatos):'')+'</span></span>'
+    +(n?(liviana?'<span class="pill" style="background:var(--soft);color:var(--muted)">'+plural(n,'aparato')+'</span>':miniAparatos(f.aparatos)):'')+'</span></span>'
     +'<span class="hora">'+(conFecha?esc(fechaCorta(f.fecha))+'<br>':'')+esc(f.hora||'')+'</span>'
     +'</button>';
 }
 function tarjetaSwipe(f,i,conFecha){
   return '<div class="sw"><div class="sw-acts">'
-    +'<button class="ed" onclick="editar(\''+f.id+'\')">'+ico('edit')+'Editar</button>'
-    +'<button class="du" onclick="duplicar(\''+f.id+'\')">'+ico('dup')+'Duplicar</button>'
-    +'</div>'+tarjeta(f,i,!!conFecha)+'</div>';
+    +'<button class="ed" onclick="editar(\''+f.id+'\')"><span style="font-size:18px">✎</span>Editar</button>'
+    +'<button class="du" onclick="duplicar(\''+f.id+'\')"><span style="font-size:18px">⧉</span>Duplicar</button>'
+    +'</div>'+tarjeta(f,i,!!conFecha,true)+'</div>';
 }
 function abrirDetalle(id,el){
   if(el){
@@ -613,7 +697,7 @@ function duplicar(id){
   document.addEventListener('pointermove',function(e){
     if(!s) return;
     var dx=e.clientX-s.x, dy=e.clientY-s.y;
-    if(!s.mov){ if(Math.abs(dy)>12 && Math.abs(dy)>Math.abs(dx)){ s=null; return; } if(Math.abs(dx)>10) s.mov=true; else return; }
+    if(!s.mov){ if(Math.abs(dy)>10 && Math.abs(dy)>=Math.abs(dx)){ s=null; return; } if(Math.abs(dx)>20 && Math.abs(dx)>Math.abs(dy)*1.5) s.mov=true; else return; }
     s.dx=dx; var t=Math.max(-160,Math.min(0,s.base+dx));
     s.el.style.transition='none'; s.el.style.transform='translateX('+t+'px)';
   });
@@ -669,10 +753,10 @@ function pintarHeader(){
   var grande=(view==='inicio' && !!clave);
   hdr.classList.toggle('grande',grande);
   if(!clave){ t.textContent='Ficha RHB'; s.textContent='Registro de socios'; return; }
-  var titulos={agenda:'Agenda',historial:'Historial',ajustes:'Ajustes',detalle:'Detalle de ficha'};
+  var titulos={estadisticas:'Estadísticas',agenda:'Agenda',historial:'Historial',ajustes:'Ajustes',detalle:'Detalle de ficha'};
   if(grande){ t.textContent=saludo(); s.textContent=fechaLarga(hoyISO()); }
   else if(view==='ficha'){ t.textContent=draft&&draft.id?'Editar ficha':'Nueva ficha'; s.textContent='Ficha de rehabilitación'; }
-  else { t.textContent=titulos[view]||'Ficha RHB'; s.textContent=view==='agenda'?fechaLarga(diaSel):''; }
+  else { t.textContent=titulos[view]||'Ficha RHB'; s.textContent=view==='agenda'?fechaLarga(diaSel):(view==='estadisticas'?'Fisioterapia · 2026':''); }
   s.style.display=s.textContent?'':'none';
 }
 function render(){
@@ -690,6 +774,7 @@ function render(){
   else if(view==='ficha') m.innerHTML=vistaFicha();
   else if(view==='historial') m.innerHTML=vistaHistorial();
   else if(view==='ajustes') m.innerHTML=vistaAjustes();
+  else if(view==='estadisticas') m.innerHTML=vistaEstadisticas();
   else m.innerHTML=vistaDetalle();
   if(cambio){
     m.classList.remove('entra'); void m.offsetWidth; m.classList.add('entra');
@@ -847,12 +932,18 @@ function toggleAparato(btn){
 function normTxt(s){ return String(s==null?'':s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }
 /* búsqueda: como antes (nombre, cédula, N° de socio o especialista, sin importar tildes ni mayúsculas),
    y además acepta varias palabras en cualquier orden: "maria rodri", "rodriguez maria" */
+var _cacheBusq={};
+function textoBusq(f){
+  var c=_cacheBusq[f.id], k=f.nombre+'|'+f.cedula+'|'+f.socio+'|'+f.especialista;
+  if(!c || c.k!==k){ c=_cacheBusq[f.id]={k:k,t:[f.nombre,f.cedula,f.socio,f.especialista].map(normTxt).join(' ')}; }
+  return c.t;
+}
 function coincide(f,q){
-  var texto=[f.nombre,f.cedula,f.socio,f.especialista].map(normTxt).join(' ');
+  var texto=textoBusq(f);
   return q.split(/\s+/).filter(Boolean).every(function(p){ return texto.indexOf(p)>=0; });
 }
 
-var filtroEsp='', filtroSede='', histLimite=60, _tBusca=null;
+var filtroEsp='', filtroSede='', histLimite=30, _tBusca=null;
 function listaFiltrada(){
   var q=normTxt(busqueda.trim());
   var list=fichas.slice().sort(function(a,b){ return (b.fecha+' '+(b.hora||'')).localeCompare(a.fecha+' '+(a.hora||'')); });
@@ -876,10 +967,10 @@ function filtrar(tipo,v){
   else if(tipo==='esp') filtroEsp=(filtroEsp===v?'':v);
   else filtroSede=(filtroSede===v?'':v);
   document.getElementById('filtros').innerHTML=filtrosHTML();
-  histLimite=60; renderListaHist();
+  histLimite=30; renderListaHist();
 }
 function buscar(v){
-  busqueda=v; histLimite=60;
+  busqueda=v; histLimite=30;
   var x=document.getElementById('limpiarBusq'); if(x) x.style.display=v?'':'none';
   clearTimeout(_tBusca); _tBusca=setTimeout(renderListaHist,120);
 }
@@ -926,7 +1017,7 @@ function itemsHist(list){
     });
     h+='</div>';
   }
-  if(list.length>ver.length) h+='<button class="btn btn-block" style="margin-top:12px" onclick="histLimite+=100;renderListaHist()">Mostrar más ('+(list.length-ver.length)+' restantes)</button>';
+  if(list.length>ver.length) h+='<button class="btn btn-block" style="margin-top:12px" onclick="histLimite+=50;renderListaHist()">Mostrar más ('+(list.length-ver.length)+' restantes)</button>';
   return h;
 }
 function renderListaHist(){
@@ -992,6 +1083,150 @@ function vistaDetalle(){
   return h;
 }
 
+
+/* ============ Estadísticas (reporte mensual de terapias · datos del Excel) ============ */
+var EST={"meses":[{"m":"Enero","aM":260,"aH":306,"cM":92,"cH":164},{"m":"Febrero","aM":279,"aH":380,"cM":78,"cH":191},{"m":"Marzo","aM":159,"aH":510,"cM":142,"cH":271},{"m":"Abril","aM":186,"aH":441,"cM":101,"cH":205},{"m":"Mayo","aM":326,"aH":347,"cM":96,"cH":214},{"m":"Junio","aM":264,"aH":444,"cM":102,"cH":234},{"m":"Julio","aM":369,"aH":431,"cM":105,"cH":274},{"m":"Agosto","aM":255,"aH":410,"cM":127,"cH":258}]};
+/* Desde septiembre 2026 las cifras salen solas de las fichas de la app (fecha + sede).
+   El género se deduce del nombre de pila, con la misma tabla que usa la hoja "Nombres género". */
+var NOMBRES_GENERO={}; "agustin:H,alberto:H,alegria:M,alejandra:M,alejandro:H,alessio:H,alex:H,alexandra:M,alfredo:H,alfreo:H,alicia:M,alvaro:H,ana:M,andrea:M,andres:H,angelina:M,antonio:H,aurelia:M,bianca:M,blanca:M,blas:H,bolivar:H,carlo:H,carlos:H,carmen:M,carolina:M,cecila:M,cecilia:M,cesar:H,claudia:M,consuelo:M,cora:M,cristina:M,damian:H,daniel:H,daniela:M,danilo:H,diana:M,donna:M,edgar:H,edilma:M,eduardo:H,elio:H,enrique:H,erika:M,esperanza:M,fabricio:H,fanny:M,federico:H,feliz:H,fernando:H,francisco:H,franklin:H,gabriel:H,galo:H,gina:M,giovanni:H,gisela:M,gisella:M,guido:H,guillermo:H,gustavo:H,hector:H,iana:M,irene:M,isabel:M,jackeline:M,jaime:H,janeth:M,jaqueline:M,javier:H,jazmil:M,jimm:H,jimmy:H,jimny:H,joanna:M,jorge:H,jose:H,juan:H,julian:H,julio:H,leonardo:H,leontina:M,liliana:M,lilianne:M,lucia:M,luis:H,magaly:M,marcos:H,maria:M,mariela:M,mariella:M,martha:M,max:H,mery:M,michael:H,miguel:H,monica:M,nancy:M,natalia:M,natalie:M,nicolas:H,nicole:M,niza:M,orlando:H,oscar:H,pamela:M,patricio:H,pedro:H,pierina:M,pola:M,ramiro:H,ricardo:H,rina:M,roberto:H,rosa:M,roxana:M,ruben:H,samuel:H,santiago:H,sergio:H,silvana:M,sonia:M,tamara:M,vicente:H,vicentes:H,victor:H,virginia:M,wilfredo:H,william:H,wladimir:H,xavier:H,zoila:M,zvonko:H,angel:H,ariel:H,arturo:H,christian:H,diego:H,dmitry:H,emilio:H,enzo:H,ernesto:H,fabian:H,fabrizio:H,fabrizzio:H,francesco:H,freddy:H,geovanny:H,german:H,gian:H,gianmarcos:H,giorgio:H,giovanny:H,gonzalo:H,hernando:H,homero:H,horacio:H,hugo:H,ivan:H,jacinto:H,james:H,john:H,josshua:H,josue:H,manuel:H,marcelo:H,marco:H,mario:H,martin:H,matia:H,omar:H,rafael:H,raul:H,rodolfo:H,rubrn:H,sebastian:H,tito:H,werner:H,analia:M,ariana:M,bernardita:M,clara:M,cynthia:M,daniella:M,denisse:M,elisa:M,elizabeth:M,emma:M,evelyn:M,francisca:M,gabriela:M,giuliana:M,guadalupe:M,henriett:M,jannet:M,jeanette:M,jessica:M,karen:M,kathiuska:M,lady:M,laila:M,laura:M,leonor:M,lorena:M,lourdes:M,luciana:M,lupe:M,marcia:M,margot:M,mariana:M,marianella:M,marianita:M,marie:M,marisol:M,maritza:M,martina:M,melisa:M,mia:M,miriam:M,mirian:M,mishel:M,mishell:M,nicol:M,nina:M,olga:M,omayra:M,paola:M,patricia:M,paula:M,rocio:M,rosie:M,sandra:M,sara:M,silene:M,solange:M,sonnia:M,susana:M,susy:M,sylvia:M,valentina:M,veronica:M,vivian:M,viviana:M".split(',').forEach(function(s){ var p=s.split(':'); NOMBRES_GENERO[p[0]]=p[1]; });
+var _genCache={};
+function generoDe(nombre){
+  var k=String(nombre||''); if(_genCache.hasOwnProperty(k)) return _genCache[k];
+  var l=normTxt(k).trim().split(/\s+/), g='X';
+  for(var i=0;i<3;i++){ if(l[i] && NOMBRES_GENERO[l[i]]){ g=NOMBRES_GENERO[l[i]]; break; } }
+  return (_genCache[k]=g);
+}
+var MESES_NOM=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+function mesesEst(){
+  var lista=EST.meses.map(function(m){ return {m:m.m,aM:m.aM,aH:m.aH,aX:0,cM:m.cM,cH:m.cH,cX:0}; });
+  var hoyMes=hoyISO().slice(0,7), porMes={};
+  for(var n=lista.length+1;n<=12;n++){
+    var clave='2026-'+p2(n); if(clave>hoyMes) break;
+    porMes[clave]={m:MESES_NOM[n-1],aM:0,aH:0,aX:0,cM:0,cH:0,cX:0,auto:true,clave:clave};
+  }
+  fichas.forEach(function(f){
+    var o=porMes[String(f.fecha||'').slice(0,7)]; if(!o) return;
+    var s=f.sede==='Sede Anexo'?'a':(f.sede==='Sede Centro'?'c':null); if(!s) return;
+    o[s+generoDe(f.nombre)]++;
+  });
+  Object.keys(porMes).sort().forEach(function(k){ lista.push(porMes[k]); });
+  return {lista:lista, parcial:lista.length && lista[lista.length-1].clave===hoyMes ? lista.length-1 : -1};
+}
+var estMes=null, estVista='__';
+var COL_M='#7c3aed', COL_H='#0891b2', COL_ANX='#0d9488', COL_CEN='#ea580c';
+function fmt(n){ return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,'.'); }
+function pct(a,b){ return b?(a/b*100).toFixed(1).replace('.',','):'0'; }
+function datosMes(m){ var a=m.aM+m.aH+(m.aX||0), c=m.cM+m.cH+(m.cX||0); return {a:a,c:c,T:a+c,M:m.aM+m.cM,H:m.aH+m.cH,X:(m.aX||0)+(m.cX||0)}; }
+var vistaAntesEst='inicio';
+function abrirEstadisticas(){
+  if(view==='estadisticas'){ go(vistaAntesEst||'inicio'); return; }
+  vistaAntesEst=(view==='ficha'||view==='detalle')?'inicio':view; go('estadisticas');
+}
+function estElegirMes(i){ estMes=i; var y=window.scrollY; render(); window.scrollTo(0,y); }
+function hbars(items){
+  var mx=Math.max.apply(null,items.map(function(x){return x[1];}).concat([1])), t=items.reduce(function(s,x){return s+x[1];},0);
+  return items.map(function(x){ return '<div class="hrow"><span class="hl"><i style="background:'+x[2]+'"></i>'+x[0]+'</span><span class="ht"><i style="width:'+(x[1]/mx*100)+'%;background:'+x[2]+'"></i></span><span class="hv"><b>'+fmt(x[1])+'</b> '+pct(x[1],t)+'%</span></div>'; }).join('');
+}
+function gbars(etiquetas,series,sel,fn,alto,parcial){
+  var mx=0; series.forEach(function(se){ se[2].forEach(function(v){ if(v>mx) mx=v; }); });
+  var h='<div class="leyenda">'+series.map(function(se){return '<span><i style="background:'+se[1]+'"></i>'+se[0]+'</span>';}).join('')+'</div>'
+   + '<div class="gbars" style="height:'+(alto||170)+'px">';
+  etiquetas.forEach(function(et,i){
+    var tip=et+': '+series.map(function(se){return se[0]+' '+fmt(se[2][i]);}).join(' · ');
+    h+='<button class="gg'+(i===sel?' sel':'')+(i===parcial?' parcial':'')+'" '+(fn?'onclick="'+fn+'('+i+')"':'')+' title="'+tip+'" aria-label="'+tip+'"><span class="gc">';
+    series.forEach(function(se){ var v=se[2][i]; var hp=v/mx*86; h+='<span class="gcol">'+(i===sel?'<b style="bottom:calc('+hp+'% + 3px)">'+fmt(v)+'</b>':'')+'<i style="height:'+hp+'%;background:'+se[1]+'"></i></span>'; });
+    h+='</span><em>'+et+'</em></button>';
+  });
+  return h+'</div>';
+}
+function partes2(a,ca,la,b,cb,lb){
+  var t=a+b;
+  return '<div class="bb"><i style="flex:'+a+';background:'+ca+'"></i><i style="flex:'+b+';background:'+cb+'"></i></div>'
+   + '<div class="bl"><span><i style="background:'+ca+'"></i>'+la+' <b>'+fmt(a)+'</b> ('+pct(a,t)+'%)</span><span><i style="background:'+cb+'"></i>'+lb+' <b>'+fmt(b)+'</b> ('+pct(b,t)+'%)</span></div>';
+}
+function vistaEstadisticas(){
+  var ME=mesesEst(), ms=ME.lista, n=ms.length, parcial=ME.parcial, D=ms.map(datosMes);
+  var completos=parcial>=0?parcial:n;
+  if(estMes==null||estMes>=n) estMes=completos-1;
+  var ultimo=ms[n-1].m.toLowerCase();
+  var tot=0,ta=0,tc=0,tM=0,tH=0; D.forEach(function(d){ tot+=d.T; ta+=d.a; tc+=d.c; tM+=d.M; tH+=d.H; });
+  var prom=D.slice(0,completos).reduce(function(s,d){return s+d.T;},0)/completos;
+  var pico=0; D.forEach(function(d,i){ if(d.T>D[pico].T) pico=i; });
+  var bajo=0; D.slice(0,completos).forEach(function(d,i){ if(d.T<D[bajo].T) bajo=i; });
+  var max=Math.max.apply(null,D.map(function(d){return d.T;}));
+  var h='<div class="pad">'
+   + '<button class="back" onclick="abrirEstadisticas()">‹ Volver</button>'
+
+  /* 1. en una frase */
+   + '<div class="hero-est"><div class="he-l">Terapias de fisioterapia en 2026</div><div class="he-n">'+fmt(tot)+'</div>'
+   + '<div class="he-s">De enero a '+ultimo+(parcial>=0?' (en curso)':'')+' · ambas sedes</div></div>'
+   + '<div class="box claves"><div class="bt">Lo más importante</div><ul>'
+   + '<li><b>'+fmt(prom)+'</b> terapias al mes en promedio (meses completos).</li>'
+   + '<li><b>'+ms[pico].m+'</b> fue el mejor mes con <b>'+fmt(D[pico].T)+'</b>; el más bajo, <b>'+ms[bajo].m.toLowerCase()+'</b> con '+fmt(D[bajo].T)+'.</li>'
+   + '<li>La <b>Sede Anexo</b> atiende <b>'+Math.round(ta/tot*3*10)/10+' de cada 3</b> terapias ('+pct(ta,tot)+'%).</li>'
+   + '<li>De cada 10 pacientes, <b>'+Math.round(tH/(tH+tM)*10)+' son hombres</b> ('+pct(tH,tH+tM)+'%).</li>'
+   + '</ul></div>';
+
+  /* 2. mes a mes (toca para elegir) */
+  h+='<div class="sec"><h3>Mes a mes</h3><span class="count">Toca un mes</span></div><div class="box">'
+   + '<div class="mbars">';
+  D.forEach(function(d,i){
+    h+='<button class="mb'+(i===estMes?' sel':'')+(i===parcial?' parcial':'')+'" onclick="estElegirMes('+i+')" aria-label="'+ms[i].m+': '+fmt(d.T)+' terapias">'
+      +'<b>'+fmt(d.T)+'</b><span class="col" style="height:'+(d.T/max*82)+'%"></span><em>'+ms[i].m.slice(0,3)+(i===parcial?'*':'')+'</em></button>';
+  });
+  h+='</div><p class="nota">La línea punteada es el promedio mensual ('+fmt(prom)+').'+(parcial>=0?' * '+ms[parcial].m+' está en curso: se actualiza con cada ficha nueva.':'')+'</p></div>';
+
+  /* hombres y mujeres, y sedes, en todos los meses (lado a lado) */
+  var cortos=ms.map(function(x,i){ return x.m.slice(0,3)+(i===parcial?'*':''); });
+  h+='<div class="sec"><h3>Hombres y mujeres por mes</h3></div><div class="box">'
+   + gbars(cortos,[['Hombres',COL_H,D.map(function(x){return x.H;})],['Mujeres',COL_M,D.map(function(x){return x.M;})]],estMes,'estElegirMes',170,parcial)
+   + '<p class="nota">Toca un mes para ver sus cifras y su detalle.</p></div>'
+   + '<div class="sec"><h3>Pacientes por sede cada mes</h3></div><div class="box">'
+   + gbars(cortos,[['Anexo',COL_ANX,D.map(function(x){return x.a;})],['Centro',COL_CEN,D.map(function(x){return x.c;})]],estMes,'estElegirMes',170,parcial)
+   + '<p class="nota">Toca un mes para ver sus cifras y su detalle.</p></div>';
+
+  /* 3. resumen del mes elegido */
+  var d=D[estMes], m=ms[estMes], ant=estMes>0?D[estMes-1]:null;
+  var dif=ant?Math.round((d.T-ant.T)/ant.T*100):null;
+  h+='<div class="sec" id="estMesSel"><h3>'+m.m.replace(' *','')+(estMes===parcial?' (parcial)':'')+'</h3>'
+   + '<div class="navmes"><button onclick="estElegirMes('+Math.max(0,estMes-1)+')" '+(estMes===0?'disabled':'')+'>‹</button><button onclick="estElegirMes('+Math.min(parcial,estMes+1)+')" '+(estMes===parcial?'disabled':'')+'>›</button></div></div>'
+   + '<div class="box"><div class="mes-top"><div><div class="he-n" style="font-size:34px;color:var(--text)">'+fmt(d.T)+'</div><div class="count">terapias en el mes</div></div>'
+   + (dif==null||estMes===parcial?'':'<span class="pill" style="font-size:12.5px;padding:6px 11px;background:'+(dif>=0?'#16a34a1f':'#dc26261f')+';color:'+(dif>=0?'#15803d':'#b91c1c')+'">'+(dif>=0?'▲ +':'▼ ')+dif+'% vs '+ms[estMes-1].m.toLowerCase()+'</span>')
+   + '</div>'
+   + '<div class="b100"><div class="bt">Por sede</div>'+hbars([['Anexo',d.a,COL_ANX],['Centro',d.c,COL_CEN]])+'</div>'
+   + '<div class="b100"><div class="bt">Por género</div>'+hbars([['Hombres',d.H,COL_H],['Mujeres',d.M,COL_M]])+'</div>'
+   + '<div class="mini-tabla"><div></div><div>Hombres</div><div>Mujeres</div><div>Total</div>'
+   + '<div><i style="background:'+COL_ANX+'"></i>Anexo</div><div>'+fmt(m.aH)+'</div><div>'+fmt(m.aM)+'</div><div><b>'+fmt(d.a)+'</b></div>'
+   + '<div><i style="background:'+COL_CEN+'"></i>Centro</div><div>'+fmt(m.cH)+'</div><div>'+fmt(m.cM)+'</div><div><b>'+fmt(d.c)+'</b></div></div>'
+   + (d.X?'<p class="nota">'+plural(d.X,'paciente')+' con nombre no reconocido: cuentan en el total y en su sede, pero no en hombres/mujeres.</p>':'')
+   + (m.auto?'<p class="nota">Calculado automáticamente con las fichas registradas en la app.</p>':'');
+
+  /* semanas (o días en septiembre) */
+  h+='</div>';
+
+  /* 4. las dos sedes en el año */
+  h+='<div class="sec"><h3>Las dos sedes en el año</h3></div><div class="sedes2">';
+  [['Sede Anexo',COL_ANX,'a'],['Sede Centro',COL_CEN,'c']].forEach(function(s){
+    var T=s[2]==='a'?ta:tc, H=0,M=0; ms.forEach(function(x){ H+=s[2]==='a'?x.aH:x.cH; M+=s[2]==='a'?x.aM:x.cM; });
+    h+='<div class="box" style="border-top:4px solid '+s[1]+'"><div class="count">'+s[0]+'</div><div class="he-n" style="font-size:26px;color:var(--text)">'+fmt(T)+'</div>'
+      +'<div class="count">'+pct(T,tot)+'% del total</div><div class="sx"><span><i style="background:'+COL_H+'"></i>Hombres <b>'+fmt(H)+'</b></span><span><i style="background:'+COL_M+'"></i>Mujeres <b>'+fmt(M)+'</b></span></div>'
+      +'</div>';
+  });
+  h+='</div>'
+   + '<div class="box" style="margin-top:10px"><div class="bt">Género en el año</div>'+hbars([['Hombres',tH,COL_H],['Mujeres',tM,COL_M]])+'</div>';
+
+  /* 5. tabla completa como el Excel */
+  h+='<details class="box cfg" style="margin-top:18px"'+(estVista==='tabla'?' open':'')+' ontoggle="estVista=this.open?\'tabla\':\'\'"><summary>Ver tabla completa (como el Excel)</summary><div class="tabla" style="padding:10px 0 0">'
+   + '<table><thead><tr><th>Mes</th><th>Anexo<br><small>H · M</small></th><th>Centro<br><small>H · M</small></th><th>Total</th><th>%</th></tr></thead><tbody>';
+  ms.forEach(function(x,i){ var dd=D[i];
+    h+='<tr class="'+(i===pico?'pico':'')+'"><td>'+x.m.slice(0,3)+(i===parcial?'*':'')+'</td><td>'+fmt(dd.a)+'<br><small>'+x.aH+' · '+x.aM+'</small></td><td>'+fmt(dd.c)+'<br><small>'+x.cH+' · '+x.cM+'</small></td><td><b>'+fmt(dd.T)+'</b></td><td>'+pct(dd.T,tot)+'%</td></tr>'; });
+  var aH=0,aM=0,cH=0,cM=0; ms.forEach(function(x){aH+=x.aH;aM+=x.aM;cH+=x.cH;cM+=x.cM;});
+  h+='</tbody><tfoot><tr><td>Total</td><td>'+fmt(ta)+'<br><small>'+fmt(aH)+' · '+fmt(aM)+'</small></td><td>'+fmt(tc)+'<br><small>'+fmt(cH)+' · '+fmt(cM)+'</small></td><td>'+fmt(tot)+'</td><td>100%</td></tr></tfoot></table></div></details>'
+   + '<p class="nota" style="text-align:center;margin-top:14px">Fuente: enero a agosto, Consolidado FOR DEP 31 (Anexo y Centro). Desde septiembre, fichas registradas en la app (se actualiza sola).</p>'
+   + '<div style="height:30px"></div></div>';
+  setTimeout(function(){ var mb=document.querySelector('.mbars'); if(mb && !mb.querySelector('.prom')){ var l=document.createElement('div'); l.className='prom'; var alto=mb.clientHeight; l.style.bottom=(prom/max*0.82*(alto-0))+'px'; mb.appendChild(l);} },0);
+  return h;
+}
 
 /* ============ exportación ============ */
 function filas(){
