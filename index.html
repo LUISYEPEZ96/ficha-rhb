@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ficha RHB — Registro de socios</title>
 <meta name="theme-color" content="#1e3a6e">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
 <script>try{if(localStorage.getItem('rhb_tema_v1')==='oscuro')document.documentElement.setAttribute('data-tema','oscuro');var _p=localStorage.getItem('rhb_paleta_v1');if(_p)document.documentElement.setAttribute('data-paleta',_p);}catch(e){}</script>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -345,14 +343,12 @@ html[data-tema="oscuro"] .toast{background:#27324b}
 .espinfo small{font-size:11px;color:var(--muted);font-weight:600}
 .trofeo{display:inline-flex;vertical-align:-4px;margin-left:5px;filter:drop-shadow(0 1px 2px rgba(180,83,9,.35))}
 #temaBtn.activo{background:#fff;color:var(--g2)}
-#hdrTitulo .saludo{font-family:"Playfair Display",Georgia,"Times New Roman",serif;font-weight:500;letter-spacing:.01em}
-header.grande h1#hdrTitulo{font-size:28px}
-#hdrTitulo .saludo,#hdrTitulo .saludo-ico,#hdrTitulo .saludo-lang{display:inline-block;transition:opacity .7s cubic-bezier(.4,0,.2,1),filter .7s cubic-bezier(.4,0,.2,1),letter-spacing .7s ease}
+#hdrTitulo .saludo,#hdrTitulo .saludo-ico,#hdrTitulo .saludo-lang{display:inline-block;transition:opacity 1s cubic-bezier(.4,0,.2,1),filter 1s cubic-bezier(.4,0,.2,1),letter-spacing 1s ease}
 #hdrTitulo.saliendo .saludo,#hdrTitulo.saliendo .saludo-lang{opacity:0;filter:blur(6px)}
-#hdrTitulo.saliendo .saludo{letter-spacing:.06em}
-#hdrTitulo .le{display:inline-block;opacity:0;animation:letraEntra 1.1s cubic-bezier(.16,1,.3,1) forwards}
-@keyframes letraEntra{0%{opacity:0;transform:translateY(.28em);filter:blur(8px)}60%{filter:blur(0)}100%{opacity:1;transform:none;filter:none}}
-#hdrTitulo .barrido{-webkit-mask-image:linear-gradient(270deg,#000 35%,transparent 65%);mask-image:linear-gradient(270deg,#000 35%,transparent 65%);-webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-position:0 0;mask-position:0 0;animation:barridoAr 1.8s cubic-bezier(.16,1,.3,1) forwards}
+#hdrTitulo.saliendo .saludo{letter-spacing:.03em}
+#hdrTitulo .le{display:inline-block;opacity:0;animation:letraEntra 1.6s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes letraEntra{0%{opacity:0;transform:translateX(-.18em);filter:blur(6px)}70%{filter:blur(0)}100%{opacity:1;transform:none;filter:none}}
+#hdrTitulo .barrido{-webkit-mask-image:linear-gradient(270deg,#000 35%,transparent 65%);mask-image:linear-gradient(270deg,#000 35%,transparent 65%);-webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-position:0 0;mask-position:0 0;animation:barridoAr 2.6s cubic-bezier(.22,1,.36,1) forwards}
 @keyframes barridoAr{to{-webkit-mask-position:100% 0;mask-position:100% 0}}
 .saludo-lang{vertical-align:middle;margin-left:8px;font-size:10px;font-weight:700;letter-spacing:.14em;padding:2px 6px;border-radius:6px;border:1px solid rgba(255,255,255,.35);opacity:.7}
 @media (prefers-reduced-motion:reduce){#hdrTitulo .le,#hdrTitulo .barrido{animation:none;opacity:1;-webkit-mask-image:none;mask-image:none}}
@@ -677,7 +673,12 @@ var SALUDOS=[
   ['hi','सुप्रभात','शुभ दोपहर','शुभ संध्या'],
   ['fr','Bonjour','Bon après-midi','Bonsoir'],
   ['ar','صباح الخير','مساء الخير','مساء الخير'],
-  ['pt','Bom dia','Boa tarde','Boa noite']
+  ['pt','Bom dia','Boa tarde','Boa noite'],
+  ['ja','おはようございます','こんにちは','こんばんは'],
+  ['ru','Доброе утро','Добрый день','Добрый вечер'],
+  ['de','Guten Morgen','Guten Tag','Guten Abend'],
+  ['it','Buongiorno','Buon pomeriggio','Buonasera'],
+  ['ko','좋은 아침입니다','좋은 오후입니다','좋은 저녁입니다']
 ];
 var saludoIdx=0, _tSaludo=null;
 function momentoDia(){ var h=new Date().getHours(); return h<12?1:(h<19?2:3); }
@@ -693,19 +694,21 @@ function htmlSaludo(){
     cuerpo='<span class="saludo barrido" lang="ar" dir="rtl">'+txt+'</span>';
   } else {
     cuerpo='<span class="saludo" lang="'+L[0]+'">'+letras(txt).map(function(c,i){
-      return '<span class="le" style="animation-delay:'+(i*70)+'ms">'+(c===' '?'&nbsp;':esc(c))+'</span>';
+      return '<span class="le" style="animation-delay:'+(i*110)+'ms">'+(c===' '?'&nbsp;':esc(c))+'</span>';
     }).join('')+'</span>';
   }
   return cuerpo+' <span class="saludo-ico">'+['','☀️','🌤️','🌙'][m]+'</span><span class="saludo-lang">'+L[0].toUpperCase()+'</span>';
 }
+/* tiempo en pantalla: lo que tarda en escribirse + 3 segundos visible completo */
+function tiempoSaludo(){ var L=SALUDOS[saludoIdx]; var n=L[0]==='ar'?20:letras(L[momentoDia()]).length; return n*110+1600+3000; }
 function rotarSaludo(){
   clearTimeout(_tSaludo);
   _tSaludo=setTimeout(function(){
     var t=document.getElementById('hdrTitulo'), sp=t&&t.querySelector('.saludo');
     if(!sp || view!=='inicio'){ saludoIdx=0; return; }
     t.classList.add('saliendo');
-    setTimeout(function(){ saludoIdx=(saludoIdx+1)%SALUDOS.length; t.innerHTML=htmlSaludo(); t.classList.remove('saliendo'); rotarSaludo(); },700);
-  }, 3200);
+    setTimeout(function(){ saludoIdx=(saludoIdx+1)%SALUDOS.length; t.innerHTML=htmlSaludo(); t.classList.remove('saliendo'); rotarSaludo(); },1000);
+  }, tiempoSaludo());
 }
 function sumarDias(iso,n){ var a=iso.split('-'); var d=new Date(+a[0],+a[1]-1,+a[2]+n); return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()); }
 function tituloDia(iso){ var h=hoyISO(); if(iso===h) return 'Hoy'; if(iso===sumarDias(h,-1)) return 'Ayer'; return fechaLarga(iso); }
