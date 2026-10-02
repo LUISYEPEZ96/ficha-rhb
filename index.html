@@ -230,7 +230,9 @@ details.cfg[open] summary::after{transform:rotate(90deg)}
 .tb svg{width:23px;height:23px;transition:transform .2s}
 .tb.active{color:var(--acc-txt)}
 .tb.active svg{transform:translateY(-2px) scale(1.08)}
-.tb-esp{flex:1}
+.tb-esp{flex:0 0 78px}
+.tb-lado{flex:1;display:flex;min-width:0}
+.tb-lado .tb{min-width:0}
 .fab{position:fixed;left:0;right:0;margin:0 auto;bottom:calc(30px + env(safe-area-inset-bottom));z-index:31;width:64px;height:64px;border-radius:22px;border:none;color:#fff;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;padding:0;overflow:hidden;isolation:isolate;
   background:linear-gradient(135deg,var(--g2),var(--g3));user-select:none;-webkit-user-select:none;
@@ -342,7 +344,8 @@ html[data-tema="oscuro"] .toast{background:#27324b}
 .espinfo .wt span{font-weight:800;color:var(--text)}
 .espinfo small{font-size:11px;color:var(--muted);font-weight:600}
 .trofeo{display:inline-flex;vertical-align:-4px;margin-left:5px;filter:drop-shadow(0 1px 2px rgba(180,83,9,.35))}
-#temaBtn.activo{background:#fff;color:var(--g2)}
+.fab .fab-tabla{font-size:30px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+.fab.press .fab-tabla{transform:scale(.9) rotate(-8deg)}
 #hdrTitulo .saludo,#hdrTitulo .saludo-ico,#hdrTitulo .saludo-lang{display:inline-block;transition:opacity 1s cubic-bezier(.4,0,.2,1),filter 1s cubic-bezier(.4,0,.2,1),letter-spacing 1s ease}
 #hdrTitulo.saliendo .saludo,#hdrTitulo.saliendo .saludo-lang{opacity:0;filter:blur(6px)}
 #hdrTitulo.saliendo .saludo{letter-spacing:.03em}
@@ -352,6 +355,7 @@ html[data-tema="oscuro"] .toast{background:#27324b}
 @keyframes barridoAr{to{-webkit-mask-position:100% 0;mask-position:100% 0}}
 .saludo-lang{vertical-align:middle;margin-left:8px;font-size:10px;font-weight:700;letter-spacing:.14em;padding:2px 6px;border-radius:6px;border:1px solid rgba(255,255,255,.35);opacity:.7}
 @media (prefers-reduced-motion:reduce){#hdrTitulo .le,#hdrTitulo .barrido{animation:none;opacity:1;-webkit-mask-image:none;mask-image:none}}
+.ico-electro{display:inline-block;width:1.45em;height:1.45em;vertical-align:-.32em;margin:0 2px;filter:drop-shadow(0 3px 8px rgba(0,0,0,.18))}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
 @media (max-width:520px){ .row.parte{flex-direction:column;gap:0} }
 </style>
@@ -417,19 +421,25 @@ html[data-tema="oscuro"] .toast{background:#27324b}
     <div class="brand">CENTRO DE REHABILITACIÓN FÍSICA</div>
     <h1 id="hdrTitulo">Ficha RHB</h1>
     <div class="h-sub" id="hdrSub"></div>
+    
     <div class="sync"><span class="dot" id="syncDot"></span><span id="barraSync">Conectando…</span></div>
-    <button type="button" class="tema-btn" id="temaBtn" aria-label="Estadísticas" title="Estadísticas"><svg viewBox="0 0 24 24"><use href="#i-stats"/></svg></button>
+    <span id="temaBtn" hidden></span>
   </header>
   <main id="main"></main>
 </div>
 <nav class="tabbar" id="tabbar">
+  <div class="tb-lado">
   <button class="tb active" id="tabInicio" onclick="go('inicio')"><svg><use href="#i-home"/></svg>Inicio</button>
   <button class="tb" id="tabAgenda" onclick="go('agenda')"><svg><use href="#i-cal"/></svg>Agenda</button>
-  <span class="tb-esp"></span>
   <button class="tb" id="tabHistorial" onclick="go('historial')"><svg><use href="#i-hist"/></svg>Historial</button>
+  </div>
+  <span class="tb-esp"></span>
+  <div class="tb-lado">
   <button class="tb" id="tabAjustes" onclick="go('ajustes')"><svg><use href="#i-cfg"/></svg>Ajustes</button>
+  <button class="tb" id="tabEstad" onclick="go('estadisticas')"><svg><use href="#i-stats"/></svg>Estadísticas</button>
+  </div>
 </nav>
-<button type="button" class="fab" id="fab" aria-label="Nueva ficha"><span class="fab-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><span class="fab-txt">Nueva ficha</span></button>
+<button type="button" class="fab" id="fab" aria-label="Nueva ficha"><span class="fab-ico fab-tabla" aria-hidden="true">📋</span><span class="fab-txt">Nueva ficha</span></button>
 <script>
 /* Toque del botón Nueva ficha: responde al primer toque y evita dobles aperturas */
 (function(){
@@ -484,7 +494,7 @@ function cambiarPaleta(p){
   pintarTema(); setTimeout(function(){ root.classList.remove('tema-anim'); },350);
   render();
 }
-document.getElementById('temaBtn').addEventListener('click',function(){ abrirEstadisticas(); });
+
 pintarTema();
 </script>
 
@@ -605,7 +615,7 @@ function go(v){
   document.getElementById('tabAgenda').classList.toggle('active', v==='agenda'||v==='ficha');
   document.getElementById('tabHistorial').classList.toggle('active', v==='historial'||v==='detalle');
   document.getElementById('tabAjustes').classList.toggle('active', v==='ajustes');
-  document.getElementById('temaBtn').classList.toggle('activo', v==='estadisticas');
+  document.getElementById('tabEstad').classList.toggle('active', v==='estadisticas');
   render();
 }
 
@@ -644,12 +654,16 @@ var SEDE_COL=['#0d9488','#ea580c','#2563eb','#db2777','#7c3aed','#65a30d'];
 var APAR_INFO={ultrasonido:['us','#0284c7'],magneto:['mag','#7c3aed'],compresa:['comp','#ea580c'],laser:['las','#dc2626'],percutor:['per','#0d9488'],electrodos:['ele','#d97706']};
 var APAR_EXTRA=['#4f46e5','#db2777','#16a34a','#0891b2','#9333ea','#ca8a04'];
 function hashTxt(s){ var h=0; s=String(s||''); for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0; return h; }
-function colorEsp(n){ if(!n) return '#94a3b8'; var i=cfg.especialistas.indexOf(n); if(i<0) i=hashTxt(n); return ESP_COL[i%ESP_COL.length]; }
-function colorSede(n){ if(!n) return '#94a3b8'; var i=cfg.sedes.indexOf(n); if(i<0) i=hashTxt(n); return SEDE_COL[i%SEDE_COL.length]; }
+var ACENTO_TEMA={azul:'#4f46e5',morado:'#7c3aed',verde:'#059669',naranja:'#ea580c',rosado:'#db2777',negro:'#3f3f46',turquesa:'#0d9488',amarillo:'#ca8a04',rojo:'#dc2626'};
+/* todas las especialistas con un mismo color: el del tema elegido en Ajustes */
+function colorTema(){ return ACENTO_TEMA[paletaActual()]||'#4f46e5'; }
+function colorEsp(n){ if(!n) return '#94a3b8'; return colorTema(); }
+function colorSede(n){ if(!n) return '#94a3b8'; return colorTema(); }
 function infoAparato(a){
-  var k=normTxt(a).trim(); if(APAR_INFO[k]) return {ico:APAR_INFO[k][0],c:APAR_INFO[k][1]};
-  for(var key in APAR_INFO){ if(k.indexOf(key)>=0) return {ico:APAR_INFO[key][0],c:APAR_INFO[key][1]}; }
-  return {ico:'gen',c:APAR_EXTRA[hashTxt(k)%APAR_EXTRA.length]};
+  var k=normTxt(a).trim(), ico='gen';
+  if(APAR_INFO[k]) ico=APAR_INFO[k][0];
+  else for(var key in APAR_INFO){ if(k.indexOf(key)>=0){ ico=APAR_INFO[key][0]; break; } }
+  return {ico:ico,c:colorTema()};
 }
 function ico(n,extra){ return '<svg'+(extra||'')+'><use href="#i-'+n+'"/></svg>'; }
 function iniciales(nombre){
@@ -687,6 +701,7 @@ function letras(txt){
   if(window.Intl && Intl.Segmenter){ try{ return Array.from(new Intl.Segmenter(undefined,{granularity:'grapheme'}).segment(txt),function(x){return x.segment;}); }catch(e){} }
   return Array.from(txt);
 }
+var ICONO_ELECTRO='<svg class="ico-electro" viewBox="0 0 120 120" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Electroterapia"><circle cx="60" cy="60" r="57" fill="rgba(255,255,255,.16)" stroke="rgba(255,255,255,.4)" stroke-width="2"/><rect x="24" y="34" width="46" height="38" rx="7" fill="rgba(255,255,255,.25)" stroke-width="4.5"/><rect x="31" y="41" width="32" height="13" rx="3" fill="#fff" stroke="none"/><path d="M34 47h6l3-4 4 8 3-4h8" style="stroke:var(--g2)" stroke-width="2.6"/><circle cx="37" cy="63" r="3.2" fill="#fff" stroke="none"/><circle cx="47" cy="63" r="3.2" fill="#fff" stroke="none"/><path d="M70 50 C84 50 80 74 92 74M70 60 C80 60 78 88 92 88" stroke-width="3.4"/><rect x="88" y="68" width="12" height="12" rx="3" fill="#fff" stroke="none"/><rect x="88" y="82" width="12" height="12" rx="3" fill="#fff" stroke="none"/></svg>';
 function htmlSaludo(){
   var L=SALUDOS[saludoIdx], m=momentoDia(), txt=L[m], cuerpo;
   if(L[0]==='ar'){
@@ -871,36 +886,10 @@ function vistaInicio(){
   });
   h+='</div></div>';
 
-  /* por especialista hoy */
-  if(deHoy.length){
-    h+='<div class="sec"><h3>Especialistas hoy</h3></div><div class="esp-hoy">';
-    var usados=cfg.especialistas.slice();
-    deHoy.forEach(function(f){ if(f.especialista && usados.indexOf(f.especialista)<0) usados.push(f.especialista); });
-    usados.forEach(function(e){
-      var n=deHoy.filter(function(f){return f.especialista===e;}).length, c=colorEsp(e);
-      h+='<div class="eh" style="'+(n?'':'opacity:.4')+'"><span class="av" style="background:'+c+';border-radius:50%;width:48px;height:48px">'+esc(iniEsp(e))+'</span><span class="num">'+n+'</span>'+esc(e)+'</div>';
-    });
-    h+='</div>';
-
-    /* aparatos más usados hoy */
-    var cuenta={};
-    deHoy.forEach(function(f){ (f.aparatos||[]).forEach(function(a){ cuenta[a]=(cuenta[a]||0)+1; }); });
-    var top=Object.keys(cuenta).sort(function(a,b){return cuenta[b]-cuenta[a];}).slice(0,6);
-    if(top.length){
-      var mx=cuenta[top[0]];
-      h+='<div class="sec"><h3>Aparatos más usados hoy</h3></div><div class="box" style="padding-top:4px">';
-      top.forEach(function(a,k){ var inf=infoAparato(a);
-        h+='<div class="hb"><span class="nm"><span style="color:'+inf.c+';display:inline-flex">'+ico(inf.ico,' width="15" height="15"')+'</span>'+esc(a)+'</span>'
-          +'<span class="tr"><i style="width:'+Math.round(cuenta[a]/mx*100)+'%;background:'+inf.c+';animation-delay:'+(k*60)+'ms"></i></span><span class="v">'+cuenta[a]+'</span></div>';
-      });
-      h+='</div>';
-    }
-  }
-
   /* últimas fichas */
   var ult=deHoy.slice().sort(function(a,b){return (b.hora||'').localeCompare(a.hora||'');}).slice(0,4);
   h+='<div class="sec"><h3>Últimas fichas de hoy</h3><button class="link" onclick="diaSel=hoyISO();go(\'agenda\')">Ver agenda →</button></div><div class="stack">';
-  if(!ult.length) h+='<div class="empty"><span class="ico">📋</span>Aún no hay fichas hoy.<br>Toca <b>+</b> para registrar un socio.</div>';
+  if(!ult.length) h+='<div class="empty">Aún no hay fichas hoy.<br>Toca <b>+</b> para registrar un socio.</div>';
   ult.forEach(function(f,i){ h+=tarjeta(f,i); });
   return h+'</div></div>';
 }
@@ -1246,7 +1235,6 @@ function vistaEstadisticas(){
   var bajo=0; D.slice(0,completos).forEach(function(d,i){ if(d.T<D[bajo].T) bajo=i; });
   var max=Math.max.apply(null,D.map(function(d){return d.T;}));
   var h='<div class="pad">'
-   + '<button class="back" onclick="abrirEstadisticas()">‹ Volver</button>'
 
   /* 1. en una frase */
    + '<div class="hero-est"><div class="he-l">Terapias de fisioterapia en 2026</div><div class="he-n">'+fmt(tot)+'</div>'
