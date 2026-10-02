@@ -862,17 +862,8 @@ function render(){
   }
 }
 
-function vistaInicio(){
-  var hoy=hoyISO();
-  var deHoy=fichas.filter(function(f){return f.fecha===hoy;});
-  var h='<div class="stats">'
-   + '<div class="stat"><div class="ic" style="background:var(--acc-100);color:var(--acc-txt)">'+ico('cal')+'</div><div class="n" style="color:var(--acc-txt)" data-num="'+deHoy.length+'">'+deHoy.length+'</div><div class="l">Fichas hoy</div></div>';
-  cfg.sedes.forEach(function(sd){
-    var c=colorSede(sd), n=deHoy.filter(function(f){return f.sede===sd;}).length;
-    h+='<div class="stat"><div class="ic" style="background:'+c+'1f;color:'+c+'">'+ico('sede')+'</div><div class="n" style="color:'+c+'" data-num="'+n+'">'+n+'</div><div class="l">'+esc(sd)+'</div></div>';
-  });
-  h+='</div><div class="pad" style="padding-top:6px">';
-
+function semanaHTML(){
+  var hoy=hoyISO(), h='';
   /* semana actual (lunes a domingo) */
   var d=new Date(), dow=(d.getDay()+6)%7, lunes=sumarDias(hoy,-dow), dias=[], max=1, total=0;
   var nombres=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
@@ -885,6 +876,19 @@ function vistaInicio(){
       +'<b>'+(fut?'':x.n)+'</b><i style="height:'+alto+'%;animation-delay:'+(k*50)+'ms'+(fut?';opacity:.35':'')+'"></i><span>'+x.nom+'</span></button>';
   });
   h+='</div></div>';
+
+  return h;
+}
+function vistaInicio(){
+  var hoy=hoyISO();
+  var deHoy=fichas.filter(function(f){return f.fecha===hoy;});
+  var h='<div class="stats">'
+   + '<div class="stat"><div class="ic" style="background:var(--acc-100);color:var(--acc-txt)">'+ico('cal')+'</div><div class="n" style="color:var(--acc-txt)" data-num="'+deHoy.length+'">'+deHoy.length+'</div><div class="l">Fichas hoy</div></div>';
+  cfg.sedes.forEach(function(sd){
+    var c=colorSede(sd), n=deHoy.filter(function(f){return f.sede===sd;}).length;
+    h+='<div class="stat"><div class="ic" style="background:'+c+'1f;color:'+c+'">'+ico('sede')+'</div><div class="n" style="color:'+c+'" data-num="'+n+'">'+n+'</div><div class="l">'+esc(sd)+'</div></div>';
+  });
+  h+='</div><div class="pad" style="padding-top:6px">';
 
   /* últimas fichas */
   var ult=deHoy.slice().sort(function(a,b){return (b.hora||'').localeCompare(a.hora||'');}).slice(0,4);
@@ -1245,6 +1249,8 @@ function vistaEstadisticas(){
    + '<li>La <b>Sede Anexo</b> atiende <b>'+Math.round(ta/tot*3*10)/10+' de cada 3</b> terapias ('+pct(ta,tot)+'%).</li>'
    + '<li>De cada 10 pacientes, <b>'+Math.round(tH/(tH+tM)*10)+' son hombres</b> ('+pct(tH,tH+tM)+'%).</li>'
    + '</ul></div>';
+
+  h+=semanaHTML();
 
   /* 2. mes a mes (toca para elegir) */
   h+='<div class="sec"><h3>Mes a mes</h3><span class="count">Toca un mes</span></div><div class="box">'
