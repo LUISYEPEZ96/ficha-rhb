@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ficha RHB — Registro de socios</title>
 <meta name="theme-color" content="#1e3a6e">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
 <script>try{if(localStorage.getItem('rhb_tema_v1')==='oscuro')document.documentElement.setAttribute('data-tema','oscuro');var _p=localStorage.getItem('rhb_paleta_v1');if(_p)document.documentElement.setAttribute('data-paleta',_p);}catch(e){}</script>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -343,6 +345,17 @@ html[data-tema="oscuro"] .toast{background:#27324b}
 .espinfo small{font-size:11px;color:var(--muted);font-weight:600}
 .trofeo{display:inline-flex;vertical-align:-4px;margin-left:5px;filter:drop-shadow(0 1px 2px rgba(180,83,9,.35))}
 #temaBtn.activo{background:#fff;color:var(--g2)}
+#hdrTitulo .saludo{font-family:"Playfair Display",Georgia,"Times New Roman",serif;font-weight:500;letter-spacing:.01em}
+header.grande h1#hdrTitulo{font-size:28px}
+#hdrTitulo .saludo,#hdrTitulo .saludo-ico,#hdrTitulo .saludo-lang{display:inline-block;transition:opacity .7s cubic-bezier(.4,0,.2,1),filter .7s cubic-bezier(.4,0,.2,1),letter-spacing .7s ease}
+#hdrTitulo.saliendo .saludo,#hdrTitulo.saliendo .saludo-lang{opacity:0;filter:blur(6px)}
+#hdrTitulo.saliendo .saludo{letter-spacing:.06em}
+#hdrTitulo .le{display:inline-block;opacity:0;animation:letraEntra 1.1s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes letraEntra{0%{opacity:0;transform:translateY(.28em);filter:blur(8px)}60%{filter:blur(0)}100%{opacity:1;transform:none;filter:none}}
+#hdrTitulo .barrido{-webkit-mask-image:linear-gradient(270deg,#000 35%,transparent 65%);mask-image:linear-gradient(270deg,#000 35%,transparent 65%);-webkit-mask-size:300% 100%;mask-size:300% 100%;-webkit-mask-position:0 0;mask-position:0 0;animation:barridoAr 1.8s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes barridoAr{to{-webkit-mask-position:100% 0;mask-position:100% 0}}
+.saludo-lang{vertical-align:middle;margin-left:8px;font-size:10px;font-weight:700;letter-spacing:.14em;padding:2px 6px;border-radius:6px;border:1px solid rgba(255,255,255,.35);opacity:.7}
+@media (prefers-reduced-motion:reduce){#hdrTitulo .le,#hdrTitulo .barrido{animation:none;opacity:1;-webkit-mask-image:none;mask-image:none}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
 @media (max-width:520px){ .row.parte{flex-direction:column;gap:0} }
 </style>
@@ -656,7 +669,44 @@ function miniAparatos(lista){
   return '<span class="mini">'+lista.slice(0,5).map(function(a){ var i=infoAparato(a); return '<i title="'+esc(a)+'" style="background:'+i.c+'1f;color:'+i.c+'">'+ico(i.ico)+'</i>'; }).join('')+'</span>';
 }
 function plural(n,s,p){ return n+' '+(n===1?s:(p||s+'s')); }
-function saludo(){ var h=new Date().getHours(); return h<12?'Buenos días ☀️':(h<19?'Buenas tardes 🌤️':'Buenas noches 🌙'); }
+/* saludo que va cambiando de idioma: español, inglés y 5 de los idiomas más hablados */
+var SALUDOS=[
+  ['es','Buenos días','Buenas tardes','Buenas noches'],
+  ['en','Good morning','Good afternoon','Good evening'],
+  ['zh','早上好','下午好','晚上好'],
+  ['hi','सुप्रभात','शुभ दोपहर','शुभ संध्या'],
+  ['fr','Bonjour','Bon après-midi','Bonsoir'],
+  ['ar','صباح الخير','مساء الخير','مساء الخير'],
+  ['pt','Bom dia','Boa tarde','Boa noite']
+];
+var saludoIdx=0, _tSaludo=null;
+function momentoDia(){ var h=new Date().getHours(); return h<12?1:(h<19?2:3); }
+function saludo(){ var m=momentoDia(); return SALUDOS[0][m]+' '+['','☀️','🌤️','🌙'][m]; }
+function letras(txt){
+  if(window.Intl && Intl.Segmenter){ try{ return Array.from(new Intl.Segmenter(undefined,{granularity:'grapheme'}).segment(txt),function(x){return x.segment;}); }catch(e){} }
+  return Array.from(txt);
+}
+function htmlSaludo(){
+  var L=SALUDOS[saludoIdx], m=momentoDia(), txt=L[m], cuerpo;
+  if(L[0]==='ar'){
+    /* el árabe se escribe unido y de derecha a izquierda: se revela con un barrido suave */
+    cuerpo='<span class="saludo barrido" lang="ar" dir="rtl">'+txt+'</span>';
+  } else {
+    cuerpo='<span class="saludo" lang="'+L[0]+'">'+letras(txt).map(function(c,i){
+      return '<span class="le" style="animation-delay:'+(i*70)+'ms">'+(c===' '?'&nbsp;':esc(c))+'</span>';
+    }).join('')+'</span>';
+  }
+  return cuerpo+' <span class="saludo-ico">'+['','☀️','🌤️','🌙'][m]+'</span><span class="saludo-lang">'+L[0].toUpperCase()+'</span>';
+}
+function rotarSaludo(){
+  clearTimeout(_tSaludo);
+  _tSaludo=setTimeout(function(){
+    var t=document.getElementById('hdrTitulo'), sp=t&&t.querySelector('.saludo');
+    if(!sp || view!=='inicio'){ saludoIdx=0; return; }
+    t.classList.add('saliendo');
+    setTimeout(function(){ saludoIdx=(saludoIdx+1)%SALUDOS.length; t.innerHTML=htmlSaludo(); t.classList.remove('saliendo'); rotarSaludo(); },700);
+  }, 3200);
+}
 function sumarDias(iso,n){ var a=iso.split('-'); var d=new Date(+a[0],+a[1]-1,+a[2]+n); return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate()); }
 function tituloDia(iso){ var h=hoyISO(); if(iso===h) return 'Hoy'; if(iso===sumarDias(h,-1)) return 'Ayer'; return fechaLarga(iso); }
 
@@ -763,7 +813,7 @@ function pintarHeader(){
   hdr.classList.toggle('grande',grande);
   if(!clave){ t.textContent='Ficha RHB'; s.textContent='Registro de socios'; return; }
   var titulos={estadisticas:'Estadísticas',agenda:'Agenda',historial:'Historial',ajustes:'Ajustes',detalle:'Detalle de ficha'};
-  if(grande){ t.textContent=saludo(); s.textContent=fechaLarga(hoyISO()); }
+  if(grande){ if(!t.querySelector('.saludo')){ saludoIdx=0; t.innerHTML=htmlSaludo(); rotarSaludo(); } s.textContent=fechaLarga(hoyISO()); }
   else if(view==='ficha'){ t.textContent=draft&&draft.id?'Editar ficha':'Nueva ficha'; s.textContent='Ficha de rehabilitación'; }
   else { t.textContent=titulos[view]||'Ficha RHB'; s.textContent=view==='agenda'?fechaLarga(diaSel):(view==='estadisticas'?'Fisioterapia · 2026':''); }
   s.style.display=s.textContent?'':'none';
