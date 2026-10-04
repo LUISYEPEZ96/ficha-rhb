@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ficha RHB — Registro de socios</title>
 <meta name="theme-color" content="#1e3a6e">
-<script>try{if(localStorage.getItem('rhb_tema_v1')==='oscuro')document.documentElement.setAttribute('data-tema','oscuro');var _p=localStorage.getItem('rhb_paleta_v1');if(_p)document.documentElement.setAttribute('data-paleta',_p);}catch(e){}</script>
+<script>try{if(localStorage.getItem('rhb_tema_v1')==='oscuro')document.documentElement.setAttribute('data-tema','oscuro');if(!localStorage.getItem('rhb_azul_reset_v1')){localStorage.removeItem('rhb_paleta_v1');localStorage.setItem('rhb_azul_reset_v1','1');}var _p=localStorage.getItem('rhb_paleta_v1');if(_p)document.documentElement.setAttribute('data-paleta',_p);}catch(e){}</script>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Ficha RHB">
 <style>
 /* ===== Colores (paleta azul por defecto) ===== */
 :root{
-  --g1:#1e3a6e; --g2:#3b3fb8; --g3:#0ea5a4; --acc:#4f46e5; --acc-txt:#4338ca; --acc-100:#e0e7ff;
+  --g1:#16294f; --g2:#1e3a6e; --g3:#2f5fb3; --acc:#1e3a6e; --acc-txt:#1e3a6e; --acc-100:#eef1f7;
   --bg:#f4f6fb; --card:#ffffff; --campo:#ffffff; --text:#0f172a; --muted:#64748b; --label:#475569; --div:#e5e9f2; --soft:#eef2f7;
   --ok:#16a34a; --warn:#d97706; --danger:#dc2626;
   --sombra:0 3px 12px rgba(15,23,42,.06);
@@ -26,6 +26,7 @@ html[data-paleta="negro"]{--g1:#000000; --g2:#18181b; --g3:#52525b; --acc:#18181
 html[data-paleta="turquesa"]{--g1:#115e59; --g2:#0d9488; --g3:#22d3ee; --acc:#0d9488; --acc-txt:#0f766e; --acc-100:#ccfbf1}
 html[data-paleta="amarillo"]{--g1:#a16207; --g2:#ca8a04; --g3:#facc15; --acc:#ca8a04; --acc-txt:#a16207; --acc-100:#fef9c3}
 html[data-paleta="rojo"]{--g1:#7f1d1d; --g2:#dc2626; --g3:#f87171; --acc:#dc2626; --acc-txt:#b91c1c; --acc-100:#fee2e2}
+html[data-tema="oscuro"]:not([data-paleta]){--g2:#2f5fb3;--g3:#4a7fd6}
 html[data-tema="oscuro"]{color-scheme:dark;
   --bg:#0b1020; --card:#141a2e; --campo:#0f1526; --text:#e2e8f0; --muted:#94a3b8; --label:#cbd5e1; --div:#253049; --soft:#1c2439;
   --acc-txt:#a5b4fc; --acc-100:rgba(129,140,248,.16); --sombra:0 3px 12px rgba(0,0,0,.25)}
@@ -53,7 +54,7 @@ header{position:sticky;top:0;z-index:20;color:#fff;overflow:hidden;
   padding:calc(12px + env(safe-area-inset-top)) 18px 14px;border-radius:0 0 22px 22px;box-shadow:0 8px 24px rgba(15,23,42,.15)}
 html[data-tema="oscuro"] header{background:linear-gradient(135deg,rgba(0,0,0,.35),rgba(0,0,0,.2)),linear-gradient(135deg,var(--g1) 0%,var(--g2) 55%,var(--g3) 100%)}
 header::after{content:"";position:absolute;right:-70px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08);pointer-events:none}
-header.grande{position:relative;z-index:1;padding-bottom:40px}
+header.grande{position:relative;z-index:1;padding-bottom:18px}
 .brand{font-size:10.5px;letter-spacing:.16em;font-weight:800;opacity:.78}
 header h1{margin:3px 0 0;font-size:20px;font-weight:800;letter-spacing:-.01em;padding-right:44px}
 header.grande h1{font-size:25px}
@@ -356,6 +357,10 @@ html[data-tema="oscuro"] .toast{background:#27324b}
 .saludo-lang{vertical-align:middle;margin-left:8px;font-size:10px;font-weight:700;letter-spacing:.14em;padding:2px 6px;border-radius:6px;border:1px solid rgba(255,255,255,.35);opacity:.7}
 @media (prefers-reduced-motion:reduce){#hdrTitulo .le,#hdrTitulo .barrido{animation:none;opacity:1;-webkit-mask-image:none;mask-image:none}}
 .ico-electro{display:inline-block;width:1.45em;height:1.45em;vertical-align:-.32em;margin:0 2px;filter:drop-shadow(0 3px 8px rgba(0,0,0,.18))}
+.stat-hoy{display:flex;align-items:center;gap:14px;padding:14px 16px}
+.stat-hoy .ic{width:46px;height:46px;border-radius:14px;margin:0}
+.stat-hoy .ic svg{width:24px;height:24px}
+.stat-hoy .n{font-size:32px}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
 @media (max-width:520px){ .row.parte{flex-direction:column;gap:0} }
 </style>
@@ -430,7 +435,6 @@ html[data-tema="oscuro"] .toast{background:#27324b}
 <nav class="tabbar" id="tabbar">
   <div class="tb-lado">
   <button class="tb active" id="tabInicio" onclick="go('inicio')"><svg><use href="#i-home"/></svg>Inicio</button>
-  <button class="tb" id="tabAgenda" onclick="go('agenda')"><svg><use href="#i-cal"/></svg>Agenda</button>
   <button class="tb" id="tabHistorial" onclick="go('historial')"><svg><use href="#i-hist"/></svg>Historial</button>
   </div>
   <span class="tb-esp"></span>
@@ -612,7 +616,6 @@ var view='inicio', diaSel=hoyISO(), busqueda='', draft=null, detalleId=null;
 function go(v){
   view=v;
   document.getElementById('tabInicio').classList.toggle('active', v==='inicio');
-  document.getElementById('tabAgenda').classList.toggle('active', v==='agenda'||v==='ficha');
   document.getElementById('tabHistorial').classList.toggle('active', v==='historial'||v==='detalle');
   document.getElementById('tabAjustes').classList.toggle('active', v==='ajustes');
   document.getElementById('tabEstad').classList.toggle('active', v==='estadisticas');
@@ -634,7 +637,7 @@ function guardar(){
   }else{
     draft.id=uid(); draft.creado=new Date().toISOString(); fichas.push(draft);
   }
-  persist(); encolar(draft.id); diaSel=draft.fecha; draft=null; view='agenda'; render(); toast('Ficha guardada');
+  persist(); encolar(draft.id); diaSel=draft.fecha; draft=null; go('inicio'); toast('Ficha guardada');
   sincronizar(true);
 }
 
@@ -654,7 +657,7 @@ var SEDE_COL=['#0d9488','#ea580c','#2563eb','#db2777','#7c3aed','#65a30d'];
 var APAR_INFO={ultrasonido:['us','#0284c7'],magneto:['mag','#7c3aed'],compresa:['comp','#ea580c'],laser:['las','#dc2626'],percutor:['per','#0d9488'],electrodos:['ele','#d97706']};
 var APAR_EXTRA=['#4f46e5','#db2777','#16a34a','#0891b2','#9333ea','#ca8a04'];
 function hashTxt(s){ var h=0; s=String(s||''); for(var i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0; return h; }
-var ACENTO_TEMA={azul:'#4f46e5',morado:'#7c3aed',verde:'#059669',naranja:'#ea580c',rosado:'#db2777',negro:'#3f3f46',turquesa:'#0d9488',amarillo:'#ca8a04',rojo:'#dc2626'};
+var ACENTO_TEMA={azul:'#1e3a6e',morado:'#7c3aed',verde:'#059669',naranja:'#ea580c',rosado:'#db2777',negro:'#3f3f46',turquesa:'#0d9488',amarillo:'#ca8a04',rojo:'#dc2626'};
 /* todas las especialistas con un mismo color: el del tema elegido en Ajustes */
 function colorTema(){ return ACENTO_TEMA[paletaActual()]||'#4f46e5'; }
 function colorEsp(n){ if(!n) return '#94a3b8'; return colorTema(); }
@@ -872,7 +875,7 @@ function semanaHTML(){
    + '<div class="box"><div class="bars">';
   dias.forEach(function(x,k){
     var alto=x.n?Math.max(8,Math.round(x.n/max*100)):5, fut=x.iso>hoy;
-    h+='<button class="bar'+(x.iso===hoy?' hoy':'')+'" style="border:none;background:none;padding:0;cursor:pointer" onclick="diaSel=\''+x.iso+'\';go(\'agenda\')">'
+    h+='<button class="bar'+(x.iso===hoy?' hoy':'')+'" style="border:none;background:none;padding:0;cursor:pointer" onclick="busqueda=\'\';go(\'historial\')">'
       +'<b>'+(fut?'':x.n)+'</b><i style="height:'+alto+'%;animation-delay:'+(k*50)+'ms'+(fut?';opacity:.35':'')+'"></i><span>'+x.nom+'</span></button>';
   });
   h+='</div></div>';
@@ -882,18 +885,12 @@ function semanaHTML(){
 function vistaInicio(){
   var hoy=hoyISO();
   var deHoy=fichas.filter(function(f){return f.fecha===hoy;});
-  var h='<div class="stats">'
-   + '<div class="stat"><div class="ic" style="background:var(--acc-100);color:var(--acc-txt)">'+ico('cal')+'</div><div class="n" style="color:var(--acc-txt)" data-num="'+deHoy.length+'">'+deHoy.length+'</div><div class="l">Fichas hoy</div></div>';
-  cfg.sedes.forEach(function(sd){
-    var c=colorSede(sd), n=deHoy.filter(function(f){return f.sede===sd;}).length;
-    h+='<div class="stat"><div class="ic" style="background:'+c+'1f;color:'+c+'">'+ico('sede')+'</div><div class="n" style="color:'+c+'" data-num="'+n+'">'+n+'</div><div class="l">'+esc(sd)+'</div></div>';
-  });
-  h+='</div><div class="pad" style="padding-top:6px">';
+  var h='<div class="pad" style="padding-top:6px">';
 
   /* últimas fichas */
-  var ult=deHoy.slice().sort(function(a,b){return (b.hora||'').localeCompare(a.hora||'');}).slice(0,4);
-  h+='<div class="sec"><h3>Últimas fichas de hoy</h3><button class="link" onclick="diaSel=hoyISO();go(\'agenda\')">Ver agenda →</button></div><div class="stack">';
-  if(!ult.length) h+='<div class="empty">Aún no hay fichas hoy.<br>Toca <b>+</b> para registrar un socio.</div>';
+  var ult=deHoy.slice().sort(function(a,b){return (b.hora||'').localeCompare(a.hora||'');});
+  h+='<div class="sec"><h3>Fichas de hoy</h3><button class="link" onclick="busqueda=\'\';go(\'historial\')">Ver historial →</button></div><div class="stack">';
+  if(!ult.length) h+='<div class="empty">Aún no hay fichas hoy.<br>Toca <b>📋</b> para registrar un socio.</div>';
   ult.forEach(function(f,i){ h+=tarjeta(f,i); });
   return h+'</div></div>';
 }
@@ -929,7 +926,7 @@ function progFicha(){
 function vistaFicha(){
   var d=draft;
   var h='<div class="pad">'
-   + '<button class="back" onclick="draft=null;go(\'agenda\')">‹ Volver</button>'
+   + '<button class="back" onclick="draft=null;go(\'inicio\')">‹ Volver</button>'
    + '<div class="prog" id="progFicha"><i></i><i></i><i></i></div>'
    + '<div class="field"><label>Nombre completo del socio</label><input class="input" value="'+esc(d.nombre)+'" oninput="draft.nombre=this.value;progFicha()" placeholder="Nombre y apellidos"></div>'
    + '<div class="row"><div class="field"><label>Fecha</label><input class="input" type="date" value="'+esc(d.fecha)+'" oninput="draft.fecha=this.value"></div>'
@@ -1081,7 +1078,7 @@ function renderListaHist(){
 
 function vistaAjustes(){
   var osc=document.documentElement.getAttribute('data-tema')==='oscuro', pal=paletaActual();
-  var PAL=[['azul','Azul','#1e3a6e','#0ea5a4'],['morado','Morado','#4c1d95','#db2777'],['verde','Verde','#064e3b','#84cc16'],['naranja','Naranja','#9a3412','#f59e0b'],['rosado','Rosado','#9d174d','#f472b6'],['negro','Negro','#000000','#52525b'],['turquesa','Turquesa','#115e59','#22d3ee'],['amarillo','Amarillo','#a16207','#facc15'],['rojo','Rojo','#7f1d1d','#f87171']];
+  var PAL=[['azul','Azul','#16294f','#2f5fb3'],['morado','Morado','#4c1d95','#db2777'],['verde','Verde','#064e3b','#84cc16'],['naranja','Naranja','#9a3412','#f59e0b'],['rosado','Rosado','#9d174d','#f472b6'],['negro','Negro','#000000','#52525b'],['turquesa','Turquesa','#115e59','#22d3ee'],['amarillo','Amarillo','#a16207','#facc15'],['rojo','Rojo','#7f1d1d','#f87171']];
   var h='<div class="pad">'
    + '<div class="sec" style="margin-top:4px"><h3>Apariencia</h3></div><div class="box">'
    + '<div class="opt"><div><b>Modo oscuro</b><small>Más cómodo de noche</small></div><button class="switch'+(osc?' on':'')+'" onclick="cambiarTema()" aria-label="Modo oscuro"></button></div>'
