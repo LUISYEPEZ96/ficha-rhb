@@ -234,6 +234,29 @@ details.cfg[open] summary::after{transform:rotate(90deg)}
 .tb-esp{flex:0 0 78px}
 .tb-lado{flex:1;display:flex;min-width:0}
 .tb-lado .tb{min-width:0}
+
+/* ---- Información / reglamento ---- */
+.rg-hero{border-radius:18px;padding:16px 18px;color:#fff;background:linear-gradient(135deg,var(--g2),var(--g3));box-shadow:0 10px 22px rgba(15,23,42,.18)}
+.rg-hero .rg-k{font-size:10px;font-weight:800;letter-spacing:.16em;opacity:.8}
+.rg-hero h3{margin:4px 0 0;font-size:18px;font-weight:800}
+.rg-hero p{margin:8px 0 0;font-size:13px;opacity:.95;line-height:1.45}
+.rg-horario{display:flex;align-items:center;gap:10px;margin-top:12px;background:rgba(255,255,255,.16);border-radius:12px;padding:10px 12px;font-size:13px;line-height:1.4}
+.rg-tit{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin:22px 0 10px}
+.rg-serv{width:100%;border-collapse:collapse;border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px var(--div)}
+.rg-serv th{background:var(--acc-txt,#1e3a6e);color:#fff;font-size:11px;font-weight:800;padding:9px 12px;text-align:left}
+.rg-serv td{padding:10px 12px;font-size:13px;border-bottom:1px solid var(--div);vertical-align:top}
+.rg-serv tr:last-child td{border-bottom:none}
+.rg-serv .rg-n{font-weight:700}
+.rg-serv .rg-d{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
+.rg-serv .rg-s{white-space:nowrap;font-weight:700;font-size:12px}
+.rg-art{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--div)}
+.rg-art:last-child{border-bottom:none}
+.rg-num{flex:0 0 32px;height:32px;border-radius:10px;background:var(--acc-bg,#eef1f7);color:var(--acc-txt,#1e3a6e);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12.5px}
+.rg-txt{flex:1;min-width:0;font-size:13.5px;line-height:1.5}
+.rg-ul{margin:8px 0 0;padding-left:18px}
+.rg-ul li{margin:4px 0;font-size:13px;line-height:1.45}
+.rg-pie{margin-top:18px;padding:12px 14px;border-radius:12px;background:var(--acc-bg,#eef1f7);font-size:11.5px;color:var(--muted);line-height:1.5}
+@media(max-width:420px){.tabbar .tb{font-size:9.5px}.tabbar .tb svg{width:21px;height:21px}}
 .fab{position:fixed;left:0;right:0;margin:0 auto;bottom:calc(30px + env(safe-area-inset-bottom));z-index:31;width:64px;height:64px;border-radius:22px;border:none;color:#fff;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;padding:0;overflow:hidden;isolation:isolate;
   background:linear-gradient(135deg,var(--g2),var(--g3));user-select:none;-webkit-user-select:none;
@@ -410,6 +433,7 @@ html[data-tema="oscuro"] .toast{background:#27324b}
 <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
 <symbol id="i-hist" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
 <symbol id="i-cfg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.6v.1"/></symbol>
 <symbol id="i-stats" viewBox="0 0 24 24"><path d="M5 20V12M12 20V4M19 20v-7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
 <symbol id="i-srch" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
 <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
@@ -441,6 +465,7 @@ html[data-tema="oscuro"] .toast{background:#27324b}
   <div class="tb-lado">
   <button class="tb" id="tabAjustes" onclick="go('ajustes')"><svg><use href="#i-cfg"/></svg>Ajustes</button>
   <button class="tb" id="tabEstad" onclick="go('estadisticas')"><svg><use href="#i-stats"/></svg>Estadísticas</button>
+  <button class="tb" id="tabInfo" onclick="go('informacion')"><svg><use href="#i-info"/></svg>Información</button>
   </div>
 </nav>
 <button type="button" class="fab" id="fab" aria-label="Nueva ficha"><span class="fab-ico fab-tabla" aria-hidden="true">📋</span><span class="fab-txt">Nueva ficha</span></button>
@@ -619,6 +644,7 @@ function go(v){
   document.getElementById('tabHistorial').classList.toggle('active', v==='historial'||v==='detalle');
   document.getElementById('tabAjustes').classList.toggle('active', v==='ajustes');
   document.getElementById('tabEstad').classList.toggle('active', v==='estadisticas');
+  document.getElementById('tabInfo').classList.toggle('active', v==='informacion');
   render();
 }
 
@@ -833,10 +859,10 @@ function pintarHeader(){
   var grande=(view==='inicio' && !!clave);
   hdr.classList.toggle('grande',grande);
   if(!clave){ t.textContent='Ficha RHB'; s.textContent='Registro de socios'; return; }
-  var titulos={estadisticas:'Estadísticas',agenda:'Agenda',historial:'Historial',ajustes:'Ajustes',detalle:'Detalle de ficha'};
+  var titulos={estadisticas:'Estadísticas',agenda:'Agenda',historial:'Historial',ajustes:'Ajustes',detalle:'Detalle de ficha',informacion:'Información'};
   if(grande){ if(!t.querySelector('.saludo')){ saludoIdx=0; t.innerHTML=htmlSaludo(); rotarSaludo(); } s.textContent=fechaLarga(hoyISO()); }
   else if(view==='ficha'){ t.textContent=draft&&draft.id?'Editar ficha':'Nueva ficha'; s.textContent='Ficha de rehabilitación'; }
-  else { t.textContent=titulos[view]||'Ficha RHB'; s.textContent=view==='agenda'?fechaLarga(diaSel):(view==='estadisticas'?'Fisioterapia · 2026':''); }
+  else { t.textContent=titulos[view]||'Ficha RHB'; s.textContent=view==='agenda'?fechaLarga(diaSel):(view==='estadisticas'?'Fisioterapia · 2026':(view==='informacion'?'Reglamento interno':'')); }
   s.style.display=s.textContent?'':'none';
 }
 function render(){
@@ -855,6 +881,7 @@ function render(){
   else if(view==='historial') m.innerHTML=vistaHistorial();
   else if(view==='ajustes') m.innerHTML=vistaAjustes();
   else if(view==='estadisticas') m.innerHTML=vistaEstadisticas();
+  else if(view==='informacion') m.innerHTML=vistaInformacion();
   else m.innerHTML=vistaDetalle();
   if(cambio){
     m.classList.remove('entra'); void m.offsetWidth; m.classList.add('entra');
@@ -1104,6 +1131,10 @@ function guardarCfg(){
   function lines(id){ return document.getElementById(id).value.split('\n').map(function(s){return s.trim();}).filter(Boolean); }
   cfg.especialistas=lines('cfgEsp'); cfg.sedes=lines('cfgSede'); cfg.aparatos=lines('cfgAp');
   persistCfg(); render(); toast('Listas actualizadas');
+}
+
+function vistaInformacion(){
+  return "<div class=\"pad\"><div class=\"rg-hero\"><div class=\"rg-k\">GUAYAQUIL TENIS CLUB</div><h3>Reglamento del Área de Rehabilitación</h3><p>Normas de uso del servicio de rehabilitación física para socios y dependientes activos.</p><div class=\"rg-horario\"><span>🕗</span><span>Atención de <b>lunes a domingo</b><br>de <b>08h30 a 17h00</b> · ambas sedes</span></div></div><div class=\"rg-tit\">Servicios que se brindan</div><table class=\"rg-serv\"><tr><th>Detalle</th><th>Sedes</th></tr><tr><td><span class=\"rg-n\">Aparatología</span><span class=\"rg-d\">Magneto, ultrasonido, electrodos, compresa, láser y percutor</span></td><td class=\"rg-s\">Ambas sedes</td></tr><tr><td><span class=\"rg-n\">Masaje</span><span class=\"rg-d\">Descontracturante, relajante, deportivo, linfático</span></td><td class=\"rg-s\">Ambas sedes</td></tr><tr><td><span class=\"rg-n\">Kinesiterapia</span></td><td class=\"rg-s\">Ambas sedes</td></tr><tr><td><span class=\"rg-n\">Fisioterapia</span></td><td class=\"rg-s\">Sede Anexo</td></tr><tr><td><span class=\"rg-n\">Traumatología</span></td><td class=\"rg-s\">Sede Anexo</td></tr></table><div class=\"rg-tit\">Artículos</div><div><div class=\"rg-art\"><div class=\"rg-num\">1</div><div class=\"rg-txt\">El horario de atención es de <b>lunes a domingo, de 08h30 a 17h00</b>, en ambas sedes.</div></div><div class=\"rg-art\"><div class=\"rg-num\">2</div><div class=\"rg-txt\">El área de rehabilitación física prestará sus servicios exclusivamente a socios y sus dependientes activos del Guayaquil Tenis Club, que emitan su turno en la APP del club.</div></div><div class=\"rg-art\"><div class=\"rg-num\">3</div><div class=\"rg-txt\">Los servicios que se brindan son los detallados en el cuadro anterior.</div></div><div class=\"rg-art\"><div class=\"rg-num\">4</div><div class=\"rg-txt\">Para la asignación de turnos se considerará:<ul class=\"rg-ul\"><li>Los turnos estarán habilitados para todos los socios y sus dependientes activos del club.</li><li>Los turnos son habilitados en horario de 08h30 a 16h30, de lunes a domingo.</li><li>Se deberá respetar el tiempo de atención asignado a cada usuario.</li><li>Los socios deberán estar en el área de rehabilitación física 10 minutos antes del turno asignado y se espera un máximo de 15 minutos de atraso.</li><li>Los socios pueden cancelar el servicio hasta 2 horas antes en la APP.</li><li>Los turnos tienen una duración de 45 minutos.</li></ul></div></div><div class=\"rg-art\"><div class=\"rg-num\">5</div><div class=\"rg-txt\">Los turnos se asignan con los datos del socio o sus dependientes activos, registrados en el sistema.</div></div><div class=\"rg-art\"><div class=\"rg-num\">6</div><div class=\"rg-txt\">Los menores de 12 años deben asistir al área de Rehabilitación Física acompañados de un adulto.</div></div><div class=\"rg-art\"><div class=\"rg-num\">7</div><div class=\"rg-txt\">Los socios deberán proveer información exacta y completa de su condición médica actual como: enfermedades del pasado, medicamentos y otros asuntos relacionados con su salud.</div></div><div class=\"rg-art\"><div class=\"rg-num\">8</div><div class=\"rg-txt\">Una vez que se termine el servicio solicitado, los socios deberán calificar el servicio en las tabletas que se encuentran en el área.</div></div><div class=\"rg-art\"><div class=\"rg-num\">9</div><div class=\"rg-txt\">En la sala de espera y dentro del cubículo NO pueden ingresar personal doméstico que acompañen a los socios (salvo casos estrictamente necesarios).</div></div><div class=\"rg-art\"><div class=\"rg-num\">10</div><div class=\"rg-txt\">Para los socios adultos mayores que NO manejen dispositivos móviles, podrán solicitar su turno con el Asistente de Rehabilitación Física, de manera personal o telefónica, en los horarios de atención administrativa.</div></div><div class=\"rg-art\"><div class=\"rg-num\">11</div><div class=\"rg-txt\">En el área de Rehabilitación Física está prohibida la venta de ropa o cualquier artículo.</div></div><div class=\"rg-art\"><div class=\"rg-num\">12</div><div class=\"rg-txt\">Prohibido ingresar alimentos de cualquier tipo al área.</div></div><div class=\"rg-art\"><div class=\"rg-num\">13</div><div class=\"rg-txt\">Prohibido al socio manejar los equipos de rehabilitación, aires acondicionados y cualquier otro equipo del área.</div></div><div class=\"rg-art\"><div class=\"rg-num\">14</div><div class=\"rg-txt\">Prohibido ingresar al área de kinesiterapia con zapatos; los mismos se deben dejar en la zapatera proporcionada.</div></div><div class=\"rg-art\"><div class=\"rg-num\">15</div><div class=\"rg-txt\">Los invitados no pueden hacer uso de los servicios de rehabilitación física.</div></div><div class=\"rg-art\"><div class=\"rg-num\">16</div><div class=\"rg-txt\">Los socios deben respetar y hacer respetar las disposiciones del presente reglamento.</div></div><div class=\"rg-art\"><div class=\"rg-num\">17</div><div class=\"rg-txt\">El personal de rehabilitación física debe respetar las disposiciones que consten en este reglamento y reportar cualquier irregularidad que se presente.</div></div><div class=\"rg-art\"><div class=\"rg-num\">18</div><div class=\"rg-txt\">El incumplimiento de este reglamento, así como la falta de respeto al personal, será sancionado de acuerdo con los estatutos y reglamentos del club.</div></div><div class=\"rg-art\"><div class=\"rg-num\">19</div><div class=\"rg-txt\">Los artículos de valor quedan a total responsabilidad de los socios.</div></div></div><div class=\"rg-pie\">Documento <b>ESP DEP 14</b> · Reglamento para uso de rehabilitación física · vigente desde el 26 de mayo de 2021.<br>Ante cualquier duda, consulta con el Asistente de Rehabilitación Física.</div><div style=\"height:26px\"></div></div>";
 }
 
 function vistaDetalle(){
