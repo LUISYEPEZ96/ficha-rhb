@@ -279,7 +279,18 @@ details.cfg[open] summary::after{transform:rotate(90deg)}
 .rg-ul{margin:8px 0 0;padding-left:18px}
 .rg-ul li{margin:4px 0;font-size:13px;line-height:1.45}
 .rg-pie{margin-top:18px;padding:12px 14px;border-radius:12px;background:var(--acc-bg,#eef1f7);font-size:11.5px;color:var(--muted);line-height:1.5}
-@media(max-width:420px){.tabbar .tb{font-size:9.5px}.tabbar .tb svg{width:21px;height:21px}}
+
+.tb{padding:6px 2px;min-width:0}
+.tb-tx{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.2}
+.tb-corta{display:none}
+@media(max-width:480px){
+  .tabbar{padding-left:2px;padding-right:2px}
+  .tabbar .tb{font-size:9.5px}
+  .tabbar .tb svg{width:21px;height:21px}
+  .tb-larga{display:none}
+  .tb-corta{display:block}
+}
+@media(max-width:340px){ .tabbar .tb{font-size:9px} }
 .fab{position:fixed;left:0;right:0;margin:0 auto;bottom:calc(30px + env(safe-area-inset-bottom));z-index:31;width:64px;height:64px;border-radius:22px;border:none;color:#fff;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;padding:0;overflow:hidden;isolation:isolate;
   background:linear-gradient(135deg,var(--g2),var(--g3));user-select:none;-webkit-user-select:none;
@@ -481,14 +492,14 @@ html[data-tema="oscuro"] .toast{background:#27324b}
 </div>
 <nav class="tabbar" id="tabbar">
   <div class="tb-lado">
-  <button class="tb active" id="tabInicio" onclick="go('inicio')"><svg><use href="#i-home"/></svg>Inicio</button>
-  <button class="tb" id="tabHistorial" onclick="go('historial')"><svg><use href="#i-hist"/></svg>Historial</button>
+  <button class="tb active" id="tabInicio" onclick="go('inicio')"><svg><use href="#i-home"/></svg><span class="tb-tx">Inicio</span></button>
+  <button class="tb" id="tabHistorial" onclick="go('historial')"><svg><use href="#i-hist"/></svg><span class="tb-tx">Historial</span></button>
   </div>
   <span class="tb-esp"></span>
   <div class="tb-lado">
-  <button class="tb" id="tabAjustes" onclick="go('ajustes')"><svg><use href="#i-cfg"/></svg>Ajustes</button>
-  <button class="tb" id="tabEstad" onclick="go('estadisticas')"><svg><use href="#i-stats"/></svg>Estadísticas</button>
-  <button class="tb" id="tabInfo" onclick="go('informacion')"><svg><use href="#i-info"/></svg>Información</button>
+  <button class="tb" id="tabAjustes" onclick="go('ajustes')"><svg><use href="#i-cfg"/></svg><span class="tb-tx">Ajustes</span></button>
+  <button class="tb" id="tabEstad" onclick="go('estadisticas')"><svg><use href="#i-stats"/></svg><span class="tb-tx tb-larga">Estadísticas</span><span class="tb-tx tb-corta">Datos</span></button>
+  <button class="tb" id="tabInfo" onclick="go('informacion')"><svg><use href="#i-info"/></svg><span class="tb-tx tb-larga">Información</span><span class="tb-tx tb-corta">Info</span></button>
   </div>
 </nav>
 <button type="button" class="fab" id="fab" aria-label="Nueva ficha"><span class="fab-ico fab-tabla" aria-hidden="true">📋</span><span class="fab-txt">Nueva ficha</span></button>
