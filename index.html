@@ -60,10 +60,18 @@ header h1{margin:3px 0 0;font-size:20px;font-weight:800;letter-spacing:-.01em;pa
 header.grande h1{font-size:25px}
 /* Inicio: las fotos de los equipos van de fondo, detrás de las letras (tocar una la abre en máxima calidad) */
 header.grande::after{display:none}
+header.grande h1{display:none}
+header.grande{display:flex;flex-direction:column;align-items:flex-start}
+header.grande .brand{order:1}
+header.grande .sync{order:2}
+header.grande .h-sub{order:3;font-size:10.5px;font-weight:700;margin-top:5px;padding:3px 9px;border-radius:99px;background:rgba(0,0,0,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+header.grande .sync{font-size:10.5px;padding:3px 9px;gap:5px;margin-top:8px}
+header.grande .sync .dot{width:6px;height:6px}
+header.grande{min-height:calc(150px + env(safe-area-inset-top))}
 .hdr-aparatos{position:absolute;inset:0;z-index:0;display:flex}
 .hdr-aparatos button{flex:1;min-width:0;height:100%;padding:0;border:none;background:#e4e4e7;cursor:zoom-in}
 .hdr-aparatos img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 62%}
-.hdr-aparatos::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(8,13,28,.66) 0%,rgba(8,13,28,.42) 50%,rgba(8,13,28,.16) 100%)}
+.hdr-aparatos::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(8,13,28,.55) 0%,rgba(8,13,28,.20) 38%,rgba(8,13,28,0) 65%)}
 header.grande .brand,header.grande h1,header.grande .h-sub,header.grande .sync{position:relative;z-index:2;text-shadow:0 1px 8px rgba(0,0,0,.45)}
 header.grande .sync{background:rgba(0,0,0,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 header:not(.grande) .hdr-aparatos{display:none}
@@ -922,7 +930,7 @@ function pintarHeader(){
   hdr.classList.toggle('grande',grande);
   if(!clave){ t.textContent='Ficha RHB'; s.textContent='Registro de socios'; return; }
   var titulos={estadisticas:'Estadísticas',agenda:'Agenda',historial:'Historial',ajustes:'Ajustes',detalle:'Detalle de ficha',informacion:'Información'};
-  if(grande){ if(!t.querySelector('.saludo')){ saludoIdx=0; t.innerHTML=htmlSaludo(); rotarSaludo(); } s.textContent=fechaLarga(hoyISO()); }
+  if(grande){ clearTimeout(_tSaludo); t.textContent=''; s.textContent=fechaLarga(hoyISO()); }
   else if(view==='ficha'){ t.textContent=draft&&draft.id?'Editar ficha':'Nueva ficha'; s.textContent='Ficha de rehabilitación'; }
   else { t.textContent=titulos[view]||'Ficha RHB'; s.textContent=view==='agenda'?fechaLarga(diaSel):(view==='estadisticas'?'Fisioterapia · 2026':(view==='informacion'?'Reglamento interno':'')); }
   s.style.display=s.textContent?'':'none';
