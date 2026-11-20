@@ -58,6 +58,15 @@ header.grande{position:relative;z-index:1;padding-bottom:18px}
 .brand{font-size:10.5px;letter-spacing:.16em;font-weight:800;opacity:.78}
 header h1{margin:3px 0 0;font-size:20px;font-weight:800;letter-spacing:-.01em;padding-right:44px}
 header.grande h1{font-size:25px}
+/* Inicio: las fotos de los equipos van de fondo, detrás de las letras (tocar una la abre en máxima calidad) */
+header.grande::after{display:none}
+.hdr-aparatos{position:absolute;inset:0;z-index:0;display:flex}
+.hdr-aparatos button{flex:1;min-width:0;height:100%;padding:0;border:none;background:#e4e4e7;cursor:zoom-in}
+.hdr-aparatos img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 62%}
+.hdr-aparatos::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(8,13,28,.66) 0%,rgba(8,13,28,.42) 50%,rgba(8,13,28,.16) 100%)}
+header.grande .brand,header.grande h1,header.grande .h-sub,header.grande .sync{position:relative;z-index:2;text-shadow:0 1px 8px rgba(0,0,0,.45)}
+header.grande .sync{background:rgba(0,0,0,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+header:not(.grande) .hdr-aparatos{display:none}
 .h-sub{font-size:13px;opacity:.88;margin-top:2px}
 .sync{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.18);padding:5px 11px;border-radius:99px;font-size:11.5px;font-weight:700;margin-top:9px;max-width:100%}
 .sync .dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;flex:none}
@@ -503,6 +512,7 @@ html[data-tema="oscuro"] .toast{background:#27324b}
     <div class="h-sub" id="hdrSub"></div>
     
     <div class="sync"><span class="dot" id="syncDot"></span><span id="barraSync">Conectando…</span></div>
+    <div class="hdr-aparatos" id="hdrAparatos"><button type="button" aria-label="Ver Ultrasonido Meditea Sonotherp 1100"><img src="aparato-ultrasonido.jpg" data-hd="aparato-ultrasonido-hd.jpg" width="600" height="804" alt="Ultrasonido Meditea Sonotherp 1100" decoding="async" onclick="verFoto(this)" onerror="this.parentNode.style.visibility='hidden'"></button><button type="button" aria-label="Ver Magneto Meditea Magnetherp 330"><img src="aparato-magneto-meditea.jpg" data-hd="aparato-magneto-meditea-hd.jpg" width="600" height="804" alt="Magneto Meditea Magnetherp 330" decoding="async" onclick="verFoto(this)" onerror="this.parentNode.style.visibility='hidden'"></button><button type="button" aria-label="Ver Magneto Globus Magnum 3500 Pro"><img src="aparato-magneto-globus.jpg" data-hd="aparato-magneto-globus-hd.jpg" width="600" height="804" alt="Magneto Globus Magnum 3500 Pro" decoding="async" onclick="verFoto(this)" onerror="this.parentNode.style.visibility='hidden'"></button><button type="button" aria-label="Ver Láser Carci Lasermed"><img src="aparato-laser.jpg" data-hd="aparato-laser-hd.jpg" width="600" height="804" alt="Láser Carci Lasermed" decoding="async" onclick="verFoto(this)" onerror="this.parentNode.style.visibility='hidden'"></button></div>
     <span id="temaBtn" hidden></span>
   </header>
   <main id="main"></main>
@@ -1190,7 +1200,7 @@ function irInfo(x){ infoTab=x; render(); }
 function verFoto(img){
   var d=document.createElement('div'); d.className='foto-zoom';
   d.innerHTML='<img alt=""><b aria-label="Cerrar">✕</b>';
-  d.querySelector('img').src=img.currentSrc||img.src; d.querySelector('img').alt=img.alt||'';
+  d.querySelector('img').src=img.getAttribute('data-hd')||img.currentSrc||img.src; d.querySelector('img').alt=img.alt||'';
   function cerrar(){ d.classList.remove('on'); document.removeEventListener('keydown',tecla); setTimeout(function(){ if(d.parentNode) d.parentNode.removeChild(d); },220); }
   function tecla(e){ if(e.key==='Escape') cerrar(); }
   d.onclick=cerrar; document.addEventListener('keydown',tecla);
