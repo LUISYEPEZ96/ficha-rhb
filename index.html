@@ -211,6 +211,12 @@ textarea.input{min-height:86px;resize:vertical}
 .ap .i{width:40px;height:40px;border-radius:13px;margin:0 auto 6px;display:grid;place-items:center;background:var(--soft);color:var(--c);transition:all .2s}
 .ap .i svg{width:22px;height:22px}
 .ap .ck{position:absolute;top:6px;right:6px;width:18px;height:18px;border-radius:50%;background:var(--c);color:#fff;font-size:11px;display:grid;place-items:center;transform:scale(0);transition:transform .2s cubic-bezier(.2,.9,.3,1.4)}
+/* botones de aparatos con foto real */
+.ap .i.i-foto{width:100%;height:auto;aspect-ratio:4/3;border-radius:11px;margin:0 0 7px;background:#fff;overflow:hidden;display:block}
+.ap .i.i-foto img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 58%}
+.ap .i.i-foto svg{display:none}
+.ap.on .i.i-foto{background:#fff;transform:none;box-shadow:0 0 0 2.5px var(--c)}
+.ap .ck{z-index:2;box-shadow:0 1px 4px rgba(0,0,0,.3)}
 .ap.on{border-color:var(--c);color:var(--c);background:var(--cbg)}
 .ap.on .i{background:var(--c);color:#fff;transform:scale(1.05)}
 .ap.on .ck{transform:scale(1)}
@@ -766,6 +772,17 @@ var ACENTO_TEMA={azul:'#1e3a6e',morado:'#7c3aed',verde:'#059669',naranja:'#ea580
 function colorTema(){ return ACENTO_TEMA[paletaActual()]||'#4f46e5'; }
 function colorEsp(n){ if(!n) return '#94a3b8'; return colorTema(); }
 function colorSede(n){ if(!n) return '#94a3b8'; return colorTema(); }
+/* fotos reales de los aparatos para los botones de la ficha (si no cargan, queda el ícono) */
+var APAR_FOTO={ultrasonido:'aparato-ultrasonido.jpg',magneto:'aparato-magneto-meditea.jpg',laser:'aparato-laser.jpg',
+  compresa:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Compresas_Calientes.jpg/500px-Compresas_Calientes.jpg',
+  percutor:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Theragun_(51818229810).jpg/500px-Theragun_(51818229810).jpg',
+  electrodos:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Electroterapia.jpg/500px-Electroterapia.jpg'};
+function fotoAparato(a){ var k=normTxt(a).trim(); if(APAR_FOTO[k]) return APAR_FOTO[k]; for(var key in APAR_FOTO){ if(k.indexOf(key)>=0) return APAR_FOTO[key]; } return ''; }
+function icoAparato(a){
+  var inf=infoAparato(a), f=fotoAparato(a);
+  if(!f) return '<span class="i">'+ico(inf.ico)+'</span>';
+  return '<span class="i i-foto"><img src="'+f+'" alt="" onerror="this.parentNode.classList.remove(\'i-foto\');this.remove()">'+ico(inf.ico)+'</span>';
+}
 function infoAparato(a){
   var k=normTxt(a).trim(), ico='gen';
   if(APAR_INFO[k]) ico=APAR_INFO[k][0];
@@ -1058,7 +1075,7 @@ function vistaFicha(){
   h+='<div class="field"><label>Aparatos utilizados · <span id="apCount">'+d.aparatos.length+'</span></label><div class="apg">';
   aps.forEach(function(a){ var inf=infoAparato(a), on=d.aparatos.indexOf(a)>=0;
     h+='<button type="button" class="ap'+(on?' on':'')+'" style="--c:'+inf.c+';--cbg:'+inf.c+'14" data-v="'+esc(a)+'" onclick="toggleAparato(this)">'
-      +'<span class="ck">✓</span><span class="i">'+ico(inf.ico)+'</span>'+esc(a)+'</button>';
+      +'<span class="ck">✓</span>'+icoAparato(a)+''+esc(a)+'</button>';
   });
   h+='</div></div>'
    + '<button class="btn btn-primary btn-block btn-save" style="margin-top:4px" onclick="guardar()">✓ Guardar ficha</button>';
@@ -1252,7 +1269,7 @@ function vistaDetalle(){
   if((f.aparatos||[]).length){
     h+='<div class="apg">';
     f.aparatos.forEach(function(a){ var inf=infoAparato(a);
-      h+='<div class="ap on" style="--c:'+inf.c+';--cbg:'+inf.c+'14;cursor:default"><span class="i">'+ico(inf.ico)+'</span>'+esc(a)+'</div>'; });
+      h+='<div class="ap on" style="--c:'+inf.c+';--cbg:'+inf.c+'14;cursor:default">'+icoAparato(a)+''+esc(a)+'</div>'; });
     h+='</div>';
   } else h+='<div class="empty" style="padding:18px">Ninguno</div>';
   h+='<div class="row" style="margin-top:20px"><button class="btn btn-primary" onclick="editar(\''+f.id+'\')">'+ico('edit')+'Editar ficha</button>'
