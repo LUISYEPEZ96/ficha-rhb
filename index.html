@@ -478,10 +478,10 @@ html[data-tema="oscuro"] .toast{background:#27324b}
 .hz-flecha:disabled{opacity:.3;cursor:default}
 .hz-aviso{margin-top:12px;padding:11px 13px;border-radius:12px;background:#fff8e6;border:1px solid #f3dca6;color:#7a5600;font-size:12.5px;line-height:1.45}
 html[data-tema="oscuro"] .hz-aviso{background:rgba(234,179,8,.12);border-color:rgba(234,179,8,.35);color:#fde68a}
-.hz-sem{margin-top:14px}
+.hz-sem{margin-top:4px;scroll-margin-top:calc(130px + env(safe-area-inset-top))}
 .hz-sem button{flex-direction:column;gap:1px;padding:8px 2px;font-size:12.5px;--c:var(--acc-txt)}
 .hz-sem button small{font-size:10px;font-weight:700;opacity:.85}
-.hz-dias{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
+.hz-dias{scroll-margin-top:calc(140px + env(safe-area-inset-top));display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
 .hz-dia{position:relative;border:1.5px solid var(--div);background:var(--card);border-radius:13px;padding:7px 0 9px;display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;color:var(--text);font-family:var(--font);transition:transform .12s}
 .hz-dia:active{transform:scale(.94)}
 .hz-dia small{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
@@ -511,31 +511,38 @@ html[data-tema="oscuro"] .hz-aviso{background:rgba(234,179,8,.12);border-color:r
 .hz-chip{display:inline-flex;align-items:center;font-size:11.5px;font-weight:800;padding:3px 10px;border-radius:99px}
 .hz-fer{border-radius:14px;padding:14px;background:#fef9c3;border:1px solid #fde047;color:#713f12;font-size:13.5px;font-weight:700;line-height:1.45}
 html[data-tema="oscuro"] .hz-fer{background:rgba(250,204,21,.13);border-color:rgba(250,204,21,.4);color:#fde68a}
-.hz-tabla-box{padding:8px 6px;overflow-x:auto}
-.hz-tabla{width:100%;border-collapse:separate;border-spacing:3px;table-layout:fixed}
-.hz-tabla th{font-size:9.5px;font-weight:800;color:var(--muted);padding:2px 0 3px;text-transform:uppercase;cursor:pointer;border-radius:8px}
-.hz-tabla th b{display:block;font-size:13px;color:var(--text);text-transform:none}
-.hz-tabla thead th.on{background:var(--acc-100)}
-.hz-tabla thead th.on,.hz-tabla thead th.on b{color:var(--acc-txt)}
-.hz-tabla thead th.hoy b{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
-.hz-tabla .hz-nom{width:66px;text-align:left;padding:0 2px;text-transform:none}
-.hz-tabla tbody .hz-nom b{display:block;font-size:11.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.hz-tabla tbody .hz-nom small{display:block;font-size:9px;font-weight:700;color:var(--muted)}
-.hz-tabla td{height:36px;border-radius:8px;text-align:center;font-size:9.5px;font-weight:800;cursor:pointer;padding:0;background:var(--soft);color:var(--label);overflow:hidden;transition:opacity .2s}
-.hz-tabla td.sel{box-shadow:inset 0 0 0 2px var(--acc)}
-.hz-tabla .c-L,.hz-chip.c-L{background:#7030a0;color:#fff}
-.hz-tabla .c-S,.hz-chip.c-S{background:#f4b183;color:#5a2a0c}
-.hz-tabla .c-A,.hz-chip.c-A{background:#ef4136;color:#fff}
-.hz-tabla .c-F,.hz-chip.c-F{background:#fde047;color:#713f12}
-.hz-tabla td.c-F.col{letter-spacing:.12em}
-.hz-tabla td.c-F.col span{display:inline-block;writing-mode:vertical-rl;transform:rotate(180deg)}
-.hz-tabla td.sel.c-L,.hz-tabla td.sel.c-A{box-shadow:inset 0 0 0 2px #fff,0 0 0 2px var(--acc)}
-.hz-tabla.filtrado tbody tr:not(.per-on) td,.hz-tabla.filtrado tbody tr:not(.per-on) th{opacity:.3}
-.hz-tabla.filtrado tbody td.c-F.col{opacity:1}
-.hz-tabla tbody tr.per-on .hz-nom b{color:var(--acc-txt)}
-.hz-ley{display:flex;flex-wrap:wrap;gap:6px 10px;margin:10px 4px 0;font-size:11px;font-weight:700;color:var(--muted)}
-.hz-ley span{display:inline-flex;align-items:center;gap:5px}
-.hz-ley i{width:11px;height:11px;border-radius:3px;display:inline-block}
+.hz-chip.c-L{background:#7030a0;color:#fff}
+.hz-chip.c-V{background:#808080;color:#000}
+/* tabla igual al PDF del horario (diseño aprobado: Arial cursiva, bordes 808080) */
+.hp-papel{background:#fff;border-radius:14px;padding:10px;box-shadow:var(--sombra);color:#000}
+.hp-tit{display:flex;align-items:center;gap:8px;border:1px solid #808080;padding:8px 10px;margin-bottom:10px;font-family:Arial,"Liberation Sans",Helvetica,sans-serif;color:#0070c0}
+.hp-tit-tx{flex:1;text-align:center;line-height:1.35}
+.hp-tit-tx span,.hp-tit-tx b{display:block;font-weight:400}
+.hp-tit-tx span{font-size:11px}
+.hp-tit-tx b{font-size:13px}
+.hp-tit-tx i{display:block;font-style:normal;font-size:12px}
+.hp-logo{width:46px;height:46px;flex:none}
+.hp-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -10px;padding:0 10px;scrollbar-width:thin}
+.hp-tabla{border-collapse:separate;border-spacing:0;min-width:100%;margin-bottom:14px;border-top:1px solid #808080;border-left:1px solid #808080;font-family:Arial,"Liberation Sans",Helvetica,sans-serif;font-style:italic;font-size:10px;color:#000;-webkit-text-size-adjust:100%}
+.hp-tabla:last-child{margin-bottom:4px}
+.hp-tabla td,.hp-tabla th{border-right:1px solid #808080;border-bottom:1px solid #808080;padding:0 4px;height:27px;text-align:center;font-weight:400;white-space:nowrap;background:#fff}
+.hp-tabla .b{font-weight:700}
+.hp-tabla .hp-banda{background:#fff74a;font-weight:700;height:22px;text-align:left;padding:0}
+.hp-banda span{position:-webkit-sticky;position:sticky;left:0;display:inline-block;padding:0 10px}
+.hp-tabla .hp-nom{position:-webkit-sticky;position:sticky;left:0;z-index:2;width:66px;min-width:66px;background:#c5ee8f}
+.hp-tabla .hp-loch{width:58px;min-width:58px;background:#c5ee8f}
+.hp-tabla .hp-loc{background:#548235}
+.hp-tabla .hp-dia{background:#0070c0;color:#fff}
+.hp-tabla .hp-fecha{background:#015a97;color:#fff;font-size:8px;white-space:normal;line-height:1.15;padding:2px 3px;height:30px}
+.hp-tabla .hp-c{min-width:70px;cursor:pointer}
+.hp-tabla .e-L{background:#7030a0;color:#fff}
+.hp-tabla .e-S{background:#f4b084;font-weight:700}
+.hp-tabla .e-A{background:#fe3d2f;color:#fff;font-weight:700}
+.hp-tabla .e-F{background:#fff74a}
+.hp-tabla .e-V,.hp-tabla .e-X{background:#808080;font-weight:700}
+.hp-tabla .e-R{background:#12475f;color:#fff;white-space:normal;line-height:1.15}
+.hp-hint{font-size:11px;font-weight:700;color:#64748b;text-align:center;margin:6px 0 0}
+@media(min-width:680px){.hp-tabla .hp-banda{text-align:center}.hp-banda span{position:static}.hp-hint{display:none}}
 .hz-gente{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:none}
 .hz-gente::-webkit-scrollbar{display:none}
 .hz-gente button{flex:none;border:1.5px solid var(--div);background:var(--card);color:var(--label);font-family:var(--font);font-size:13px;font-weight:800;padding:8px 14px;border-radius:99px;cursor:pointer}
@@ -557,9 +564,11 @@ html[data-tema="oscuro"] .hz-fer{background:rgba(250,204,21,.13);border-color:rg
 .hz-cal .d.hoy{box-shadow:inset 0 0 0 2px var(--acc)}
 .hz-cal .d.hoy.c-L,.hz-cal .d.hoy.c-A{box-shadow:inset 0 0 0 2px #fff,0 0 0 2px var(--acc)}
 .hz-cal .d.c-L{background:#7030a0;color:#fff}
-.hz-cal .d.c-S{background:#f4b183;color:#5a2a0c}
-.hz-cal .d.c-A{background:#ef4136;color:#fff}
-.hz-cal .d.c-F{background:#fde047;color:#713f12}
+.hz-cal .d.c-S{background:#f4b084;color:#000}
+.hz-cal .d.c-A{background:#fe3d2f;color:#fff}
+.hz-cal .d.c-F{background:#fff74a;color:#000}
+.hz-cal .d.c-V,.hz-cal .d.c-X{background:#808080;color:#000}
+.hz-cal .d.c-R{background:#12475f;color:#fff}
 .hz-cal .d.pasado{opacity:.5}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
 @media (max-width:520px){ .row.parte{flex-direction:column;gap:0} }
@@ -1381,7 +1390,8 @@ function vistaDetalle(){
 /* ============ Horario de trabajo y descanso (ciclos Anexo / Sede) ============
    Para cargar un ciclo nuevo, agregar otro bloque a HORARIOS ('desde' = lunes en que empieza).
    Un carácter por día, de lunes a domingo, una semana por grupo:
-   T = trabaja en su localidad (8h30 – 17h00) · L = libre · S = va a la Sede · A = va al Anexo · F = feriado */
+   T = trabaja en su localidad (8h30 – 17h00) · L = libre · S = va a la Sede · A = va al Anexo · F = feriado
+   V = vacaciones · X = libre - vacaciones · R = libre - 8h30 - 17:00 (libre trabajado, en su localidad) */
 var HORARIOS=[
   {ciclo:12, desde:'2026-11-09', hora:'8h30 – 17h00', gente:[
     {n:'Andrea',   loc:'Anexo', d:'TTTTLLT TSTTFLL LLTTTTT TLLTTTT'},
@@ -1400,7 +1410,7 @@ function hzFin(c){ return sumarDias(c.desde,hzLargo(c)-1); }
 function hzFecha(iso){ var a=iso.split('-'); return new Date(+a[0],+a[1]-1,+a[2]); }
 function hzIdx(c,iso){ return Math.round((hzFecha(iso)-hzFecha(c.desde))/864e5); }
 function hzCod(c,p,iso){ var i=hzIdx(c,iso), s=hzCods(p); return (i>=0&&i<s.length)?s.charAt(i):''; }
-function hzLugar(p,cod){ return cod==='T'?p.loc:(cod==='S'?'Sede':(cod==='A'?'Anexo':'')); }
+function hzLugar(p,cod){ return (cod==='T'||cod==='R')?p.loc:(cod==='S'?'Sede':(cod==='A'?'Anexo':'')); }
 function hzFeriado(c,iso){ return c.gente.some(function(p){ return hzCod(c,p,iso)==='F'; }); }
 function hzDiaN(iso){ return +iso.split('-')[2]; }
 function hzSemDia(iso){ return (hzFecha(iso).getDay()+6)%7; } /* 0 = lunes */
@@ -1436,7 +1446,6 @@ function hzElegirPersona(n){
   hzPersona=(hzPersona===n)?'':n; render();
   if(hzPersona) setTimeout(function(){ var el=document.getElementById('hzPers'); if(el&&el.scrollIntoView) el.scrollIntoView({behavior:'smooth',block:'nearest'}); },40);
 }
-function hzTxtCod(p,cod){ return cod==='L'?'Libre':(cod==='F'?'Feriado':hzLugar(p,cod)); }
 
 function hzCajaLugar(nombre,lista){
   var h='<div class="hz-lugar"><div class="hz-lt"><span>'+ico('sede')+nombre+'</span><span class="hz-n">'+lista.length+'</span></div>';
@@ -1448,45 +1457,56 @@ function hzCajaLugar(nombre,lista){
   return h+'</div>';
 }
 function hzDetalle(c,iso,hoy){
-  var anexo=[], sede=[], libres=[];
+  var anexo=[], sede=[], libres=[], vac=[];
   var h='<div class="box hz-det"><div class="hz-det-tit"><b>'+esc(fechaLarga(iso))+'</b>'
    + (iso===hoy?'<span class="pill" style="background:var(--acc-100);color:var(--acc-txt)">Hoy</span>':'')+'</div>';
   if(hzFeriado(c,iso)) return h+'<div class="hz-fer">Feriado · día libre para todo el personal.</div></div>';
   c.gente.forEach(function(p){
     var cod=hzCod(c,p,iso), l=hzLugar(p,cod);
-    if(l==='Anexo') anexo.push({p:p,mov:cod!=='T'});
-    else if(l==='Sede') sede.push({p:p,mov:cod!=='T'});
+    if(l==='Anexo') anexo.push({p:p,mov:cod==='S'||cod==='A'});
+    else if(l==='Sede') sede.push({p:p,mov:cod==='S'||cod==='A'});
     else if(cod==='L') libres.push(p.n);
+    else if(cod==='V'||cod==='X') vac.push(p.n);
   });
   h+='<div class="hz-lugares">'+hzCajaLugar('Anexo',anexo)+hzCajaLugar('Sede',sede)+'</div>';
   h+='<div class="hz-libres">Libres:'+(libres.length?libres.map(function(n){ return '<span class="hz-chip c-L">'+esc(n)+'</span>'; }).join(''):' <span class="muted">nadie</span>')+'</div>';
+  if(vac.length) h+='<div class="hz-libres">Vacaciones:'+vac.map(function(n){ return '<span class="hz-chip c-V">'+esc(n)+'</span>'; }).join('')+'</div>';
   return h+'</div>';
 }
-function hzTabla(c,lunes,hoy){
-  var dias=[], ferCol=[];
-  for(var k=0;k<7;k++){ var iso=sumarDias(lunes,k); dias.push(iso); ferCol.push(c.gente.every(function(p){ return hzCod(c,p,iso)==='F'; })); }
-  var h='<div class="box hz-tabla-box"><table class="hz-tabla'+(hzPersona?' filtrado':'')+'"><thead><tr><th class="hz-nom"></th>';
-  dias.forEach(function(iso,k){
-    h+='<th class="'+(iso===hzDia?'on':'')+(iso===hoy?' hoy':'')+'" onclick="hzElegirDia(\''+iso+'\')">'+HZ_DIAS[k]+'<b>'+hzDiaN(iso)+'</b></th>';
-  });
-  h+='</tr></thead><tbody>';
-  c.gente.forEach(function(p,r){
-    h+='<tr class="'+(hzPersona===p.n?'per-on':'')+'"><th class="hz-nom" onclick="hzElegirPersona(\''+p.n+'\')"><b>'+esc(p.n)+'</b><small>'+esc(p.loc)+'</small></th>';
-    dias.forEach(function(iso,k){
-      if(ferCol[k]){
-        if(r===0) h+='<td class="c-F col'+(iso===hzDia?' sel':'')+'" rowspan="'+c.gente.length+'" onclick="hzElegirDia(\''+iso+'\')"><span>FERIADO</span></td>';
-        return;
-      }
-      var cod=hzCod(c,p,iso);
-      h+='<td class="c-'+cod+(iso===hzDia?' sel':'')+'" onclick="hzElegirDia(\''+iso+'\')">'+esc(hzTxtCod(p,cod))+'</td>';
-    });
+var HZ_LOGO='data:image/png;base64,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';
+var HP_DIAS=['LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO','DOMINGO'];
+var HP_TXT={T:'8H30 - 17:00',L:'Libre',S:'SEDE',A:'ANEXO',F:'FERIADO',V:'VACACIONES',X:'Libre - Vacaciones',R:'Libre - 8H30 - 17:00'};
+function hpFecha(iso,del){ var a=iso.split('-'); return (+a[2])+(del?' DE ':' ')+MESES[+a[1]-1].toUpperCase()+' DEL '+a[0]; }
+/* el horario tal cual el PDF: banda amarilla, días en azul, nombres y localidad en verde */
+function hzPdf(c){
+  var nSem=Math.ceil(hzLargo(c)/7);
+  var h='<div class="hp-papel"><div class="hp-tit"><div class="hp-tit-tx"><span>Centro de rehabilitación física</span><b>HORARIOS DE TRABAJO Y DESCANSO</b><i>Anexo / Sede · CICLO #'+c.ciclo+'</i></div>'
+   + '<img class="hp-logo" src="'+HZ_LOGO+'" alt="Guayaquil Tenis Club"></div><div class="hp-scroll">';
+  for(var s=0;s<nSem;s++){
+    var lunes=sumarDias(c.desde,s*7), dias=[];
+    for(var k=0;k<7;k++) dias.push(sumarDias(lunes,k));
+    h+='<table class="hp-tabla"><tr><td class="hp-banda" colspan="9"><span>Semana del: '+hpFecha(dias[0],true)+' al '+hpFecha(dias[6],true)+'</span></td></tr>'
+     + '<tr><th class="hp-nom">NOMBRES</th><th class="hp-loch">LOCALIDAD</th>';
+    HP_DIAS.forEach(function(d){ h+='<th class="hp-dia">'+d+'</th>'; });
+    h+='</tr><tr><th class="hp-nom b">NOMBRES</th><th class="hp-loch b">LOCALIDAD</th>';
+    dias.forEach(function(iso){ h+='<th class="hp-fecha">'+hpFecha(iso)+'</th>'; });
     h+='</tr>';
-  });
-  h+='</tbody></table></div>'
-   + '<div class="hz-ley"><span><i style="background:var(--soft);box-shadow:inset 0 0 0 1px var(--div)"></i>Su localidad</span>'
-   + '<span><i class="c-L" style="background:#7030a0"></i>Libre</span><span><i style="background:#f4b183"></i>Va a Sede</span>'
-   + '<span><i style="background:#ef4136"></i>Va al Anexo</span><span><i style="background:#fde047"></i>Feriado</span></div>';
-  return h;
+    c.gente.forEach(function(p){
+      h+='<tr><th class="hp-nom">'+esc(p.n.toUpperCase())+'</th><td class="hp-loc">'+esc(p.loc.toUpperCase())+'</td>';
+      dias.forEach(function(iso){
+        var cod=hzCod(c,p,iso)||'T';
+        h+='<td class="hp-c e-'+cod+'" onclick="hzVerDia(\''+iso+'\')">'+esc(HP_TXT[cod]||'')+'</td>';
+      });
+      h+='</tr>';
+    });
+    h+='</table>';
+  }
+  return h+'</div><div class="hp-hint">← Desliza a los lados para ver toda la semana →</div></div>';
+}
+/* tocar una casilla del horario muestra arriba quién está en cada sede ese día */
+function hzVerDia(iso){
+  hzDia=iso; render();
+  setTimeout(function(){ var el=document.getElementById('hzSem'); if(el&&el.scrollIntoView) el.scrollIntoView({behavior:'smooth',block:'start'}); },30);
 }
 function hzTarjetaPersona(c,hoy){
   var p=c.gente.find(function(x){ return x.n===hzPersona; }); if(!p) return '';
@@ -1495,7 +1515,7 @@ function hzTarjetaPersona(c,hoy){
     var iso=sumarDias(c.desde,i), x=s.charAt(i);
     if(x==='L'){ libres++; if(!prox && iso>=hoy) prox=iso; }
     else if(x==='S'||x==='A'){ otra++; trab++; }
-    else if(x==='T') trab++;
+    else if(x==='T'||x==='R') trab++;
   }
   var h='<div class="box hz-pers" id="hzPers"><div class="hz-pers-top"><span class="hz-av">'+esc(iniEsp(p.n))+'</span>'
    + '<div style="flex:1;min-width:0"><b>'+esc(p.n)+'</b><small>Localidad fija: '+esc(p.loc)+' · Ciclo #'+c.ciclo+'</small></div>'
@@ -1503,13 +1523,13 @@ function hzTarjetaPersona(c,hoy){
    + '<div class="hz-num"><div><b>'+trab+'</b><small>días de trabajo</small></div><div><b>'+libres+'</b><small>días libres</small></div><div><b>'+otra+'</b><small>en '+otroLugar+'</small></div></div>';
   if(hoy>=c.desde && hoy<=hzFin(c)){
     var codHoy=s.charAt(hzIdx(c,hoy));
-    h+='<div class="hz-prox">Hoy: <b>'+esc(codHoy==='L'?'libre':(codHoy==='F'?'feriado':'en '+hzLugar(p,codHoy)))+'</b>'
+    h+='<div class="hz-prox">Hoy: <b>'+esc(codHoy==='L'?'libre':(codHoy==='F'?'feriado':((codHoy==='V'||codHoy==='X')?'de vacaciones':'en '+hzLugar(p,codHoy))))+'</b>'
      + (prox&&prox!==hoy?' · Próximo libre: <b>'+esc(hzCorto(prox))+'</b>':(prox===hoy?'':' · Sin más días libres en este ciclo'))+'</div>';
   }
   h+='<div class="hz-cal">';
   HZ_DIAS.forEach(function(d){ h+='<div class="cab">'+d.charAt(0)+'</div>'; });
   for(var j=0;j<s.length;j++){
-    var iso2=sumarDias(c.desde,j), x2=s.charAt(j), et=(x2==='L'?'Libre':(x2==='F'?'Feriado':(x2==='T'?'':hzLugar(p,x2))));
+    var iso2=sumarDias(c.desde,j), x2=s.charAt(j), et=(x2==='L'?'Libre':(x2==='F'?'Feriado':((x2==='V'||x2==='X')?'Vacac.':(x2==='R'?'L. trab.':(x2==='T'?'':hzLugar(p,x2))))));
     h+='<div class="d c-'+x2+(iso2===hoy?' hoy':'')+(iso2<hoy?' pasado':'')+'" onclick="hzElegirDia(\''+iso2+'\');window.scrollTo({top:0,behavior:\'smooth\'})">'+hzDiaN(iso2)+(et?'<small>'+et+'</small>':'')+'</div>';
   }
   return h+'</div></div>';
@@ -1519,28 +1539,28 @@ function vistaHorario(){
   hzIniciar();
   var c=HORARIOS[hzCiclo], hoy=hoyISO(), fin=hzFin(c), nSem=Math.ceil(hzLargo(c)/7), semSel=Math.floor(hzIdx(c,hzDia)/7);
   var vigente=(hoy>=c.desde&&hoy<=fin), varios=HORARIOS.length>1;
-  var h='<div class="pad"><div class="hz-hero">'
-   + (varios?'<button class="hz-flecha" aria-label="Ciclo anterior" onclick="hzCambiarCiclo(-1)"'+(hzCiclo===0?' disabled':'')+'>‹</button>':'')
-   + '<div style="flex:1;min-width:0"><div class="hz-k">TRABAJO Y DESCANSO</div><h3>Ciclo #'+c.ciclo+'</h3><p>'+esc(hzRango(c.desde,fin,true))+' · '+esc(c.hora)+'</p></div>'
-   + (vigente?'<span class="hz-ok">En curso</span>':'')
-   + (varios?'<button class="hz-flecha" aria-label="Ciclo siguiente" onclick="hzCambiarCiclo(1)"'+(hzCiclo===HORARIOS.length-1?' disabled':'')+'>›</button>':'')
-   + '</div>';
+  var h='<div class="pad">';
+  /* solo si hay más de un ciclo cargado: flechas para cambiar de ciclo */
+  if(varios) h+='<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px">'
+   + '<button class="btn btn-sm" onclick="hzCambiarCiclo(-1)"'+(hzCiclo===0?' disabled':'')+'>‹ Anterior</button>'
+   + '<b style="font-size:14px">Ciclo #'+c.ciclo+'</b>'
+   + '<button class="btn btn-sm" onclick="hzCambiarCiclo(1)"'+(hzCiclo===HORARIOS.length-1?' disabled':'')+'>Siguiente ›</button></div>';
   if(hoy>fin && hzCicloDe(hoy)<0) h+='<div class="hz-aviso">Este ciclo terminó el '+esc(fechaLarga(fin).toLowerCase())+'. Todavía no está cargado el horario siguiente.</div>';
   else if(hoy<c.desde) h+='<div class="hz-aviso">Este ciclo empieza el '+esc(fechaLarga(c.desde).toLowerCase())+'.</div>';
-  h+='<div class="seg hz-sem">';
+  h+='<div class="seg hz-sem" id="hzSem">';
   for(var s=0;s<nSem;s++){
     var ini=sumarDias(c.desde,s*7);
     h+='<button class="'+(s===semSel?'on':'')+'" onclick="hzSemana('+s+')">Semana '+(s+1)+'<small>'+esc(hzRango(ini,sumarDias(ini,6)))+'</small></button>';
   }
   h+='</div>';
   var lunes=sumarDias(c.desde,semSel*7);
-  h+='<div class="hz-dias">';
+  h+='<div class="hz-dias" id="hzDias">';
   for(var k=0;k<7;k++){
     var iso=sumarDias(lunes,k);
     h+='<button class="hz-dia'+(iso===hzDia?' on':'')+(iso===hoy?' hoy':'')+(hzFeriado(c,iso)?' fer':'')+'" onclick="hzElegirDia(\''+iso+'\')"><small>'+HZ_DIAS[k]+'</small><b>'+hzDiaN(iso)+'</b></button>';
   }
   h+='</div>' + hzDetalle(c,hzDia,hoy);
-  h+='<div class="sec"><h3>Semana '+(semSel+1)+'</h3><span class="count">'+esc(hzRango(lunes,sumarDias(lunes,6)))+'</span></div>' + hzTabla(c,lunes,hoy);
+  h+='<div class="sec" style="margin-top:22px"><h3>Horario del ciclo</h3><span class="count">Ciclo #'+c.ciclo+'</span></div>' + hzPdf(c);
   h+='<div class="sec" style="margin-top:22px"><h3>Por persona</h3><span class="count">Todo el ciclo</span></div><div class="hz-gente">';
   c.gente.forEach(function(p){ h+='<button class="'+(hzPersona===p.n?'on':'')+'" onclick="hzElegirPersona(\''+p.n+'\')">'+esc(p.n)+'</button>'; });
   h+='</div>' + (hzPersona?hzTarjetaPersona(c,hoy):'<div class="hz-vacio" style="padding:4px 4px 0">Elige un nombre para ver sus días libres y su calendario del ciclo.</div>');
