@@ -513,36 +513,34 @@ html[data-tema="oscuro"] .hz-aviso{background:rgba(234,179,8,.12);border-color:r
 html[data-tema="oscuro"] .hz-fer{background:rgba(250,204,21,.13);border-color:rgba(250,204,21,.4);color:#fde68a}
 .hz-chip.c-L{background:#7030a0;color:#fff}
 .hz-chip.c-V{background:#808080;color:#000}
-/* tabla igual al PDF del horario (diseño aprobado: Arial cursiva, bordes 808080) */
-.hp-papel{background:#fff;border-radius:14px;padding:10px;box-shadow:var(--sombra);color:#000}
-.hp-tit{display:flex;align-items:center;gap:8px;border:1px solid #808080;padding:8px 10px;margin-bottom:10px;font-family:Arial,"Liberation Sans",Helvetica,sans-serif;color:#0070c0}
-.hp-tit-tx{flex:1;text-align:center;line-height:1.35}
-.hp-tit-tx span,.hp-tit-tx b{display:block;font-weight:400}
-.hp-tit-tx span{font-size:11px}
-.hp-tit-tx b{font-size:13px}
-.hp-tit-tx i{display:block;font-style:normal;font-size:12px}
-.hp-logo{width:46px;height:46px;flex:none}
-.hp-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -10px;padding:0 10px;scrollbar-width:thin}
-.hp-tabla{border-collapse:separate;border-spacing:0;min-width:100%;margin-bottom:14px;border-top:1px solid #808080;border-left:1px solid #808080;font-family:Arial,"Liberation Sans",Helvetica,sans-serif;font-style:italic;font-size:10px;color:#000;-webkit-text-size-adjust:100%}
-.hp-tabla:last-child{margin-bottom:4px}
-.hp-tabla td,.hp-tabla th{border-right:1px solid #808080;border-bottom:1px solid #808080;padding:0 4px;height:27px;text-align:center;font-weight:400;white-space:nowrap;background:#fff}
+/* tabla igual al PDF del horario (Arial cursiva, bordes 808080); se achica sola para verse completa en el celular */
+.hp-papel{background:#fff;border-radius:14px;padding:8px;box-shadow:var(--sombra);color:#000}
+.hp-ajuste{overflow-x:auto}
+.hp-zoom{display:inline-block;vertical-align:top;width:566px;font-family:Arial,"Liberation Sans",Helvetica,sans-serif;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.hp-tit{display:flex;align-items:center;gap:8px;border:1px solid #808080;padding:8px 12px;margin-bottom:10px;color:#0070c0}
+.hp-tit-tx{flex:1;text-align:center;line-height:1.3;padding-left:52px}
+.hp-tit-tx span,.hp-tit-tx b,.hp-tit-tx i{display:block;font-weight:400;font-style:normal}
+.hp-tit-tx span{font-size:12px}
+.hp-tit-tx b{font-size:14px}
+.hp-tit-tx i{font-size:13px}
+.hp-logo{width:44px;height:44px;flex:none}
+.hp-tabla{table-layout:fixed;width:566px;border-collapse:separate;border-spacing:0;margin-bottom:12px;border-top:1px solid #808080;border-left:1px solid #808080;font-style:italic;font-size:10px;color:#000}
+.hp-tabla:last-child{margin-bottom:0}
+.hp-tabla td,.hp-tabla th{border-right:1px solid #808080;border-bottom:1px solid #808080;padding:0 2px;height:22px;text-align:center;font-weight:400;white-space:nowrap;overflow:hidden;background:#fff}
 .hp-tabla .b{font-weight:700}
-.hp-tabla .hp-banda{background:#fff74a;font-weight:700;height:22px;text-align:left;padding:0}
-.hp-banda span{position:-webkit-sticky;position:sticky;left:0;display:inline-block;padding:0 10px}
-.hp-tabla .hp-nom{position:-webkit-sticky;position:sticky;left:0;z-index:2;width:66px;min-width:66px;background:#c5ee8f}
-.hp-tabla .hp-loch{width:58px;min-width:58px;background:#c5ee8f}
+.hp-tabla .hp-banda{background:#fff74a;font-weight:700;height:20px}
+.hp-tabla .hp-nom,.hp-tabla .hp-loch{background:#c5ee8f}
 .hp-tabla .hp-loc{background:#548235}
 .hp-tabla .hp-dia{background:#0070c0;color:#fff}
-.hp-tabla .hp-fecha{background:#015a97;color:#fff;font-size:8px;white-space:normal;line-height:1.15;padding:2px 3px;height:30px}
-.hp-tabla .hp-c{min-width:70px;cursor:pointer}
+.hp-tabla .hp-fecha{background:#015a97;color:#fff;font-size:7.5px;white-space:normal;line-height:1.2;height:26px;padding:0 1px}
+.hp-tabla .hp-c{cursor:pointer}
 .hp-tabla .e-L{background:#7030a0;color:#fff}
 .hp-tabla .e-S{background:#f4b084;font-weight:700}
 .hp-tabla .e-A{background:#fe3d2f;color:#fff;font-weight:700}
 .hp-tabla .e-F{background:#fff74a}
 .hp-tabla .e-V,.hp-tabla .e-X{background:#808080;font-weight:700}
-.hp-tabla .e-R{background:#12475f;color:#fff;white-space:normal;line-height:1.15}
-.hp-hint{font-size:11px;font-weight:700;color:#64748b;text-align:center;margin:6px 0 0}
-@media(min-width:680px){.hp-tabla .hp-banda{text-align:center}.hp-banda span{position:static}.hp-hint{display:none}}
+.hp-tabla .e-R{background:#12475f;color:#fff;white-space:normal;line-height:1.1;font-size:8px}
+.hp-hint{font-size:11px;font-weight:700;color:#64748b;text-align:center;margin:8px 0 2px}
 .hz-gente{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:none}
 .hz-gente::-webkit-scrollbar{display:none}
 .hz-gente button{flex:none;border:1.5px solid var(--div);background:var(--card);color:var(--label);font-family:var(--font);font-size:13px;font-weight:800;padding:8px 14px;border-radius:99px;cursor:pointer}
@@ -1084,7 +1082,7 @@ function render(){
   else if(view==='ajustes') m.innerHTML=vistaAjustes();
   else if(view==='estadisticas') m.innerHTML=vistaEstadisticas();
   else if(view==='informacion') m.innerHTML=vistaInformacion();
-  else if(view==='horario') m.innerHTML=vistaHorario();
+  else if(view==='horario'){ m.innerHTML=vistaHorario(); hpAjustar(); }
   else m.innerHTML=vistaDetalle();
   if(cambio){
     m.classList.remove('entra'); void m.offsetWidth; m.classList.add('entra');
@@ -1480,12 +1478,13 @@ function hpFecha(iso,del){ var a=iso.split('-'); return (+a[2])+(del?' DE ':' ')
 /* el horario tal cual el PDF: banda amarilla, días en azul, nombres y localidad en verde */
 function hzPdf(c){
   var nSem=Math.ceil(hzLargo(c)/7);
-  var h='<div class="hp-papel"><div class="hp-tit"><div class="hp-tit-tx"><span>Centro de rehabilitación física</span><b>HORARIOS DE TRABAJO Y DESCANSO</b><i>Anexo / Sede · CICLO #'+c.ciclo+'</i></div>'
-   + '<img class="hp-logo" src="'+HZ_LOGO+'" alt="Guayaquil Tenis Club"></div><div class="hp-scroll">';
+  var h='<div class="hp-papel"><div class="hp-ajuste" id="hpAjuste"><div class="hp-zoom" id="hpZoom"><div class="hp-tit"><div class="hp-tit-tx"><span>Centro de rehabilitación física</span><b>HORARIOS DE TRABAJO Y DESCANSO</b><i>Anexo / Sede · CICLO #'+c.ciclo+'</i></div>'
+   + '<img class="hp-logo" src="'+HZ_LOGO+'" alt="Guayaquil Tenis Club"></div>';
   for(var s=0;s<nSem;s++){
     var lunes=sumarDias(c.desde,s*7), dias=[];
     for(var k=0;k<7;k++) dias.push(sumarDias(lunes,k));
-    h+='<table class="hp-tabla"><tr><td class="hp-banda" colspan="9"><span>Semana del: '+hpFecha(dias[0],true)+' al '+hpFecha(dias[6],true)+'</span></td></tr>'
+    h+='<table class="hp-tabla"><colgroup><col style="width:58px"><col style="width:65px"><col span="7" style="width:63.28px"></colgroup>'
+     + '<tr><td class="hp-banda" colspan="9">Semana del: '+hpFecha(dias[0],true)+' al '+hpFecha(dias[6],true)+'</td></tr>'
      + '<tr><th class="hp-nom">NOMBRES</th><th class="hp-loch">LOCALIDAD</th>';
     HP_DIAS.forEach(function(d){ h+='<th class="hp-dia">'+d+'</th>'; });
     h+='</tr><tr><th class="hp-nom b">NOMBRES</th><th class="hp-loch b">LOCALIDAD</th>';
@@ -1501,8 +1500,17 @@ function hzPdf(c){
     });
     h+='</table>';
   }
-  return h+'</div><div class="hp-hint">← Desliza a los lados para ver toda la semana →</div></div>';
+  return h+'</div></div><div class="hp-hint">Pellizca con dos dedos para ampliar</div></div>';
 }
+/* achica el horario para que entre completo en el ancho de la pantalla */
+function hpAjustar(){
+  var cont=document.getElementById('hpAjuste'), z=document.getElementById('hpZoom');
+  if(!cont||!z) return;
+  z.style.zoom=1;
+  var f=Math.min(1.25, cont.clientWidth/z.offsetWidth);
+  z.style.zoom=f;
+}
+window.addEventListener('resize',function(){ if(typeof view!=='undefined' && view==='horario') hpAjustar(); });
 /* tocar una casilla del horario muestra arriba quién está en cada sede ese día */
 function hzVerDia(iso){
   hzDia=iso; render();
